@@ -1,0 +1,4 @@
+interface:
+  display_name: "Launch GitHub Project"
+  short_description: "审计、定位、验证并准备发布任意类型的 GitHub 项目"
+  default_prompt: "Use $launch-github-project to audit this project and prepare only the GitHub launch materials it actually needs."

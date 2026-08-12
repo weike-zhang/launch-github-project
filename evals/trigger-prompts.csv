@@ -1,0 +1,25 @@
+id,should_trigger,prompt
+l01,true,帮我把这个软件项目准备上线 GitHub
+l02,true,我有一个 Agent Skill，想做成可发布的公开仓库
+l03,true,帮我根据数据集的用途写 README 和数据卡
+l04,true,我想把研究代码整理成可复现的 GitHub 项目
+l05,true,帮我准备设计资源的视觉预览、许可说明和发布包
+l06,true,我要发布一个课程文档项目，先帮我审计缺什么
+l07,true,这个作品集项目如何写清楚我的责任和结果
+l08,true,帮我分析这个项目适合的仓库名和定位
+l09,true,我想知道公开前有哪些隐私和密钥风险
+l10,true,帮我生成一个不含私有状态的确定性 ZIP
+l11,true,我想根据真实传播目标规划发布渠道，不要按天套模板
+l12,true,帮我做一次 GitHub release readiness 评估
+l13,false,把这个 Python 函数优化一下
+l14,false,解释什么是 GitHub Actions
+l15,false,给我推荐三个代码编辑器
+l16,false,把图片转成透明背景
+l17,false,写一个 SQL 查询
+l18,false,把这段话翻译成英文
+l19,false,帮我规划一条旅行路线
+l20,false,计算这组数字的平均值
+l21,false,把当前分支合并到 main
+l22,false,删除这个旧文件
+l23,false,生成一个橙色火焰图标
+l24,false,把日志中的时间改成北京时间

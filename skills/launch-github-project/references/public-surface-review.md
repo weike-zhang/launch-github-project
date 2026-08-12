@@ -1,0 +1,66 @@
+# Public-surface review
+
+Run this review after release materials are drafted and again immediately before any public push. A clean secret scan is necessary but not sufficient.
+
+## 1. Inventory exactly what the public will receive
+
+- Inspect the staged diff, archive listing and remote default branch separately.
+- Detect nested repositories, duplicated project folders, editor workspaces, caches, `.DS_Store`, build debris and machine-specific paths.
+- Keep maintainer planning notes, replacement instructions, launch-copy drafts and private evaluation runs outside the public repository unless they intentionally help contributors.
+
+Run:
+
+```bash
+python scripts/review_public_surface.py <project-root> --json
+```
+
+Resolve every blocker. Review warnings one by one; do not dismiss them in bulk.
+
+## 2. Confirm rights before displaying assets
+
+Inventory images, fonts, icons, screenshots, datasets, copied text and model-edited derivatives. Record one state for each material asset:
+
+- confirmed for the intended public use;
+- replace before publication;
+- keep local only.
+
+Do not publish an asset while its own notice says permission is pending. A public notice should state the final provenance and reuse terms, not expose rejected generation prompts or unresolved internal discussion.
+
+## 3. Separate product evidence from release plumbing
+
+- A fixture-count or schema check is release integrity, not model or product quality.
+- Do not report a percentage when the script only checks that files and fields exist.
+- Link every behavior score to the method and complete sanitized raw outputs.
+- Label a single run as a pilot, not a benchmark.
+- Keep limitations beside the result rather than in an unrelated document.
+
+## 4. Review public copy as an unsigned visitor
+
+The first screen should provide the outcome, intended user, shortest valid start action and one concrete proof. Remove:
+
+- `TODO`, `TBD`, placeholder and “replace before launch” instructions;
+- internal distribution plans or author-profile drafts;
+- AI generation prompts and rejected attempt notes that do not help users verify the shipped artifact;
+- unsupported compatibility, adoption, learning or performance claims.
+
+## 5. Review Git history and identity
+
+- Inspect recent commit messages, authors, contributors, tags and branches.
+- Confirm that every public author identity is intended.
+- Treat generic commits such as `v1`, accidental nested clones and unrelated repository history as a decision, not harmless background.
+- Rewrite published history only with explicit authorization and after preserving a recovery reference.
+
+## 6. Complete the remote surface
+
+Check repository description, Topics, license detection, social preview, default branch, Release, downloadable assets, Issues and security policy. After pushing, open the public URL without relying on an authenticated maintainer view and verify images, links, install commands and the Release asset.
+
+## Gate result
+
+Report four separate outcomes:
+
+1. automated blockers resolved;
+2. warnings reviewed;
+3. manual rights, evidence and identity decisions confirmed;
+4. unsigned remote-page verification observed.
+
+Do not call the project publicly ready when only the push succeeded.

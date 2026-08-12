@@ -1,0 +1,17 @@
+{
+  "suite": "launch-github-project-fixture-integrity",
+  "version": "0.1.0",
+  "checks": {
+    "trigger_prompt_count": true,
+    "trigger_balance": true,
+    "scenario_count": true,
+    "scenario_schema": true,
+    "type_route_coverage": true,
+    "rubric_weights_sum_to_one": true,
+    "required_release_files": true
+  },
+  "passed_checks": 7,
+  "total_checks": 7,
+  "all_passed": true,
+  "interpretation": "Structure, route coverage and release-integrity checks only; no model quality, reach or popularity is scored."
+}

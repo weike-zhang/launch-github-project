@@ -1,0 +1,8 @@
+.DS_Store
+.launch-github-project/
+*.private.md
+*.local.md
+__pycache__/
+*.py[cod]
+packages/
+evals/results/runs/

@@ -1,0 +1,17 @@
+name: Validate
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  release-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python evals/validate_fixtures.py
+      - run: python skills/launch-github-project/scripts/review_public_surface.py . --strict
+      - run: python -m json.tool .codex-plugin/plugin.json >/dev/null
