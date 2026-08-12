@@ -7,6 +7,7 @@ import argparse
 import json
 import os
 import re
+import subprocess
 import tempfile
 from pathlib import Path
 
@@ -67,9 +68,25 @@ def finding(severity: str, category: str, path: Path, root: Path, line: int | No
     return item
 
 
+def git_candidate_paths(root: Path) -> set[Path] | None:
+    """Return tracked and non-ignored untracked files when root is a Git repository."""
+    if not (root / ".git").exists():
+        return None
+    result = subprocess.run(
+        ["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"],
+        cwd=root,
+        check=False,
+        capture_output=True,
+    )
+    if result.returncode != 0:
+        return None
+    return {Path(item.decode("utf-8")) for item in result.stdout.split(b"\0") if item}
+
+
 def scan(root: Path) -> dict[str, object]:
     findings: list[dict[str, object]] = []
     root_git = root / ".git"
+    candidate_paths = git_candidate_paths(root)
     for current, dirs, files in os.walk(root):
         base = Path(current)
         kept_dirs: list[str] = []
@@ -80,7 +97,9 @@ def scan(root: Path) -> dict[str, object]:
                     findings.append(finding("blocker", "nested_git_repository", path, root))
                 continue
             if name == "__pycache__":
-                findings.append(finding("blocker", "generated_cache", path, root))
+                relative_dir = path.relative_to(root)
+                if candidate_paths is None or any(relative_dir in item.parents for item in candidate_paths):
+                    findings.append(finding("blocker", "generated_cache", path, root))
                 continue
             if name in IGNORED_DIRS:
                 continue
@@ -90,6 +109,8 @@ def scan(root: Path) -> dict[str, object]:
         for name in sorted(files):
             path = base / name
             relative_path = path.relative_to(root)
+            if candidate_paths is not None and relative_path not in candidate_paths:
+                continue
             if name in BLOCKED_NAMES or path.suffix in BLOCKED_SUFFIXES:
                 findings.append(finding("blocker", "generated_or_machine_file", path, root))
                 continue
@@ -136,6 +157,7 @@ def scan(root: Path) -> dict[str, object]:
             "unsigned visitor verification after publication",
         ],
         "note": "Passing the automated gate does not complete the required manual checks.",
+        "scope": "tracked and non-ignored Git candidates" if candidate_paths is not None else "all local files",
     }
 
 
