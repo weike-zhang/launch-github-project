@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import tempfile
 import unittest
 import zipfile
@@ -134,6 +135,41 @@ class ReleasePageTests(unittest.TestCase):
 
             with self.assertRaisesRegex(ValueError, "unresolved placeholder"):
                 release_page.render(Path(directory), spec)
+
+    def test_check_all_rejects_stale_generated_page(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            release_dir = root / "release"
+            release_dir.mkdir()
+            (release_dir / "v1.2.3.json").write_text(
+                json.dumps(self.spec()), encoding="utf-8"
+            )
+            (release_dir / "v1.2.3.md").write_text("stale\n", encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "generated Release page is stale"):
+                release_page.check_all(root)
+
+    def test_check_all_allows_history_but_aligns_latest_manifest(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            release_dir = root / "release"
+            release_dir.mkdir()
+            manifest = root / ".codex-plugin" / "plugin.json"
+            manifest.parent.mkdir()
+            manifest.write_text('{"version": "1.2.10"}\n', encoding="utf-8")
+
+            for version in ("1.2.9", "1.2.10"):
+                spec = self.spec()
+                spec["version"] = version
+                spec_path = release_dir / f"v{version}.json"
+                output = release_dir / f"v{version}.md"
+                spec_path.write_text(json.dumps(spec), encoding="utf-8")
+                output.write_text(
+                    release_page.render(root, spec, validate_manifest=False),
+                    encoding="utf-8",
+                )
+
+            self.assertEqual(len(release_page.check_all(root)), 2)
 
 
 if __name__ == "__main__":

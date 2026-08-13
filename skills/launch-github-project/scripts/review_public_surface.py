@@ -54,6 +54,15 @@ TEXT_RULES = [
         "blocker",
         re.compile(r"(?:/Users/[^/\s]+/|/home/[^/\s]+/|[A-Za-z]:\\Users\\[^\\\s]+\\)"),
     ),
+    (
+        "author_identity_setup",
+        "warning",
+        re.compile(
+            r"(?i)(plan(?:ned)? to change (?:the )?(?:GitHub )?user(?:name|name)|"
+            r"change (?:the )?GitHub user(?:name|name) before|"
+            r"计划把.*登录名改成|推荐先把 GitHub 登录名改为)"
+        ),
+    ),
 ]
 
 
@@ -176,7 +185,9 @@ def self_test() -> None:
         (root / "demo.code-workspace").write_text("{}", encoding="utf-8")
         (root / "outside.txt").symlink_to(Path(directory).parent / "outside.txt")
         (root / "README.md").write_text(
-            "Before public release these are local release candidates.\n", encoding="utf-8"
+            "Before public release these are local release candidates.\n"
+            "I planned to change the GitHub username before launch.\n",
+            encoding="utf-8",
         )
         result = scan(root)
         categories = {item["category"] for item in result["blockers"] + result["warnings"]}
@@ -185,6 +196,7 @@ def self_test() -> None:
             "editor_workspace",
             "pending_public_rights",
             "symbolic_link",
+            "author_identity_setup",
         }
         if not expected <= categories:
             raise AssertionError(f"self-test failed: {sorted(categories)}")

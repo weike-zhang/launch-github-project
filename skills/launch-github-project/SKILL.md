@@ -125,6 +125,8 @@ python scripts/generate_release_page.py <project-root> \
 
 Lead with the user-visible reason to update, then provide changes, install or update instructions, exact verification, compatibility and limitations. Check that local `HEAD`, the remote default branch, any open release PR and the latest Release tag describe the same publication state. Never call an open PR published, and never publish a tag whose version metadata disagrees with the tag.
 
+Before CI or publication, run `python scripts/generate_release_page.py <project-root> --check-all` to validate every versioned JSON spec that has a generated Markdown page. Do not hardcode the current version into a permanent validation workflow.
+
 Generating local Markdown is reversible. Creating the GitHub Release, tag or asset remains a remote action that requires explicit authorization. After publication, verify the Release page and asset as an unsigned visitor.
 
 ## Plan distribution from the user's goal

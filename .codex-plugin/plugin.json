@@ -1,7 +1,7 @@
 {
   "name": "launch-github-project",
   "version": "0.1.2",
-  "description": "Prepare any project for a safe, evidence-based GitHub launch.",
+  "description": "Turn a local project into a GitHub release people can understand, try, and verify.",
   "author": {
     "name": "Weike Zhang",
     "url": "https://github.com/weike-zhang"
@@ -12,15 +12,15 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Launch GitHub Project",
-    "shortDescription": "Audit and prepare any project for GitHub.",
-    "longDescription": "Classifies the project, writes the right README and release surface, checks public risk, packages a deterministic bundle, and designs goal-driven distribution without silently publishing anything.",
+    "shortDescription": "Prepare a clear, verifiable GitHub release.",
+    "longDescription": "Audits the real project, builds only the public surface its type needs, checks public risk, generates evidence-based Release pages, packages a deterministic bundle, and keeps remote actions behind explicit authorization.",
     "developerName": "Weike Zhang",
     "category": "Productivity",
-    "capabilities": ["repository-audit", "release-packaging", "distribution-planning"],
+    "capabilities": ["repository-audit", "release-page-generation", "release-packaging", "distribution-planning"],
     "composerIcon": "./assets/icon.svg",
     "logo": "./assets/icon.svg",
     "screenshots": ["./assets/hero.png"],
     "brandColor": "#F24B22",
-    "defaultPrompt": "Use $launch-github-project to audit this project, prepare only the release materials it needs, and ask me grouped questions only when a decision changes the output. Do not publish remotely without my explicit approval."
+    "defaultPrompt": "Use $launch-github-project to audit this project read-only, prepare the smallest verifiable public surface it needs, and list every decision required before any remote action."
   }
 }

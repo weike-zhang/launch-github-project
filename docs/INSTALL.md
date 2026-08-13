@@ -1,5 +1,10 @@
 # Install
 
+Verified requirements for this release:
+
+- Node.js and `npx` for the Skills CLI install path;
+- Python 3.12 for the bundled audit, Release-page and packaging scripts.
+
 ## Recommended
 
 ```bash
@@ -24,9 +29,10 @@ python skills/launch-github-project/scripts/audit_repository.py . --json
 python skills/launch-github-project/scripts/check_secrets.py . --json
 python skills/launch-github-project/scripts/check_links.py .
 python skills/launch-github-project/scripts/review_public_surface.py . --strict
+python skills/launch-github-project/scripts/generate_release_page.py . --check-all
 python evals/validate_fixtures.py
 ```
 
 The release bundle rejects symbolic links and non-regular filesystem entries instead of following or silently packaging them.
 
-The Skill only prepares local materials. It does not create or modify a GitHub repository.
+The Skill is local-first and performs no remote action merely because it was installed or invoked. Repository creation, pushes, visibility changes, Releases and external posts require an exact target plus explicit authorization; use a dedicated GitHub workflow for those authorized actions.

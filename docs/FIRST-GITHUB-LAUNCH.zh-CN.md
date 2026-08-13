@@ -1,98 +1,139 @@
-# 第一次把项目发布到 GitHub：新手操作指南
+# 第一次把本地项目发布到 GitHub
 
-这份指南按“本地准备 → GitHub 网页建仓 → 第一次 Push → 发布后维护”排列。所有远程操作都需要你自己登录并确认；本项目不会替你创建仓库或修改账号。
+这份指南适用于已经有本地项目、准备第一次公开或私有发布的人。顺序是：确认边界 → 本地审计 → 建立版本历史 → 创建远程仓库 → Push → 按项目类型决定是否需要 Release → 访客核验。
 
-## 1. 先整理个人资料
+安装 Launch GitHub Project 不会自动获得任何 GitHub 远程权限。创建仓库、Push、修改可见性和发布 Release 都需要明确的仓库目标与授权。
 
-你已经决定使用展示名 **Weike Zhang**，并计划把登录名改成 **weike-zhang**。建议资料先采用：
+## 1. 先确认发布边界
 
-- Name：`Weike Zhang`
-- Bio：`Building grounded AI tools and open-source workflows for learning, shipping, and sharing.`
-- URL：先留空，等有稳定主页再填
-- Avatar：使用你愿意公开长期使用的头像；不要直接上传带私人信息的照片
+在修改文件前写清楚：
 
-改用户名时，GitHub 会尝试保留旧链接跳转，但外部引用、包管理器、签名和本地 remote 仍应检查。改完后重新打开个人主页，确认新 URL 可访问。
+- 谁应该使用这个项目，以及使用后能得到什么；
+- 仓库名称、Owner、Public/Private 和默认分支；
+- 代码、文档、数据和视觉素材分别允许怎样复用；
+- 哪些本地状态、账号信息、客户材料或原始素材不得公开；
+- 第一个版本要证明的核心承诺，以及能够公开的直接证据。
 
-## 2. 在 GitHub 网页创建空仓库
+不确定素材权利时，先保留在本地，不要用“以后再确认”的说明把素材一起发布。
 
-1. 右上角 `+` → `New repository`。
-2. 先看 Owner。如果仍显示 `mumianwei`，推荐先把 GitHub 登录名改为 `weike-zhang`，刷新建仓页后再继续。
-3. 按下表逐项填写，不需要自行改写。
+## 2. 先只读审计
 
-### Grounded AI Mentor
+在项目目录调用：
 
-| 页面字段 | 精确填写值 |
-| --- | --- |
-| Owner | `weike-zhang` |
-| Repository name | `grounded-ai-mentor` |
-| Description | `A zero-assumption AI mentor that teaches computer science and AI through the projects learners actually build.` |
-| Choose visibility | 已确认火焰图片公开使用权则选 `Public`；否则选 `Private` |
-| Add README | `Off` |
-| Add .gitignore | `No .gitignore` |
-| Add license | `No license` |
+```text
+使用 $launch-github-project 只读审计这个项目。
+先判断项目类型，再列出最小公开面、证据、风险和必须由我决定的事项。
+不要修改文件，也不要执行远程动作。
+```
 
-Repository name 不要填带空格的 `Grounded AI Mentor`，否则 GitHub 会生成大写的 `Grounded-AI-Mentor`，与已有 Skill 名和链接不一致。
+如果你正在维护 **Launch GitHub Project 本仓库本身**，可以运行下面的仓库内脚本：
 
-### Launch GitHub Project
+```bash
+python skills/launch-github-project/scripts/audit_repository.py . --json
+python skills/launch-github-project/scripts/check_secrets.py . --json
+python skills/launch-github-project/scripts/check_links.py .
+python skills/launch-github-project/scripts/review_public_surface.py . --strict
+```
 
-| 页面字段 | 精确填写值 |
-| --- | --- |
-| Owner | `weike-zhang` |
-| Repository name | `launch-github-project` |
-| Description | `Prepare any project for a safe, evidence-based GitHub launch: README, risk checks, release bundle, and goal-driven distribution.` |
-| Choose visibility | `Public` |
-| Add README | `Off` |
-| Add .gitignore | `No .gitignore` |
-| Add license | `No license` |
+自动检查通过只代表没有命中已配置的阻断规则；素材权利、公开主张、Git 身份和访客体验仍需人工确认。
 
-`No .gitignore` 和 `No license` 在这一页的意思是“不让 GitHub 自动新建”。两个本地项目都已经包含 `.gitignore` 和 MIT `LICENSE`，不是没有这些文件。
+对于其他项目，不要照抄上面的 `skills/launch-github-project/...` 路径。通过 Skills CLI 安装后，应调用 Skill，让代理从已安装的 Skill 目录使用这些脚本；普通目标项目里不会自动出现这组路径。
 
-4. 点击 `Create repository`。
-5. 创建后复制 HTTPS 或 SSH 地址，但先不要执行网页建议的二次初始化命令。
+## 3. 建立本地版本历史
 
-## 3. 本地第一次提交
+先检查当前目录：
 
-在项目目录执行：
+```bash
+git status
+```
+
+只有当输出明确表示“不是 Git 仓库”时，才初始化：
 
 ```bash
 git init
 git add .
 git diff --cached --check
 git commit -m "Initial public release"
-git branch -M main
-git remote add origin https://github.com/weike-zhang/<repository>.git
-git push -u origin main
+git branch -M <default-branch>
 ```
 
-如果目录已经是 Git 仓库，不要再次 `git init`；先运行 `git status`，确认没有不属于本次发布的文件。推送前再次运行密钥扫描：
+如果已经是 Git 仓库，不要重复初始化或覆盖历史。先查看 `git status`、最近提交、作者身份和将要公开的差异。
+
+## 4. 创建空的 GitHub 仓库
+
+在 GitHub 新建仓库时确认：
+
+- Owner 和仓库名称与本地文档一致；
+- 可见性与前面确认的边界一致；
+- Description 用一句话说清用户结果，不堆内部机制；
+- 如果本地已有 README、`.gitignore` 和 LICENSE，不要让 GitHub 再生成一套；
+- 暂时没有稳定主页时，Homepage 留空，不要填仓库自身 URL。
+
+复制最终 HTTPS 或 SSH 地址，然后在本地添加：
 
 ```bash
-python skills/launch-github-project/scripts/check_secrets.py . --json
+git remote add origin https://github.com/<owner>/<repository>.git
+git remote -v
+git push -u origin <default-branch>
 ```
 
-## 4. 发布页与仓库设置
+添加 remote 前先运行 `git remote -v`；如果已经存在 `origin`，先核对，不要直接覆盖。
 
-Push 成功后，在仓库 `Settings` 中检查：
+## 5. 判断是否需要 Release
 
-- About 的 description、topics、网站地址；
-- `Issues` 是否开启，以及是否需要 Issue 模板；
-- `Discussions` 是否真的有人维护；没有维护能力时先不开；
-- 默认分支为 `main`；
-- Security policy 指向 `SECURITY.md`；
-- License 显示与仓库文件一致。
+并非所有项目都需要 GitHub Release。只有当项目存在可下载版本、可复现快照、安装包、数据快照或需要稳定引用的里程碑时，才准备 Release 页面和资产。纯作品集、持续更新的文档或尚无版本承诺的资料库，可以先只发布默认分支并写清当前状态。
 
-首个 Release 可在 `Releases` → `Draft a new release` 创建，标签使用 `v0.1.0`，复制 `release/v0.1.0.md`。Release 只发布已经本地验证过的 ZIP 或源码，不要把 `.env`、私有状态目录和原始个人素材上传。
+如果需要 Release，让已安装的 Skill 根据项目事实准备结构化规格和页面；不要在普通目标项目里直接调用本仓库相对路径。维护 **Launch GitHub Project 本仓库本身** 时，才可以这样生成：
 
-## 5. 第一次传播怎么规划
+先准备结构化 Release 规格，再生成页面：
 
-不要先排“第 1 天、第 2 天”的固定日历。先回答三个问题：
+```bash
+mkdir -p release
+cp skills/launch-github-project/assets/release/release-page.json \
+  release/v0.1.0.json
+# 编辑 release/v0.1.0.json，把示例值替换为这个版本的真实证据
+python skills/launch-github-project/scripts/generate_release_page.py . \
+  --spec release/v0.1.0.json \
+  --output release/v0.1.0.md
+```
 
-1. 你想要的是真实试用、贡献者、反馈，还是个人品牌？
-2. 哪一个证据已经能公开：行为对照、可复现命令、视觉预览、案例还是数据卡？
-3. 你真正会维护哪些渠道？
+页面至少应包含：更新理由、主要变化、安装或更新命令、实际验证、兼容性、已知限制和资产名称。
 
-然后只选一条主路径：一个可点击仓库入口 + 一份与证据匹配的短内容 + 一个明确的反馈入口。传播材料模板在 `release/` 和 `skills/launch-github-project/assets/distribution/`。
+发布包必须放在项目目录外：
 
-## 6. 发布后的最小维护承诺
+```bash
+python skills/launch-github-project/scripts/build_release_bundle.py . \
+  --output /tmp/project-v0.1.0.zip
+unzip -t /tmp/project-v0.1.0.zip
+```
 
-公开前写清楚支持范围、兼容性状态、隐私边界和下一步。收到 Issue 后，优先修复会阻止首次成功运行的问题；不要为了星标数量承诺无法维护的路线图。
+列出并实际解压 ZIP 后，再创建标签和 Release。标签、插件或包版本、Release 页面和资产文件名必须一致。开放 PR 只是已经上传的工作，不是已经发布的版本。
+
+已经安装并登录 GitHub CLI 时，可以在明确确认 Owner、仓库和版本后执行：
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+gh release create v0.1.0 /tmp/project-v0.1.0.zip \
+  --repo <owner>/<repository> \
+  --title "v0.1.0" \
+  --notes-file release/v0.1.0.md
+```
+
+如果不用 CLI，在 GitHub 仓库的 **Releases → Draft a new release** 中选择同一标签、粘贴生成的正文并上传已验证资产。无论哪种方式，创建标签和 Release 都是新的远程动作，需要再次确认目标与授权。
+
+## 6. 以目标访客身份核验
+
+公开仓库用未登录窗口核验；私有仓库用权限最小、确实属于目标读者的账号核验，不要把 Owner 视角当作访客视角。发布后检查仓库首页；如果项目需要 Release，再检查 Release 页面：
+
+- 首屏能否看出适用对象、使用结果、直接证据和第一步；
+- 中英文链接、图片、安装命令和相对链接是否正常；
+- About description、Topics、License、默认分支和 Social Preview 是否正确；
+- Release 标签、正文、资产名称和 GitHub 显示的 SHA-256 是否一致；
+- Contributors、提交作者和最近历史是否都是有意公开的身份。
+
+成功 Push 或 CI 通过都不能替代这一步。
+
+## 7. 只传播已经有证据的结果
+
+先确定想获得的是试用、问题报告、贡献、引用还是职业对话，再选择最小渠道组合。优先展示一个可复现结果、被拦住的真实失败或可解释的案例，不要把 Star 当成产品有效性的证据，也不要承诺无法维护的社区和路线图。

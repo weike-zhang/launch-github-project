@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+- Reordered both READMEs around a recognizable release problem, first success, direct self-audit evidence, compatibility and permissions instead of an artifact inventory.
+- Published the previously unlinked distribution pilot's exact prompt and outputs, while keeping its one-pair limitation beside the claim.
+- Replaced the public first-launch document's author-specific setup draft with a reusable, version-aware guide that distinguishes installed-Skill paths from this repository's own scripts and makes Releases project-type dependent.
+- Moved direct verification ahead of installation, documented the expected first response and kept cross-host activation explicitly unverified.
+- Aligned installation copy with the actual remote-action rule: local-first by default, exact target and explicit authorization before any GitHub mutation.
+- Added public-copy contract tests and an author-identity setup warning that reproduces the stale public-guide failure found in this self-audit.
+- Made CI validate all versioned Release pages by semantic version and build, list and extract the actual repository bundle.
+- Renamed the structured Release template from a misleading Markdown filename to `release-page.json`.
+
 ## 0.1.2 - 2026-08-13
 
 - Added a cold-reader README pass that starts from a recognizable user situation, translates internal mechanisms into observable consequences, and rejects synonym-only “humanization.”

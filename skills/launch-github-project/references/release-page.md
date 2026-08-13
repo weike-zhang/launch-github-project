@@ -11,7 +11,7 @@ Create a Release page as a decision surface, not a duplicated changelog. A reade
 - State verified compatibility and known limitations separately.
 - Name the intended release asset when one exists. Verify GitHub's SHA-256 digest after upload.
 
-Use a structured JSON spec with `scripts/generate_release_page.py` so required sections and version alignment are deterministic. Keep the generated Markdown in `release/vX.Y.Z.md`; it can be pasted into `gh release create --notes-file` only after the remote gate is authorized.
+Start from `assets/release/release-page.json`, then use the structured spec with `scripts/generate_release_page.py` so required sections and version alignment are deterministic. Keep the generated Markdown in `release/vX.Y.Z.md`; it can be passed to `gh release create --notes-file` only after the remote gate is authorized.
 
 ## Remote-state gate
 
