@@ -92,6 +92,11 @@ def scan(root: Path) -> dict[str, object]:
         kept_dirs: list[str] = []
         for name in sorted(dirs):
             path = base / name
+            if path.is_symlink():
+                relative_dir = path.relative_to(root)
+                if candidate_paths is None or relative_dir in candidate_paths:
+                    findings.append(finding("blocker", "symbolic_link", path, root))
+                continue
             if name == ".git":
                 if path != root_git:
                     findings.append(finding("blocker", "nested_git_repository", path, root))
@@ -110,6 +115,9 @@ def scan(root: Path) -> dict[str, object]:
             path = base / name
             relative_path = path.relative_to(root)
             if candidate_paths is not None and relative_path not in candidate_paths:
+                continue
+            if path.is_symlink():
+                findings.append(finding("blocker", "symbolic_link", path, root))
                 continue
             if name in BLOCKED_NAMES or path.suffix in BLOCKED_SUFFIXES:
                 findings.append(finding("blocker", "generated_or_machine_file", path, root))
@@ -166,12 +174,18 @@ def self_test() -> None:
         root = Path(directory)
         (root / ".DS_Store").write_bytes(b"test")
         (root / "demo.code-workspace").write_text("{}", encoding="utf-8")
+        (root / "outside.txt").symlink_to(Path(directory).parent / "outside.txt")
         (root / "README.md").write_text(
             "Before public release these are local release candidates.\n", encoding="utf-8"
         )
         result = scan(root)
         categories = {item["category"] for item in result["blockers"] + result["warnings"]}
-        expected = {"generated_or_machine_file", "editor_workspace", "pending_public_rights"}
+        expected = {
+            "generated_or_machine_file",
+            "editor_workspace",
+            "pending_public_rights",
+            "symbolic_link",
+        }
         if not expected <= categories:
             raise AssertionError(f"self-test failed: {sorted(categories)}")
     print("self-test passed")

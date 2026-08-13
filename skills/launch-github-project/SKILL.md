@@ -52,6 +52,8 @@ Explain why the decision is needed, recommend a safe default, and continue with 
 
 Read [references/repository-standard.md](references/repository-standard.md) for common requirements and [references/readme-patterns.md](references/readme-patterns.md) for type-specific README sections.
 
+Before drafting a README, identify the reader's recognizable situation, the outcome they want and the proof the project can honestly show. Order the page around the reader's decision path. Translate internal mechanisms, protocol names and maintainer terminology into observable user consequences before presenting implementation detail. Do not treat synonym replacement or a more casual tone as a substitute for clear positioning.
+
 Create or improve only the artifacts justified by the project:
 
 - README and repository metadata;
@@ -64,12 +66,26 @@ Create or improve only the artifacts justified by the project:
 
 Do not add badges, governance documents, CI, websites, videos, telemetry or community files merely to look mature.
 
+After drafting, perform the cold-reader check in `references/readme-patterns.md`. If a target reader cannot identify why the project matters, what changes in use and what to try without understanding the implementation first, revise the reading path before validating links or packaging.
+
+## Design the first-success and adoption path
+
+Read [references/adoption-and-trust.md](references/adoption-and-trust.md) when improving a public launch, README, evidence plan or distribution surface.
+
+- State the user outcome before the internal method.
+- Keep the end-user quick start to the fewest actions that produce a visible result; move maintainer gates out of that path.
+- Make proof test the core promise directly. A release Skill needs real release artifacts and caught failures, not only fixture integrity or launch copy.
+- Separate discovery, first success, repeat use, contribution and popularity. Stars do not prove activation or value.
+- Match repeat use to project frequency; do not invent an empty community, website or recurring workflow to imitate a mature project.
+- Prefer artifact-led distribution: show a useful result, caught failure, reproducible comparison or user outcome before announcing that a repository exists.
+
 ## Validate claims and artifacts
 
 - Use the project's native checks when available.
 - Use `python scripts/check_links.py <project-root>` for local Markdown links.
 - Search for unresolved placeholders and private material.
 - Verify commands from a clean path when practical.
+- Reject or resolve symlinks explicitly before scanning or packaging; never follow a repository link into unreviewed local files.
 - Mark compatibility as verified, partial or unverified.
 - Keep raw evaluation inputs and limitations with reported scores.
 - Never invent users, metrics, benchmarks, endorsements or download counts.
@@ -137,4 +153,5 @@ Use a dedicated GitHub publish workflow such as `yeet` for branch, commit, push 
 - `scripts/check_secrets.py`: redacted secret-pattern scan.
 - `scripts/check_links.py`: local Markdown link verification.
 - `scripts/review_public_surface.py`: deterministic public-surface blocker and warning scan.
-- `scripts/build_release_bundle.py`: deterministic ZIP builder with safety exclusions.
+- [references/adoption-and-trust.md](references/adoption-and-trust.md): first-success, proof, retention and contribution checks derived from real adoption failures.
+- `scripts/build_release_bundle.py`: deterministic ZIP builder with safety exclusions and symlink rejection.

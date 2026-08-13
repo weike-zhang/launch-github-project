@@ -18,8 +18,9 @@ def markdown_files(root: Path):
     for current, dirs, files in os.walk(root):
         dirs[:] = sorted(d for d in dirs if d not in IGNORED_DIRS)
         for name in sorted(files):
-            if name.lower().endswith((".md", ".mdx")):
-                yield Path(current) / name
+            path = Path(current) / name
+            if not path.is_symlink() and name.lower().endswith((".md", ".mdx")):
+                yield path
 
 
 def target_path(source: Path, raw_target: str) -> Path | None:

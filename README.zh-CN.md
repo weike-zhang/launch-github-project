@@ -3,7 +3,7 @@
 
 # Launch GitHub Project
 
-**面向任意项目类型的目标驱动发布工作流。**
+**把本地项目变成它真正需要的、最小而可信的 GitHub 仓库。**
 
 [English](README.md) · [安装](docs/INSTALL.zh-CN.md) · [首次发布指南](docs/FIRST-GITHUB-LAUNCH.zh-CN.md)
 
@@ -23,29 +23,27 @@
 npx skills add weike-zhang/launch-github-project --skill launch-github-project -g
 ```
 
-在本仓库根目录对目标项目运行本地闸门：
-
-```bash
-python skills/launch-github-project/scripts/audit_repository.py ../target-project --json
-python skills/launch-github-project/scripts/check_secrets.py ../target-project --json
-python skills/launch-github-project/scripts/check_links.py ../target-project
-python skills/launch-github-project/scripts/review_public_surface.py ../target-project --strict
-python skills/launch-github-project/scripts/build_release_bundle.py ../target-project --output /tmp/project-release.zip
-```
-
-在支持 Agent Skills 的客户端中调用：
+然后在需要准备发布的项目中调用：
 
 ```text
 使用 $launch-github-project 帮我准备这个项目上线 GitHub。先只读审计，
 先判断项目类型；只有当决策会改变产物时，才合并询问我；没有我的明确授权不要远程发布。
 ```
 
+普通用户到这里即可开始。需要单独运行审计脚本或维护本项目时，再使用[安装文档](docs/INSTALL.zh-CN.md)中的命令。
+
+## 这个版本实际拦住了什么
+
+本仓库自审时发现：如果项目里有一个指向仓库外文件的符号链接，旧版打包器会把目标文件内容写进 ZIP。0.1.2 会在读取之前拒绝文件和目录符号链接，把它列为公开面阻断项，并用回归测试锁住这条安全边界。
+
+完整复现、根因、修复和验证命令见[打包安全自审案例](examples/self-audit-bundle-safety.md)。
+
 ## 设计原则
 
 - 先证据再定位：观察事实、推断、风险和待决策项分开写。
 - 先类型再模板：数据集要数据卡，Skill 要触发与行为证据，作品集要责任与结果。
 - 先目标再传播：根据用户真正想获得的结果选择最小有效渠道组合，不套固定时间表。
-- 先审查公开面再发布：检查准确的暂存树和压缩包、素材权利、证据、Git 身份与未登录访客体验。
+- 先审查公开面再发布：检查准确的暂存树、符号链接、压缩包、素材权利、证据、Git 身份与未登录访客体验。
 - 先本地再远程：审计和打包在本地完成，创建仓库、Push、Release 和外部发帖都作为明确交接步骤。
 
 ## 评估证据

@@ -1,6 +1,6 @@
 {
   "suite": "launch-github-project-fixture-integrity",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "checks": {
     "trigger_prompt_count": true,
     "trigger_balance": true,

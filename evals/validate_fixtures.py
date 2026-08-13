@@ -21,11 +21,14 @@ REQUIRED_FILES = [
     "assets/launch-flow.svg",
     "skills/launch-github-project/SKILL.md",
     "skills/launch-github-project/references/public-surface-review.md",
+    "skills/launch-github-project/references/adoption-and-trust.md",
     "skills/launch-github-project/scripts/audit_repository.py",
     "skills/launch-github-project/scripts/check_secrets.py",
     "skills/launch-github-project/scripts/check_links.py",
     "skills/launch-github-project/scripts/review_public_surface.py",
     "skills/launch-github-project/scripts/build_release_bundle.py",
+    "tests/test_release_tools.py",
+    "examples/self-audit-bundle-safety.md",
 ]
 
 
@@ -67,7 +70,7 @@ def main() -> int:
     passed = sum(checks.values())
     result = {
         "suite": "launch-github-project-fixture-integrity",
-        "version": "0.1.0",
+        "version": "0.1.2",
         "checks": checks,
         "passed_checks": passed,
         "total_checks": len(checks),
