@@ -10,6 +10,7 @@ import re
 from pathlib import Path
 
 IGNORED_DIRS = {".git", ".venv", "venv", "node_modules", "dist", "build", "__pycache__", ".next", ".cache"}
+INSTALLED_SKILL_DIRS = {Path(".agents/skills"), Path(".claude/skills"), Path(".codex/skills")}
 MAX_FILE_BYTES = 2_000_000
 PATTERNS = {
     "private_key": re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
@@ -27,7 +28,13 @@ PATTERNS = {
 
 def text_files(root: Path):
     for current, dirs, files in os.walk(root):
-        dirs[:] = sorted(d for d in dirs if d not in IGNORED_DIRS)
+        base = Path(current)
+        dirs[:] = sorted(
+            d
+            for d in dirs
+            if d not in IGNORED_DIRS
+            and (base / d).relative_to(root) not in INSTALLED_SKILL_DIRS
+        )
         for name in sorted(files):
             path = Path(current) / name
             if path.is_symlink():

@@ -1,8 +1,13 @@
 # Changelog
 
-## Unreleased
+## 0.2.0 - 2026-08-13
 
-- Reordered both READMEs around a recognizable release problem, first success, direct self-audit evidence, compatibility and permissions instead of an artifact inventory.
+- Rebuilt both READMEs around a recognizable release problem, a real caught failure, first-audit output, direct evidence, compatibility and permissions instead of an artifact inventory.
+- Added localized project-owned hero images, a social preview and bilingual deterministic self-audit proof images, with provenance and reproducible composition.
+- Added structured visual proof to generated GitHub Release pages and documented version-pinned image URLs.
+- Excluded project-level installed Skill directories from target-project classification and scanners after a real Codex activation test exposed false findings.
+- Verified an install, explicit invocation and read-only first audit with Codex CLI 0.147.0-alpha.6.5 and saved the sanitized fixture result.
+- Added a native-Chinese public-copy workflow, localized visual requirement, translationese warning and regression gate after the bilingual README exposed structurally correct but unpersuasive mirror translation.
 - Published the previously unlinked distribution pilot's exact prompt and outputs, while keeping its one-pair limitation beside the claim.
 - Replaced the public first-launch document's author-specific setup draft with a reusable, version-aware guide that distinguishes installed-Skill paths from this repository's own scripts and makes Releases project-type dependent.
 - Moved direct verification ahead of installation, documented the expected first response and kept cross-host activation explicitly unverified.

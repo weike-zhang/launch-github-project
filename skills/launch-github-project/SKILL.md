@@ -10,9 +10,9 @@ Turn the project that actually exists into the smallest complete public reposito
 ## Start with a read-only audit
 
 1. Inspect the project root, important files, Git status and current documentation.
-2. Run `python scripts/audit_repository.py <project-root> --json` when the script is available from this Skill.
-3. Run `python scripts/check_secrets.py <project-root> --json` before preparing public artifacts.
-4. Run `python scripts/review_public_surface.py <project-root> --json` to expose caches, nested repositories, editor files, pending-rights copy, internal drafts and misleading fixture scores.
+2. Run `python3 scripts/audit_repository.py <project-root> --json` when the script is available from this Skill.
+3. Run `python3 scripts/check_secrets.py <project-root> --json` before preparing public artifacts.
+4. Run `python3 scripts/review_public_surface.py <project-root> --json` to expose caches, nested repositories, editor files, pending-rights copy, internal drafts and misleading fixture scores.
 5. Separate observed evidence, inference, risk and missing decisions.
 6. Complete safe work first; do not begin with a questionnaire.
 
@@ -54,6 +54,8 @@ Read [references/repository-standard.md](references/repository-standard.md) for 
 
 Before drafting a README, identify the reader's recognizable situation, the outcome they want and the proof the project can honestly show. Order the page around the reader's decision path. Translate internal mechanisms, protocol names and maintainer terminology into observable user consequences before presenting implementation detail. Do not treat synonym replacement or a more casual tone as a substitute for clear positioning.
 
+For Chinese README, Release, repository description or distribution copy, read [references/chinese-public-copy.md](references/chinese-public-copy.md). Treat English and Chinese as sibling narratives that share facts, evidence and boundaries, not as a master document and its line-by-line translation. Give the Chinese page its own hook, familiar failure scene, concrete cost, proof and action; require a native-speaker read-aloud check and localized text inside public visuals.
+
 Create or improve only the artifacts justified by the project:
 
 - README and repository metadata;
@@ -65,6 +67,8 @@ Create or improve only the artifacts justified by the project:
 - visual assets and distribution copy.
 
 Do not add badges, governance documents, CI, websites, videos, telemetry or community files merely to look mature.
+
+When the public promise is difficult to grasp from prose alone, create one to three purposeful visuals: a hero that communicates the user outcome, a real input/output or before/after proof image, and a workflow diagram only when sequence matters. Keep screenshots legible at README width, add descriptive alt text, record provenance, and never present decorative generated art as product evidence.
 
 After drafting, perform the cold-reader check in `references/readme-patterns.md`. If a target reader cannot identify why the project matters, what changes in use and what to try without understanding the implementation first, revise the reading path before validating links or packaging.
 
@@ -82,7 +86,7 @@ Read [references/adoption-and-trust.md](references/adoption-and-trust.md) when i
 ## Validate claims and artifacts
 
 - Use the project's native checks when available.
-- Use `python scripts/check_links.py <project-root>` for local Markdown links.
+- Use `python3 scripts/check_links.py <project-root>` for local Markdown links.
 - Search for unresolved placeholders and private material.
 - Verify commands from a clean path when practical.
 - Reject or resolve symlinks explicitly before scanning or packaging; never follow a repository link into unreviewed local files.
@@ -109,7 +113,7 @@ Read [references/public-surface-review.md](references/public-surface-review.md) 
 Read [references/release-checklist.md](references/release-checklist.md). Use:
 
 ```bash
-python scripts/build_release_bundle.py <project-root> --output <destination.zip>
+python3 scripts/build_release_bundle.py <project-root> --output <destination.zip>
 ```
 
 The bundle must exclude Git data, local state, credentials, caches, build debris and its own output. Inspect the archive list and extract it into a temporary directory before calling it ready.
@@ -119,13 +123,13 @@ The bundle must exclude Git data, local state, credentials, caches, build debris
 Read [references/release-page.md](references/release-page.md). Generate the page from structured release evidence with:
 
 ```bash
-python scripts/generate_release_page.py <project-root> \
+python3 scripts/generate_release_page.py <project-root> \
   --spec <release-spec.json> --output <release-page.md>
 ```
 
-Lead with the user-visible reason to update, then provide changes, install or update instructions, exact verification, compatibility and limitations. Check that local `HEAD`, the remote default branch, any open release PR and the latest Release tag describe the same publication state. Never call an open PR published, and never publish a tag whose version metadata disagrees with the tag.
+Lead with the user-visible reason to update, then provide changes, install or update instructions, exact verification, compatibility and limitations. When a visual makes the change easier to judge, include a version-pinned image and a caption stating what it proves. Check that local `HEAD`, the remote default branch, any open release PR and the latest Release tag describe the same publication state. Never call an open PR published, and never publish a tag whose version metadata disagrees with the tag.
 
-Before CI or publication, run `python scripts/generate_release_page.py <project-root> --check-all` to validate every versioned JSON spec that has a generated Markdown page. Do not hardcode the current version into a permanent validation workflow.
+Before CI or publication, run `python3 scripts/generate_release_page.py <project-root> --check-all` to validate every versioned JSON spec that has a generated Markdown page. Do not hardcode the current version into a permanent validation workflow.
 
 Generating local Markdown is reversible. Creating the GitHub Release, tag or asset remains a remote action that requires explicit authorization. After publication, verify the Release page and asset as an unsigned visitor.
 
@@ -160,6 +164,7 @@ Use a dedicated GitHub publish workflow such as `yeet` for branch, commit, push 
 - [references/project-type-routing.md](references/project-type-routing.md): project classification and type-specific proof.
 - [references/repository-standard.md](references/repository-standard.md): common release-ready requirements.
 - [references/readme-patterns.md](references/readme-patterns.md): README selection by project type.
+- [references/chinese-public-copy.md](references/chinese-public-copy.md): native Chinese persuasion, translationese traps and bilingual workflow.
 - [references/privacy-and-license.md](references/privacy-and-license.md): privacy, ownership and license decisions.
 - [references/release-checklist.md](references/release-checklist.md): local verification and remote approval gates.
 - [references/public-surface-review.md](references/public-surface-review.md): final public-content, evidence, rights, history and remote-page audit.

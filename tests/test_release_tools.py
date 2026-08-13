@@ -25,6 +25,7 @@ def load_script(name: str):
 bundle = load_script("build_release_bundle")
 public_surface = load_script("review_public_surface")
 release_page = load_script("generate_release_page")
+audit_repository = load_script("audit_repository")
 
 
 class ReleaseBundleTests(unittest.TestCase):
@@ -87,6 +88,36 @@ class PublicSurfaceTests(unittest.TestCase):
             self.assertEqual(result["blocker_count"], 1)
             self.assertEqual(result["blockers"][0]["category"], "symbolic_link")
 
+    def test_installed_project_skill_is_not_scanned_as_project_content(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            installed = root / ".agents" / "skills" / "launch-github-project"
+            installed.mkdir(parents=True)
+            (root / "README.md").write_text("A small CLI.\n", encoding="utf-8")
+            (installed / "rules.md").write_text(
+                "Before public "
+                "release this must be confirmed.\n",
+                encoding="utf-8",
+            )
+
+            result = public_surface.scan(root)
+
+            self.assertEqual(result["blocker_count"], 0)
+
+
+class AuditRepositoryTests(unittest.TestCase):
+    def test_installed_skill_does_not_change_target_project_type(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            installed = root / ".agents" / "skills" / "launch-github-project"
+            installed.mkdir(parents=True)
+            (installed / "SKILL.md").write_text("installed dependency\n", encoding="utf-8")
+            (root / "pyproject.toml").write_text("[project]\nname='demo'\n", encoding="utf-8")
+
+            result = audit_repository.audit(root)
+
+            self.assertEqual(result["primary_type"], "software")
+
 
 class ReleasePageTests(unittest.TestCase):
     def spec(self) -> dict[str, object]:
@@ -100,6 +131,15 @@ class ReleasePageTests(unittest.TestCase):
             "verification": ["`python -m unittest` — 2 tests passed."],
             "compatibility": ["Python 3.12 verified."],
             "limitations": ["This is not a general sandbox."],
+            "visuals": [
+                {
+                    "alt": "A release audit stopping an unsafe path",
+                    "url": "https://example.com/audit-proof.png",
+                    "caption": "Observed failure, blocker and corrected release state.",
+                }
+            ],
+            "upgrade_if": ["You publish a downloadable release."],
+            "defer_if": ["You only need the previous security fix."],
             "release_asset": "example-v1.2.3.zip",
         }
 
@@ -115,6 +155,9 @@ class ReleasePageTests(unittest.TestCase):
             self.assertIn("# Example Skill v1.2.3 — A safer update", result)
             self.assertIn("## Install or update", result)
             self.assertIn("## Verification", result)
+            self.assertIn("## Visual proof", result)
+            self.assertIn("## Should I update?", result)
+            self.assertIn("![A release audit stopping an unsafe path]", result)
             self.assertIn("## Known limitations", result)
             self.assertIn("example-v1.2.3.zip", result)
 
@@ -134,6 +177,22 @@ class ReleasePageTests(unittest.TestCase):
             spec["summary"] = "TO" + "DO: explain this release"
 
             with self.assertRaisesRegex(ValueError, "unresolved placeholder"):
+                release_page.render(Path(directory), spec)
+
+    def test_rejects_incomplete_visual(self):
+        with tempfile.TemporaryDirectory() as directory:
+            spec = self.spec()
+            spec["visuals"] = [{"alt": "Proof", "url": "https://example.com/proof.png"}]
+
+            with self.assertRaisesRegex(ValueError, "caption"):
+                release_page.render(Path(directory), spec)
+
+    def test_rejects_one_sided_upgrade_guidance(self):
+        with tempfile.TemporaryDirectory() as directory:
+            spec = self.spec()
+            del spec["defer_if"]
+
+            with self.assertRaisesRegex(ValueError, "provided together"):
                 release_page.render(Path(directory), spec)
 
     def test_check_all_rejects_stale_generated_page(self):

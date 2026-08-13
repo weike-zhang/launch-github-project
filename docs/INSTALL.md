@@ -8,7 +8,23 @@ Verified requirements for this release:
 ## Recommended
 
 ```bash
-npx skills add weike-zhang/launch-github-project --skill launch-github-project -g
+npx skills add weike-zhang/launch-github-project \
+  --agent codex --skill launch-github-project -g -y
+```
+
+The public global command above is the intended release path and will be rechecked after v0.2.0 is published. Before publication, the verified path is narrower: a local 0.2.0 release candidate was copied at project scope, invoked with Codex CLI `0.147.0-alpha.6.5`, and completed a first audit in a read-only sandbox. Start a new Codex task in the target project after installation, then invoke:
+
+```text
+Use $launch-github-project to audit this project for GitHub.
+Start read-only. Do not edit files or perform remote actions.
+```
+
+Compare the first response with the saved [activation check](../evals/results/codex-first-audit-v0.2.0.md). Other clients and versions remain unverified unless named in the compatibility table.
+
+For an existing global installation:
+
+```bash
+npx skills update launch-github-project -g -y
 ```
 
 ## Local checkout
@@ -16,7 +32,8 @@ npx skills add weike-zhang/launch-github-project --skill launch-github-project -
 From this repository's parent directory, install the local Skill checkout with the same Skills CLI:
 
 ```bash
-npx skills add ./launch-github-project --skill launch-github-project -g
+npx skills add ./launch-github-project \
+  --agent codex --skill launch-github-project --copy -y
 ```
 
 This avoids depending on a client-specific local-plugin command. You can also copy `skills/launch-github-project/` into a client's Agent Skills directory and restart the client.
@@ -24,13 +41,13 @@ This avoids depending on a client-specific local-plugin command. You can also co
 ## Local validation
 
 ```bash
-python -m unittest discover -s tests -v
-python skills/launch-github-project/scripts/audit_repository.py . --json
-python skills/launch-github-project/scripts/check_secrets.py . --json
-python skills/launch-github-project/scripts/check_links.py .
-python skills/launch-github-project/scripts/review_public_surface.py . --strict
-python skills/launch-github-project/scripts/generate_release_page.py . --check-all
-python evals/validate_fixtures.py
+python3 -m unittest discover -s tests -v
+python3 skills/launch-github-project/scripts/audit_repository.py . --json
+python3 skills/launch-github-project/scripts/check_secrets.py . --json
+python3 skills/launch-github-project/scripts/check_links.py .
+python3 skills/launch-github-project/scripts/review_public_surface.py . --strict
+python3 skills/launch-github-project/scripts/generate_release_page.py . --check-all
+python3 evals/validate_fixtures.py
 ```
 
 The release bundle rejects symbolic links and non-regular filesystem entries instead of following or silently packaging them.

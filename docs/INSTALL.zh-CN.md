@@ -8,7 +8,23 @@
 ## 推荐安装
 
 ```bash
-npx skills add weike-zhang/launch-github-project --skill launch-github-project -g
+npx skills add weike-zhang/launch-github-project \
+  --agent codex --skill launch-github-project -g -y
+```
+
+上面的公网全局安装命令是正式发布路径，要等 v0.2.0 发布后再做最终复核。发布前已验证的范围更窄：把本地 0.2.0 候选版复制到项目级 Skill 目录，在 Codex CLI `0.147.0-alpha.6.5` 中显式调用，并在只读沙箱完成第一次审计。安装后，在目标项目中启动一个新的 Codex 任务，再输入：
+
+```text
+使用 $launch-github-project 审计这个项目的 GitHub 发布面。
+先只读，不要编辑文件，也不要执行远程动作。
+```
+
+第一次响应可以和保存的[激活验证记录](../evals/results/codex-first-audit-v0.2.0.md)对照。未明确列出的客户端和版本仍然属于未验证。
+
+更新已有的全局安装：
+
+```bash
+npx skills update launch-github-project -g -y
 ```
 
 ## 本地检出
@@ -16,7 +32,8 @@ npx skills add weike-zhang/launch-github-project --skill launch-github-project -
 在仓库父目录中，使用同一个 Skills CLI 安装本地检出：
 
 ```bash
-npx skills add ./launch-github-project --skill launch-github-project -g
+npx skills add ./launch-github-project \
+  --agent codex --skill launch-github-project --copy -y
 ```
 
 这样不依赖某个客户端特有的本地插件命令。也可以把 `skills/launch-github-project/` 复制到客户端的 Agent Skills 目录并重启。
@@ -24,13 +41,13 @@ npx skills add ./launch-github-project --skill launch-github-project -g
 ## 本地验证
 
 ```bash
-python -m unittest discover -s tests -v
-python skills/launch-github-project/scripts/audit_repository.py . --json
-python skills/launch-github-project/scripts/check_secrets.py . --json
-python skills/launch-github-project/scripts/check_links.py .
-python skills/launch-github-project/scripts/review_public_surface.py . --strict
-python skills/launch-github-project/scripts/generate_release_page.py . --check-all
-python evals/validate_fixtures.py
+python3 -m unittest discover -s tests -v
+python3 skills/launch-github-project/scripts/audit_repository.py . --json
+python3 skills/launch-github-project/scripts/check_secrets.py . --json
+python3 skills/launch-github-project/scripts/check_links.py .
+python3 skills/launch-github-project/scripts/review_public_surface.py . --strict
+python3 skills/launch-github-project/scripts/generate_release_page.py . --check-all
+python3 evals/validate_fixtures.py
 ```
 
 发布 ZIP 会拒绝符号链接和其他非常规文件，不会跟随链接或静默打包。

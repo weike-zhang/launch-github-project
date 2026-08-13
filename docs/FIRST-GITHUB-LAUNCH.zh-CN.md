@@ -29,10 +29,10 @@
 如果你正在维护 **Launch GitHub Project 本仓库本身**，可以运行下面的仓库内脚本：
 
 ```bash
-python skills/launch-github-project/scripts/audit_repository.py . --json
-python skills/launch-github-project/scripts/check_secrets.py . --json
-python skills/launch-github-project/scripts/check_links.py .
-python skills/launch-github-project/scripts/review_public_surface.py . --strict
+python3 skills/launch-github-project/scripts/audit_repository.py . --json
+python3 skills/launch-github-project/scripts/check_secrets.py . --json
+python3 skills/launch-github-project/scripts/check_links.py .
+python3 skills/launch-github-project/scripts/review_public_surface.py . --strict
 ```
 
 自动检查通过只代表没有命中已配置的阻断规则；素材权利、公开主张、Git 身份和访客体验仍需人工确认。
@@ -92,7 +92,7 @@ mkdir -p release
 cp skills/launch-github-project/assets/release/release-page.json \
   release/v0.1.0.json
 # 编辑 release/v0.1.0.json，把示例值替换为这个版本的真实证据
-python skills/launch-github-project/scripts/generate_release_page.py . \
+python3 skills/launch-github-project/scripts/generate_release_page.py . \
   --spec release/v0.1.0.json \
   --output release/v0.1.0.md
 ```
@@ -102,7 +102,7 @@ python skills/launch-github-project/scripts/generate_release_page.py . \
 发布包必须放在项目目录外：
 
 ```bash
-python skills/launch-github-project/scripts/build_release_bundle.py . \
+python3 skills/launch-github-project/scripts/build_release_bundle.py . \
   --output /tmp/project-v0.1.0.zip
 unzip -t /tmp/project-v0.1.0.zip
 ```

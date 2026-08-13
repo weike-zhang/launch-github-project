@@ -13,6 +13,7 @@ from pathlib import Path
 
 
 IGNORED_DIRS = {".venv", "venv", "node_modules", "dist", "build", ".next", ".cache"}
+INSTALLED_SKILL_DIRS = {Path(".agents/skills"), Path(".claude/skills"), Path(".codex/skills")}
 BLOCKED_NAMES = {".DS_Store", "Thumbs.db"}
 BLOCKED_SUFFIXES = {".pyc", ".pyo"}
 EDITOR_SUFFIXES = {".code-workspace"}
@@ -28,6 +29,7 @@ TEXT_RULE_EXEMPT_PATHS = {
     Path("skills/launch-github-project/scripts/review_public_surface.py"),
     Path("skills/launch-github-project/references/public-surface-review.md"),
     Path("skills/launch-github-project/references/repository-standard.md"),
+    Path("skills/launch-github-project/references/chinese-public-copy.md"),
 }
 TEXT_RULES = [
     (
@@ -61,6 +63,15 @@ TEXT_RULES = [
             r"(?i)(plan(?:ned)? to change (?:the )?(?:GitHub )?user(?:name|name)|"
             r"change (?:the )?GitHub user(?:name|name) before|"
             r"计划把.*登录名改成|推荐先把 GitHub 登录名改为)"
+        ),
+    ),
+    (
+        "translationese_public_copy",
+        "warning",
+        re.compile(
+            r"(?:不代表.{0,24}(?:能|能够)看懂.{0,16}(?:敢信|信任).{0,16}会用|"
+            r"陌生(?:访客|用户).{0,20}能看懂.{0,16}能试用.{0,16}能验证|"
+            r"变成.{0,24}可理解.{0,16}可试用.{0,16}可验证)"
         ),
     ),
 ]
@@ -101,8 +112,10 @@ def scan(root: Path) -> dict[str, object]:
         kept_dirs: list[str] = []
         for name in sorted(dirs):
             path = base / name
+            relative_dir = path.relative_to(root)
+            if relative_dir in INSTALLED_SKILL_DIRS:
+                continue
             if path.is_symlink():
-                relative_dir = path.relative_to(root)
                 if candidate_paths is None or relative_dir in candidate_paths:
                     findings.append(finding("blocker", "symbolic_link", path, root))
                 continue
@@ -111,7 +124,6 @@ def scan(root: Path) -> dict[str, object]:
                     findings.append(finding("blocker", "nested_git_repository", path, root))
                 continue
             if name == "__pycache__":
-                relative_dir = path.relative_to(root)
                 if candidate_paths is None or any(relative_dir in item.parents for item in candidate_paths):
                     findings.append(finding("blocker", "generated_cache", path, root))
                 continue
@@ -186,7 +198,8 @@ def self_test() -> None:
         (root / "outside.txt").symlink_to(Path(directory).parent / "outside.txt")
         (root / "README.md").write_text(
             "Before public release these are local release candidates.\n"
-            "I planned to change the GitHub username before launch.\n",
+            "I planned to change the GitHub username before launch.\n"
+            "本地能跑不代表陌生用户能看懂、敢信、会用。\n",
             encoding="utf-8",
         )
         result = scan(root)
@@ -197,6 +210,7 @@ def self_test() -> None:
             "pending_public_rights",
             "symbolic_link",
             "author_identity_setup",
+            "translationese_public_copy",
         }
         if not expected <= categories:
             raise AssertionError(f"self-test failed: {sorted(categories)}")
