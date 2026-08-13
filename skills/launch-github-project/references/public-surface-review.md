@@ -58,6 +58,8 @@ Then ask two positioning questions separately from prose quality:
 
 Translate internal mechanisms into observable consequences. Inspect comparison images as carefully as prose: both sides should use the same user task and show a difference a reader can interpret without decoding feature labels.
 
+Challenge every image after the hero. If a code block, Markdown table or short paragraph carries the same evidence, remove the image. For quantitative claims, prefer a reproducible chart built from checked-in data over a decorative dashboard. Verify fonts, glyphs, line breaks, axes and units at the rendered README width; source-code review does not catch broken Chinese raster text.
+
 For bilingual material, confirm that the second language was independently written from shared facts rather than mirrored from the first language. In Chinese, read the opening aloud, reject long “不代表……能够……” structures and abstract three-part lists, and verify that public images containing text have a Chinese variant.
 
 Remove:

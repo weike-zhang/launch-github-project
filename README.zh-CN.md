@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <strong>项目能跑，发布不会收尾？这个 Skill 先找出最劝退新用户的问题，再帮你补齐 README、配图、安装入口、Release 和发布包。</strong>
+  <strong>项目已经做完，README、配图、Release 和发布包还没收尾。把仓库交给这个 Skill，先看它找出的缺口，再决定让它改什么。</strong>
 </p>
 
 <p align="center">
@@ -24,13 +24,20 @@ npx skills add weike-zhang/launch-github-project --agent codex --skill launch-gi
 
 然后对 Codex 说：`使用 $launch-github-project 给这个项目做一次 GitHub 发布体检。先只读。` 第一轮不会改文件，你会先拿到一张具体的缺口清单。[查看 Codex 首次审计实测](evals/results/codex-first-audit-v0.2.0.md)。
 
-## 一次自审发现的越界打包漏洞
+## 别把项目外的文件一起发出去
 
-<img src="assets/audit-proof.zh-CN.png" alt="一次真实自审：被 Git 跟踪的符号链接离开项目目录，发布被阻断，修复后通过回归测试并公开剩余边界" width="100%">
+这个 Skill 给自己的仓库做发布体检时，发现项目里的符号链接可以读取项目目录之外的文件。旧版本会把文件内容装进 ZIP。
 
-仓库自审发现，被 Git 跟踪的文件符号链接可能把项目外的内容复制进发布 ZIP。
+```text
+project/
+├── README.md
+└── outside.txt -> /etc/hosts
 
-现在，打包器会在读取前拒绝文件和目录符号链接，回归测试也覆盖了这个修复。尚未消除的并发替换风险已经写入文档。
+停止打包：outside.txt 是符号链接
+ZIP 没有生成，目标文件没有读取
+```
+
+现在遇到这类链接会直接停止打包，目标文件不会被读取。发布体检还会检查你最终交出去的 ZIP。
 
 [看完整复现、根因和限制](examples/self-audit-bundle-safety.md) · [看修复该问题的 v0.1.2 Release](https://github.com/weike-zhang/launch-github-project/releases/tag/v0.1.2)
 
@@ -61,6 +68,7 @@ npx skills add weike-zhang/launch-github-project --agent codex --skill launch-gi
 | --- | --- |
 | README 像功能清单，用户看不出和自己有什么关系 | 开头先讲用户处境、能得到什么、证据在哪、第一步怎么做 |
 | 项目已经更新，README 还在教旧功能和旧命令 | 改完项目后重新通读现有 README；需要更新就直接覆盖旧内容，不另放一份建议稿 |
+| 每个小节都塞一张图，中文还可能错字或变形 | 默认只保留头图；路径和短输出用代码块，有真实数据才生成图表 |
 | 项目里哪些能公开、哪些不能公开，全靠猜 | 给出脱敏密钥发现、公开面阻断项和必须确认的素材权利 |
 | 测试一通过，就被包装成“产品有效” | 把发布完整性、行为证据、用户采用和流行度分开讲，不互相冒充 |
 | Release 页面靠手写，版本一多就漂 | 从结构化证据生成页面，图片、说明、安装、兼容性和限制跟着版本走 |
