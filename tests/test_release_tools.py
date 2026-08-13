@@ -104,6 +104,18 @@ class PublicSurfaceTests(unittest.TestCase):
 
             self.assertEqual(result["blocker_count"], 0)
 
+    def test_historical_release_candidate_evidence_is_not_pending_work(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "README.md").write_text(
+                "The local release candidate passed before publication.\n",
+                encoding="utf-8",
+            )
+
+            result = public_surface.scan(root)
+
+            self.assertEqual(result["blocker_count"], 0)
+
 
 class AuditRepositoryTests(unittest.TestCase):
     def test_installed_skill_does_not_change_target_project_type(self):

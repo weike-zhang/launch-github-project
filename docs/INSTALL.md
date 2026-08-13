@@ -12,7 +12,7 @@ npx skills add weike-zhang/launch-github-project \
   --agent codex --skill launch-github-project -g -y
 ```
 
-The public global command above is the intended release path and will be rechecked after v0.2.0 is published. Before publication, the verified path is narrower: a local 0.2.0 release candidate was copied at project scope, invoked with Codex CLI `0.147.0-alpha.6.5`, and completed a first audit in a read-only sandbox. Start a new Codex task in the target project after installation, then invoke:
+The public global command above was verified after v0.2.0 was published: Codex CLI `0.147.0-alpha.6.5` loaded the GitHub-installed Skill in a clean project and completed a first audit in a read-only sandbox. The local release candidate had already passed the same project-level path before publication. Start a new Codex task in the target project after installation, then invoke:
 
 ```text
 Use $launch-github-project to audit this project for GitHub.

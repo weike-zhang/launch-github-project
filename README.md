@@ -111,7 +111,8 @@ A clean scan is a gate result, not proof of safety, usefulness or demand.
 
 | Surface | Current status | Evidence |
 | --- | --- | --- |
-| Local 0.2.0 candidate: project install → invoke → first audit | Verified on Codex CLI 0.147.0-alpha.6.5 | [Fixture, command and sanitized output](evals/results/codex-first-audit-v0.2.0.md) |
+| Public v0.2.0: global install → invoke → first audit | Verified on Codex CLI 0.147.0-alpha.6.5 | [Install, clean fixture and observed output](evals/results/codex-first-audit-v0.2.0.md#post-publication-check) |
+| Local 0.2.0 candidate: project install → invoke → first audit | Verified on the same host before publication | [Candidate fixture, command and sanitized output](evals/results/codex-first-audit-v0.2.0.md#release-candidate-check) |
 | Release scripts | Verified on Python 3.12 | [Regression tests](tests/test_release_tools.py) and [GitHub Actions](https://github.com/weike-zhang/launch-github-project/actions/workflows/validate.yml) |
 | Project-type routes and evaluation files | Integrity checked | [Fixture validator](evals/validate_fixtures.py); not a model-quality score |
 | Distribution behavior | One exploratory pair | [Exact prompt, baseline, Skill response and limitations](evals/results/model-comparison.md) |
