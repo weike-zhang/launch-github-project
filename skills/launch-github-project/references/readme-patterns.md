@@ -14,6 +14,20 @@ Do not make readers understand the implementation before they can understand the
 
 When publishing in more than one language, share claims and evidence but rebuild the reader path in each language. Section-for-section translation often preserves foreign syntax, weakens the hook and makes one language feel secondary. For Chinese copy, use `chinese-public-copy.md` before the final cold-reader pass.
 
+## Keep the current README synchronized
+
+Re-read the existing README after implementation, not only before it. Check whether the change affects any of these public contracts:
+
+- what the project does, who it is for or what appears in the first result;
+- install, update, invocation, configuration or uninstall commands;
+- screenshots, examples, inputs, outputs and linked evidence;
+- permissions, data handling, security boundaries or known limits;
+- supported hosts, platforms, versions and compatibility status;
+- Release links, package names, repository layout and contribution paths;
+- removed or renamed behavior that the README still teaches.
+
+Use the existing README as the editing target. Update stale statements where they already live, then search the full document for older wording, commands and images that now conflict. Do not solve drift by adding a fresh “latest update” paragraph above stale instructions. If no README change is required, state the inspected change and why no reader-facing contract moved.
+
 ## First screen
 
 Within the first screen, communicate:
@@ -79,6 +93,20 @@ Rewrite when the answers require decoding internal terms, reading the architectu
 
 Also fail the cold-reader check when the right facts exist but the initial viewport is dominated by undifferentiated prose, repeated titles or badge clutter while the useful visual, proof or first action sits below the fold.
 
+### Separate comprehension from desire to try
+
+Passing Humanizer or sounding natural answers only “does this read like a person wrote it?” Run a second gate for “why would the intended user try this now?” Do not accept a smooth sentence that merely lists internal actions.
+
+Require the opening to connect three facts without turning them into a fixed slogan template:
+
+- a problem, stalled state or goal the intended user already recognizes;
+- the concrete first result they receive, such as a diagnosis, changed file, preview or usable artifact;
+- a small, low-risk action that lets them see value before making a large commitment.
+
+Run the **name-swap test**: replace the project name with an unrelated tool. If the outcome line still sounds equally plausible, it is a category description rather than this project's value proposition. Run the **method-removal test**: remove verbs such as audit, inspect, validate, orchestrate and optimize. If nothing user-visible remains, the copy explains how the project works but not what it solves.
+
+For an Agent Skill, show what the first response or changed behavior looks like. “Checks the repository, validates claims and reviews the release” describes a workflow. “Returns the release blockers and the single issue most likely to stop first use before changing files” gives a reader a result worth trying. Keep the latter bounded by observed capability; do not invent urgency, savings or outcomes.
+
 ## Remove AI-shaped copy without removing the author's voice
 
 Run this pass after claims and evidence are settled. Use `$humanizer` when it is installed; otherwise inspect the prose and every visible image string manually.
@@ -94,6 +122,8 @@ Rewrite clusters of these patterns:
 - bold slogans, centered taglines and headings that repeat the same promise.
 
 Do not rewrite a single em dash, list or casual phrase in isolation. Preserve specific details, uneven but natural rhythm, real opinions, commands, links, numbers and explicit evidence limits. Humanizing copy never authorizes invented facts, urgency, testimonials or adoption claims.
+
+Do not overcorrect into bland operational copy. Removing slogans, symmetry and hype is not permission to erase the product's pain, concrete result or point of difference. Run the desire-to-try gate again after Humanizer because a voice edit can accidentally flatten positioning.
 
 ## Common core
 

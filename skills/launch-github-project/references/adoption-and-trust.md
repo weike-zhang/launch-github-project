@@ -8,6 +8,7 @@ Use this review after repository basics are sound and before recommending promot
 | --- | --- | --- |
 | Discovery | Search terms, repository metadata, social preview, relevant directory or community | Internal jargon or a misleading topic attracts the wrong visitor |
 | Comprehension | One concrete user outcome visible before architecture and principles | The README describes the method but not what changes for the user |
+| Motivation | A recognizable pain or goal, project-specific first result and low-risk trial | The copy sounds natural but could describe any tool in the category |
 | First success | Minimal install or use path ending in a visible result | Maintainer scripts, optional gates or unsupported commands interrupt onboarding |
 | Proof | Reproducible artifact, caught failure, comparison or real user outcome tied to the core promise | Structural checks or a narrow pilot are presented beside a broader claim |
 | Repeat use | A real recurring job, update path or durable progress artifact | A naturally one-time project invents empty recurring rituals |

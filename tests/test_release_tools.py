@@ -139,6 +139,36 @@ class PublicSurfaceTests(unittest.TestCase):
                 "manufactured_public_copy",
             )
 
+    def test_method_only_tagline_is_a_warning(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "README.zh-CN.md").write_text(
+                "<p><strong>检查仓库，核对公开主张，发布前再验一遍。</strong></p>\n",
+                encoding="utf-8",
+            )
+
+            result = public_surface.scan(root)
+
+            self.assertIn(
+                "method_only_tagline",
+                {item["category"] for item in result["warnings"]},
+            )
+
+    def test_product_specific_tagline_passes_method_only_check(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "README.zh-CN.md").write_text(
+                "<p><strong>这个 Skill 检查仓库并告诉用户哪个问题会阻断发布包。</strong></p>\n",
+                encoding="utf-8",
+            )
+
+            result = public_surface.scan(root)
+
+            self.assertNotIn(
+                "method_only_tagline",
+                {item["category"] for item in result["warnings"]},
+            )
+
     def test_warns_when_an_existing_hero_is_buried_below_long_prose(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

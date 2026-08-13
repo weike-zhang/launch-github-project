@@ -1,35 +1,28 @@
 <p align="center">
-  <img src="assets/hero.zh-CN.png" alt="Launch GitHub Project 检查仓库、公开主张和发布包，并在获得授权后处理 GitHub 操作" width="100%">
+  <img src="assets/hero.zh-CN.png" alt="Launch GitHub Project 找出最影响新用户试用的问题，并整理 README、配图、安装入口、Release 和发布包" width="100%">
 </p>
 
 <p align="center">
-  <strong>检查仓库，核对公开主张，发布前再验一遍。</strong>
+  <strong>项目能跑，发布不会收尾？这个 Skill 先找出最劝退新用户的问题，再帮你补齐 README、配图、安装入口、Release 和发布包。</strong>
 </p>
 
 <p align="center">
-  <a href="README.md">English</a> ·
-  <a href="docs/INSTALL.zh-CN.md">安装方式</a> ·
-  <a href="examples/self-audit-bundle-safety.md">真实漏洞与修复</a> ·
-  <a href="https://github.com/weike-zhang/launch-github-project/releases/latest">Release</a>
+  <a href="#先跑一次只读体检">先跑一次只读体检</a> ·
+  <a href="examples/self-audit-bundle-safety.md">看它抓到的真实漏洞</a> ·
+  <a href="README.md">English</a>
 </p>
 
-<p align="center">
-  <a href="https://github.com/weike-zhang/launch-github-project/actions/workflows/validate.yml"><img alt="校验状态" src="https://github.com/weike-zhang/launch-github-project/actions/workflows/validate.yml/badge.svg"></a>
-  <a href="https://github.com/weike-zhang/launch-github-project/releases/latest"><img alt="最新版本" src="https://img.shields.io/github/v/release/weike-zhang/launch-github-project"></a>
-  <a href="LICENSE"><img alt="MIT 许可" src="https://img.shields.io/badge/license-MIT-52D6A3"></a>
-</p>
+很多项目卡在最后一步：代码已经能跑，却不知道 README 先讲什么、该放什么图、安装入口摆在哪，Release 又该怎么写。更麻烦的是，发布包里可能还混着本地文件。
 
-代码写完了，发布页却还没收尾。
+Launch GitHub Project 是一个给项目发布收尾的 Agent Skill。第一轮只读仓库，直接告诉你哪里最影响新用户试用、什么问题会挡住发布、哪些事项必须由你决定。你确认后，它再按项目类型整理 README、配图、安装说明、Release 页面和发布包。
 
-README 像内部说明，安装命令不好找，Release 只列改动。访客通常不会替作者研究这些东西，找不到入口就走了。
-
-Launch GitHub Project 会检查仓库，再整理 README、截图、安装说明和发布包。它支持软件、Agent Skill、数据集、研究、课程、设计资源、作品集和混合项目，不会把它们塞进同一套模板。GitHub 上的操作仍然需要你明确授权。
+软件、Agent Skill、数据集、研究、课程、设计资源、作品集和混合项目都能用；它不会把不同项目硬塞进同一套模板。改文件和操作 GitHub 仍然需要你的明确授权。
 
 ```bash
 npx skills add weike-zhang/launch-github-project --agent codex --skill launch-github-project -g -y
 ```
 
-然后对 Codex 说：`使用 $launch-github-project 给这个项目做一次 GitHub 发布体检。先只读。` [查看 Codex 首次审计实测](evals/results/codex-first-audit-v0.2.0.md)。
+然后对 Codex 说：`使用 $launch-github-project 给这个项目做一次 GitHub 发布体检。先只读。` 第一轮不会改文件，你会先拿到一张具体的缺口清单。[查看 Codex 首次审计实测](evals/results/codex-first-audit-v0.2.0.md)。
 
 ## 一次自审发现的越界打包漏洞
 
@@ -41,7 +34,7 @@ npx skills add weike-zhang/launch-github-project --agent codex --skill launch-gi
 
 [看完整复现、根因和限制](examples/self-audit-bundle-safety.md) · [看修复该问题的 v0.1.2 Release](https://github.com/weike-zhang/launch-github-project/releases/tag/v0.1.2)
 
-## 先跑一次只读审计
+## 先跑一次只读体检
 
 ```text
 使用 $launch-github-project 审计这个项目的 GitHub 发布面。
@@ -67,6 +60,7 @@ npx skills add weike-zhang/launch-github-project --agent codex --skill launch-gi
 | 现在的问题 | 改完以后 |
 | --- | --- |
 | README 像功能清单，用户看不出和自己有什么关系 | 开头先讲用户处境、能得到什么、证据在哪、第一步怎么做 |
+| 项目已经更新，README 还在教旧功能和旧命令 | 改完项目后重新通读现有 README；需要更新就直接覆盖旧内容，不另放一份建议稿 |
 | 项目里哪些能公开、哪些不能公开，全靠猜 | 给出脱敏密钥发现、公开面阻断项和必须确认的素材权利 |
 | 测试一通过，就被包装成“产品有效” | 把发布完整性、行为证据、用户采用和流行度分开讲，不互相冒充 |
 | Release 页面靠手写，版本一多就漂 | 从结构化证据生成页面，图片、说明、安装、兼容性和限制跟着版本走 |
