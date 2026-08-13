@@ -48,6 +48,7 @@ REQUIRED_FILES = [
     "tests/test_public_copy.py",
     "tests/test_install.py",
     "evals/results/codex-first-audit-v0.2.0.md",
+    "evals/results/public-install-v0.3.0.md",
     "examples/self-audit-bundle-safety.md",
     "release/v0.1.2.json",
     "release/v0.1.2.md",

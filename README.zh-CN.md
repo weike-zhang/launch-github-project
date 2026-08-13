@@ -18,7 +18,7 @@ Project Publisher 负责项目对外发布后的整套工作：审查现状、�
 
 软件、Agent Skill、数据集、研究、课程、设计资源、作品集和混合项目都能用；它不会把不同项目硬塞进同一套模板。改文件和操作 GitHub 仍然需要你的明确授权。
 
-远程仓库改名为 `project-publisher` 后，v0.3.0 的安装路径是：
+从公开仓库安装 Project Publisher 和随包的 Humanizer：
 
 ```bash
 git clone https://github.com/weike-zhang/project-publisher.git
@@ -27,7 +27,9 @@ python3 project-publisher/scripts/install.py
 
 集成安装器会一次加入 Project Publisher、随包的 Humanizer 和依赖提醒 Hook，并检查必需的命令行工具。安装后需要在 `/hooks` 中审查并信任该 Hook，安装器不会代替用户授权。Project Publisher 会先固定事实、命令和证据边界，再调用 Humanizer。如果某项依赖安装失败、被拒绝或当前宿主不可用，它会在进入相关阶段时说明受影响的证据和降级路径。[查看完整安装路径与边界](docs/INSTALL.zh-CN.md)。
 
-然后对 Codex 说：`使用 $project-publisher 看一下这个项目现在对外讲得清不清楚。先只读，告诉我最影响传播的一个问题。` 第一轮不会改文件。集成安装器属于本地 v0.3.0 候选版；[链接中的 Codex 首次审计记录对应旧名称下已经发布的 v0.2.0 Skills-only 路径](evals/results/codex-first-audit-v0.2.0.md)。
+然后对 Codex 说：`使用 $project-publisher 看一下这个项目现在对外讲得清不清楚。先只读，告诉我最影响传播的一个问题。` 第一轮不会改文件。
+
+v0.3.0 已经从干净临时目录完成[公网克隆、集成安装和 Skills CLI 发现验证](evals/results/public-install-v0.3.0.md)；[Codex 首次审计记录对应旧名称下已经发布的 v0.2.0 Skills-only 路径](evals/results/codex-first-audit-v0.2.0.md)。
 
 ## 别把项目外的文件一起发出去
 
@@ -48,7 +50,7 @@ ZIP 没有生成，目标文件没有读取
 
 ## 先找出最影响传播的缺口
 
-下面是远程仓库得到授权并改名后的 v0.3.0 路径；在此之前使用当前本地检出。
+下面这条公网安装路径已经从干净目录验证：
 
 ```text
 使用 $project-publisher 看一下这个项目现在对外讲得清不清楚。
@@ -114,7 +116,7 @@ ZIP 没有生成，目标文件没有读取
 | --- | --- | --- |
 | 公开 v0.2.0：全局安装 → 调用 → 首次审计 | Codex CLI 0.147.0-alpha.6.5 已验证 | [安装、干净夹具和实测输出](evals/results/codex-first-audit-v0.2.0.md#post-publication-check) |
 | 旧名称下的本地 0.2.0 候选版：项目级安装 → 调用 → 首次审计 | 发布前在同一客户端已验证 | [候选版夹具、命令和脱敏输出](evals/results/codex-first-audit-v0.2.0.md#release-candidate-check) |
-| 本地 0.3.0 候选版：改名、集成安装与完整公开生命周期 | 已完成本地与解压后 ZIP 验证；尚未执行远程改名 | 当前检出与候选版发布门禁 |
+| 公开 v0.3.0：克隆 → 集成安装 → Skills CLI 发现 | 仓库改名后已验证 | [干净临时目录验证](evals/results/public-install-v0.3.0.md) |
 | 发布脚本 | 已发布 v0.2.0 路径在 Python 3.12 验证 | [回归测试](tests/test_release_tools.py)与 [旧仓库路径下的 GitHub Actions](https://github.com/weike-zhang/launch-github-project/actions/workflows/validate.yml) |
 | 项目类型路径与评估文件 | 只验证结构完整 | [夹具校验器](evals/validate_fixtures.py)，不是模型质量分数 |
 | 传播行为 | 只有一组探索性对照 | [完整输入、基线、Skill 响应与限制](evals/results/model-comparison.md) |

@@ -8,7 +8,7 @@
 
 ## 推荐安装
 
-下面的命令要等远程仓库得到授权并改名为 `project-publisher` 后才成为公网安装路径。在此之前请使用当前本地检出，文档不把新远程地址写成已经发布。
+下面的公开仓库和安装命令已于 2026-08-13 从干净临时目录验证。
 
 ```bash
 git clone https://github.com/weike-zhang/project-publisher.git
@@ -19,7 +19,7 @@ python3 project-publisher/scripts/install.py
 
 Project Publisher 只在事实稿稳定后用 File mode 或 Embedded mode 调用 Humanizer。主 Skill 会在真正进入对应阶段时再检查依赖。如果安装失败、用户拒绝 Hook，或当前宿主没有暴露某个伴随能力，Project Publisher 必须说明哪项证据受影响以及可用的降级路径，不得静默跳过。
 
-新的集成路径已用当前本地候选版和解压后的 Release ZIP 验证：两个 Skills 均已安装，必需工具通过预检，Hook 已注册为等待信任，重复执行不会重复写入。下一个版本发布前，它还不是已发布的公网路径。之前 v0.2.0 的 Skills-only 路径已用 Codex CLI `0.147.0-alpha.6.5` 在干净项目中做过发布后验证。安装后，在目标项目中启动一个新的 Codex 任务，再输入：
+公开集成路径已安装两个 Skills、通过必需工具预检，并把 Hook 注册为等待信任；Skills CLI 备选路径也成功发现并复制两个 Skills。见[脱敏后的公网安装记录](../evals/results/public-install-v0.3.0.md)。之前 v0.2.0 的 Skills-only 路径已用 Codex CLI `0.147.0-alpha.6.5` 在干净项目中做过发布后验证。安装后，在目标项目中启动一个新的 Codex 任务，再输入：
 
 ```text
 使用 $project-publisher 看一下这个项目现在对外讲得清不清楚。

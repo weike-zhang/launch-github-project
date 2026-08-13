@@ -16,14 +16,14 @@ A project can work locally and still lose people when it becomes public: the nam
 
 Project Publisher handles that public side of the project. It reviews what exists, sharpens the name and position, prepares the smallest useful release surface, turns real evidence into distribution material, and resynchronizes the public story after the product changes. Its first pass is read-only, and it adapts the work to the actual project type instead of forcing everything through one template.
 
-After the remote repository is renamed to `project-publisher`, the v0.3.0 install path will be:
+Install Project Publisher and its bundled Humanizer from the public repository:
 
 ```bash
 git clone https://github.com/weike-zhang/project-publisher.git
 python3 project-publisher/scripts/install.py
 ```
 
-Then ask: `Use $project-publisher to review this project before I publish or update it. Start read-only and tell me the biggest reason a new visitor may not try it.` Nothing changes in the first pass; you get a concrete gap report first. The integrated installer belongs to the local v0.3.0 candidate; [the linked Codex first audit covers the published v0.2.0 Skills-only path under the former name](evals/results/codex-first-audit-v0.2.0.md).
+Then ask: `Use $project-publisher to review this project before I publish or update it. Start read-only and tell me the biggest reason a new visitor may not try it.` Nothing changes in the first pass; you get a concrete gap report first. The v0.3.0 public clone, integrated installer and Skills CLI discovery are [verified from clean temporary paths](evals/results/public-install-v0.3.0.md); [the earlier Codex first audit covers the published v0.2.0 Skills-only path under the former name](evals/results/codex-first-audit-v0.2.0.md).
 
 ## Keep files from outside the project out of the release ZIP
 
@@ -46,7 +46,7 @@ This is release-safety evidence, not a claim that automation can prove ownership
 
 ## Find the biggest public gap first
 
-The clone command below is the intended v0.3.0 path after the authorized remote rename; use the current checkout until then.
+The same public install path works from a clean directory:
 
 ```bash
 git clone https://github.com/weike-zhang/project-publisher.git
@@ -121,7 +121,7 @@ A clean scan is a gate result, not proof of safety, usefulness or demand.
 | --- | --- | --- |
 | Public v0.2.0: global install → invoke → first audit | Verified on Codex CLI 0.147.0-alpha.6.5 | [Install, clean fixture and observed output](evals/results/codex-first-audit-v0.2.0.md#post-publication-check) |
 | Historical local 0.2.0 candidate: project install → invoke → first audit | Verified on the same host before publication | [Candidate fixture, command and sanitized output](evals/results/codex-first-audit-v0.2.0.md#release-candidate-check) |
-| Local 0.3.0 candidate: rename, integrated install and publication lifecycle | Verified locally, including the extracted ZIP; remote rename not performed | This checkout and its candidate release checks |
+| Public v0.3.0: clone → integrated install → Skills CLI discovery | Verified after the repository rename | [Clean temporary-path verification](evals/results/public-install-v0.3.0.md) |
 | Release scripts | Verified on Python 3.12 for the published v0.2.0 path | [Regression tests](tests/test_release_tools.py) and [historical GitHub Actions path](https://github.com/weike-zhang/launch-github-project/actions/workflows/validate.yml) |
 | Project-type routes and evaluation files | Integrity checked | [Fixture validator](evals/validate_fixtures.py); not a model-quality score |
 | Distribution behavior | One exploratory pair | [Exact prompt, baseline, Skill response and limitations](evals/results/model-comparison.md) |

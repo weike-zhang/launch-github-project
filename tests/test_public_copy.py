@@ -277,6 +277,10 @@ class PublicCopyContractTests(unittest.TestCase):
         self.assertIn("项目对外发布后的整套工作", chinese)
         for text in (english, chinese):
             self.assertNotIn("Use $launch-github-project", text)
+            self.assertNotIn("remote rename not performed", text)
+            self.assertNotIn("等待远程仓库改名", text)
+        self.assertIn("evals/results/public-install-v0.3.0.md", english)
+        self.assertIn("evals/results/public-install-v0.3.0.md", chinese)
 
 
 if __name__ == "__main__":

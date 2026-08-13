@@ -8,7 +8,7 @@ Verified requirements for this release:
 
 ## Recommended
 
-The commands below become public after the authorized repository rename to `project-publisher`. Until then, use the current local checkout; the new remote path is not claimed as published.
+The public repository and install commands below were verified from clean temporary paths on 2026-08-13.
 
 ```bash
 git clone https://github.com/weike-zhang/project-publisher.git
@@ -19,7 +19,7 @@ This integrated path installs Project Publisher and its bundled Humanizer compan
 
 Project Publisher invokes Humanizer only after the factual draft is stable, using file or embedded mode. The main Skill rechecks dependencies at the stage where they are needed. If installation failed, the user declined the Hook, or the active host does not expose a companion, Project Publisher must report the affected proof and fallback instead of silently skipping it.
 
-The integrated path is verified from the current local candidate and its extracted Release ZIP: both Skills installed, required tools passed preflight, the Hook was registered as pending trust, and a second run remained idempotent. It is not a publicly released path until the next version is published. The previous Skills-only v0.2.0 path was verified after publication with Codex CLI `0.147.0-alpha.6.5` in a clean project. Start a new Codex task in the target project after installation, then invoke:
+The public integrated path installed both Skills, passed required-tool preflight and registered the Hook as pending trust. The Skills CLI alternative also discovered and copied both Skills. See the [sanitized public-install record](../evals/results/public-install-v0.3.0.md). The previous Skills-only v0.2.0 path was verified after publication with Codex CLI `0.147.0-alpha.6.5` in a clean project. Start a new Codex task in the target project after installation, then invoke:
 
 ```text
 Use $project-publisher to review this project before I publish or update it.
