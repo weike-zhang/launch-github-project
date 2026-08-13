@@ -1,6 +1,6 @@
 # Real self-audit: release bundle path escape
 
-Date: 2026-08-13. Repository: `launch-github-project`. Scope: local, read-only reproduction followed by a code and test repair.
+Date: 2026-08-13. Repository: `project-publisher`. Scope: local, read-only reproduction followed by a code and test repair.
 
 ## Failure
 
@@ -13,7 +13,7 @@ probe="$(mktemp -d)"
 mkdir "$probe/project"
 printf 'safe\n' > "$probe/project/README.md"
 ln -s /etc/hosts "$probe/project/outside.txt"
-python skills/launch-github-project/scripts/build_release_bundle.py \
+python skills/project-publisher/scripts/build_release_bundle.py \
   "$probe/project" --output "$probe/release.zip"
 ```
 
@@ -31,9 +31,9 @@ Before 0.1.2, `outside.txt` was archived. Passing the public-surface gate did no
 
 ```bash
 python -m unittest discover -s tests -v
-python skills/launch-github-project/scripts/review_public_surface.py --self-test
-python skills/launch-github-project/scripts/check_links.py .
-python skills/launch-github-project/scripts/check_secrets.py .
+python skills/project-publisher/scripts/review_public_surface.py --self-test
+python skills/project-publisher/scripts/check_links.py .
+python skills/project-publisher/scripts/check_secrets.py .
 ```
 
 The repaired builder exits before creating a bundle and identifies the symbolic link without printing the target file contents. This case proves a narrow safety property; it does not prove every project is safe to publish.

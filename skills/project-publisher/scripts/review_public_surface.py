@@ -26,11 +26,11 @@ MAINTAINER_PLAN_NAMES = {
 }
 MAX_TEXT_BYTES = 2_000_000
 TEXT_RULE_EXEMPT_PATHS = {
-    Path("skills/launch-github-project/scripts/review_public_surface.py"),
-    Path("skills/launch-github-project/references/public-surface-review.md"),
-    Path("skills/launch-github-project/references/repository-standard.md"),
-    Path("skills/launch-github-project/references/chinese-public-copy.md"),
-    Path("skills/launch-github-project/references/readme-patterns.md"),
+    Path("skills/project-publisher/scripts/review_public_surface.py"),
+    Path("skills/project-publisher/references/public-surface-review.md"),
+    Path("skills/project-publisher/references/repository-standard.md"),
+    Path("skills/project-publisher/references/chinese-public-copy.md"),
+    Path("skills/project-publisher/references/readme-patterns.md"),
     Path("tests/test_public_copy.py"),
     Path("tests/test_release_tools.py"),
 }

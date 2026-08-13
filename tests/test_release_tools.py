@@ -9,7 +9,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / "skills" / "launch-github-project" / "scripts"
+SCRIPTS = ROOT / "skills" / "project-publisher" / "scripts"
 
 
 def load_script(name: str):
@@ -98,7 +98,7 @@ class PublicSurfaceTests(unittest.TestCase):
     def test_installed_project_skill_is_not_scanned_as_project_content(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            installed = root / ".agents" / "skills" / "launch-github-project"
+            installed = root / ".agents" / "skills" / "project-publisher"
             installed.mkdir(parents=True)
             (root / "README.md").write_text("A small CLI.\n", encoding="utf-8")
             (installed / "rules.md").write_text(
@@ -216,7 +216,7 @@ class AuditRepositoryTests(unittest.TestCase):
     def test_installed_skill_does_not_change_target_project_type(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            installed = root / ".agents" / "skills" / "launch-github-project"
+            installed = root / ".agents" / "skills" / "project-publisher"
             installed.mkdir(parents=True)
             (installed / "SKILL.md").write_text("installed dependency\n", encoding="utf-8")
             (root / "pyproject.toml").write_text("[project]\nname='demo'\n", encoding="utf-8")

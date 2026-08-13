@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Renamed the project and Skill to Project Publisher, with a 0.3.0 candidate that treats audit, positioning, release, evidence-led distribution and later public updates as one continuing role rather than a one-time GitHub launch.
+- Added a naming and positioning workflow that separates durable identity, promise, capabilities and evidence; tests natural speech, guessability, scope, growth and collision; checks bilingual word order; and keeps historical releases honest during a rename.
+- Added a sentence-purpose gate for headings, navigation, CTAs and image text: public copy must name a reader pain, result, advantage, evidence, boundary or worthwhile next step instead of merely saying “try,” “see” or “ask.”
+- Bundled the locked Humanizer runtime as a companion Skill, added an integrated installer and dependency manifest, and made missing, failed, declined or untrusted companion states visible at the stage where they matter.
+- Added a plugin and standalone `UserPromptSubmit` dependency-guard Hook. It warns Codex about material gaps without replacing the main Skill's own runtime checks, and remains pending until the user reviews and trusts it.
 - Added a rendered-first-screen gate and an automated `hero_below_long_intro` warning so an existing hero or direct proof visual is placed intentionally instead of being buried below long prose, and require desktop, narrow-width and unsigned-page review.
 - Reordered both public READMEs around the existing localized hero, one outcome line, compact navigation and status before the longer explanation and install path.
 - Added Humanizer 2.9.1 as a locked project Skill and a bounded second-pass review for README, Release and image copy. The pass preserves commands and evidence while removing manufactured punchlines, forced parallels and framework slogans.

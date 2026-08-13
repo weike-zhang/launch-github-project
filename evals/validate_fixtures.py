@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate Launch GitHub Project fixture and release integrity."""
+"""Validate Project Publisher fixture and release integrity."""
 
 from __future__ import annotations
 
@@ -23,26 +23,38 @@ REQUIRED_FILES = [
     "assets/social-preview.png",
     "assets/activation-proof.png",
     "assets/ASSET-NOTICE.md",
-    "skills/launch-github-project/SKILL.md",
-    "skills/launch-github-project/references/public-surface-review.md",
-    "skills/launch-github-project/references/adoption-and-trust.md",
-    "skills/launch-github-project/references/chinese-public-copy.md",
-    "skills/launch-github-project/references/release-page.md",
-    "skills/launch-github-project/scripts/audit_repository.py",
-    "skills/launch-github-project/scripts/check_secrets.py",
-    "skills/launch-github-project/scripts/check_links.py",
-    "skills/launch-github-project/scripts/review_public_surface.py",
-    "skills/launch-github-project/scripts/build_release_bundle.py",
-    "skills/launch-github-project/scripts/generate_release_page.py",
-    "skills/launch-github-project/assets/release/release-page.json",
+    "skills/project-publisher/SKILL.md",
+    "skills/project-publisher/references/public-surface-review.md",
+    "skills/project-publisher/references/naming-and-positioning.md",
+    "skills/project-publisher/references/adoption-and-trust.md",
+    "skills/project-publisher/references/chinese-public-copy.md",
+    "skills/project-publisher/references/release-page.md",
+    "skills/project-publisher/references/companion-orchestration.md",
+    "skills/project-publisher/scripts/audit_repository.py",
+    "skills/project-publisher/scripts/check_secrets.py",
+    "skills/project-publisher/scripts/check_links.py",
+    "skills/project-publisher/scripts/review_public_surface.py",
+    "skills/project-publisher/scripts/build_release_bundle.py",
+    "skills/project-publisher/scripts/generate_release_page.py",
+    "skills/project-publisher/assets/release/release-page.json",
+    "skills/humanizer/SKILL.md",
+    "skills/humanizer/LICENSE",
+    "skills/humanizer/agents/openai.yaml",
+    "runtime/dependencies.json",
+    "scripts/install.py",
+    "hooks/hooks.json",
+    "hooks/dependency_guard.py",
     "tests/test_release_tools.py",
     "tests/test_public_copy.py",
+    "tests/test_install.py",
     "evals/results/codex-first-audit-v0.2.0.md",
     "examples/self-audit-bundle-safety.md",
     "release/v0.1.2.json",
     "release/v0.1.2.md",
     "release/v0.2.0.json",
     "release/v0.2.0.md",
+    "release/v0.3.0.json",
+    "release/v0.3.0.md",
 ]
 
 
@@ -83,8 +95,8 @@ def main() -> int:
     }
     passed = sum(checks.values())
     result = {
-        "suite": "launch-github-project-fixture-integrity",
-        "version": "0.2.0",
+        "suite": "project-publisher-fixture-integrity",
+        "version": "0.3.0",
         "checks": checks,
         "passed_checks": passed,
         "total_checks": len(checks),

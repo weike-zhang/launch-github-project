@@ -1,4 +1,0 @@
-interface:
-  display_name: "Launch GitHub Project"
-  short_description: "找出最劝退新用户的问题，并补齐 GitHub 发布材料"
-  default_prompt: "Use $launch-github-project to audit this project read-only, resynchronize its current README, prepare the required release materials, and list every decision required before any remote action."

@@ -1,4 +1,4 @@
-# Goal-driven launch brief
+# Goal-driven distribution brief
 
 - Desired outcome: {{trial_users_or_contributors_or_feedback_or_brand}}
 - Primary audience: {{audience}}

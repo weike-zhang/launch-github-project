@@ -2,7 +2,7 @@
 
 这份指南适用于已经有本地项目、准备第一次公开或私有发布的人。顺序是：确认边界 → 本地审计 → 建立版本历史 → 创建远程仓库 → Push → 按项目类型决定是否需要 Release → 访客核验。
 
-安装 Launch GitHub Project 不会自动获得任何 GitHub 远程权限。创建仓库、Push、修改可见性和发布 Release 都需要明确的仓库目标与授权。
+安装 Project Publisher 不会自动获得任何 GitHub 远程权限。创建仓库、Push、修改可见性和发布 Release 都需要明确的仓库目标与授权。
 
 ## 1. 先确认发布边界
 
@@ -21,23 +21,23 @@
 在项目目录调用：
 
 ```text
-使用 $launch-github-project 只读审计这个项目。
-先判断项目类型，再列出最小公开面、证据、风险和必须由我决定的事项。
+使用 $project-publisher 看一下这个项目发布前还缺什么。
+先只读，告诉我新访客最可能在哪一步看不懂或不想试，并列出证据、风险和必须由我决定的事项。
 不要修改文件，也不要执行远程动作。
 ```
 
-如果你正在维护 **Launch GitHub Project 本仓库本身**，可以运行下面的仓库内脚本：
+如果你正在维护 **Project Publisher 本仓库本身**，可以运行下面的仓库内脚本：
 
 ```bash
-python3 skills/launch-github-project/scripts/audit_repository.py . --json
-python3 skills/launch-github-project/scripts/check_secrets.py . --json
-python3 skills/launch-github-project/scripts/check_links.py .
-python3 skills/launch-github-project/scripts/review_public_surface.py . --strict
+python3 skills/project-publisher/scripts/audit_repository.py . --json
+python3 skills/project-publisher/scripts/check_secrets.py . --json
+python3 skills/project-publisher/scripts/check_links.py .
+python3 skills/project-publisher/scripts/review_public_surface.py . --strict
 ```
 
 自动检查通过只代表没有命中已配置的阻断规则；素材权利、公开主张、Git 身份和访客体验仍需人工确认。
 
-对于其他项目，不要照抄上面的 `skills/launch-github-project/...` 路径。通过 Skills CLI 安装后，应调用 Skill，让代理从已安装的 Skill 目录使用这些脚本；普通目标项目里不会自动出现这组路径。
+对于其他项目，不要照抄上面的 `skills/project-publisher/...` 路径。通过 Skills CLI 安装后，应调用 Skill，让代理从已安装的 Skill 目录使用这些脚本；普通目标项目里不会自动出现这组路径。
 
 ## 3. 建立本地版本历史
 
@@ -83,16 +83,16 @@ git push -u origin <default-branch>
 
 并非所有项目都需要 GitHub Release。只有当项目存在可下载版本、可复现快照、安装包、数据快照或需要稳定引用的里程碑时，才准备 Release 页面和资产。纯作品集、持续更新的文档或尚无版本承诺的资料库，可以先只发布默认分支并写清当前状态。
 
-如果需要 Release，让已安装的 Skill 根据项目事实准备结构化规格和页面；不要在普通目标项目里直接调用本仓库相对路径。维护 **Launch GitHub Project 本仓库本身** 时，才可以这样生成：
+如果需要 Release，让已安装的 Skill 根据项目事实准备结构化规格和页面；不要在普通目标项目里直接调用本仓库相对路径。维护 **Project Publisher 本仓库本身** 时，才可以这样生成：
 
 先准备结构化 Release 规格，再生成页面：
 
 ```bash
 mkdir -p release
-cp skills/launch-github-project/assets/release/release-page.json \
+cp skills/project-publisher/assets/release/release-page.json \
   release/v0.1.0.json
 # 编辑 release/v0.1.0.json，把示例值替换为这个版本的真实证据
-python3 skills/launch-github-project/scripts/generate_release_page.py . \
+python3 skills/project-publisher/scripts/generate_release_page.py . \
   --spec release/v0.1.0.json \
   --output release/v0.1.0.md
 ```
@@ -102,7 +102,7 @@ python3 skills/launch-github-project/scripts/generate_release_page.py . \
 发布包必须放在项目目录外：
 
 ```bash
-python3 skills/launch-github-project/scripts/build_release_bundle.py . \
+python3 skills/project-publisher/scripts/build_release_bundle.py . \
   --output /tmp/project-v0.1.0.zip
 unzip -t /tmp/project-v0.1.0.zip
 ```

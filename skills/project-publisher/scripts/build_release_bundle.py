@@ -12,7 +12,7 @@ from pathlib import Path
 
 EXCLUDED_DIRS = {
     ".git", ".agents", ".claude", ".codex", ".venv", "venv", "node_modules", "__pycache__", ".cache", ".next",
-    ".grounded-ai-mentor", ".launch-github-project", "dist", "build",
+    ".grounded-ai-mentor", ".grounded-ai-tutor", ".launch-github-project", ".project-publisher", "dist", "build",
 }
 EXCLUDED_SUFFIXES = {".pyc", ".pyo", ".private.md", ".local.md"}
 EXCLUDED_NAMES = {".DS_Store", ".env", ".env.local", ".env.production", "mascot-source.png"}

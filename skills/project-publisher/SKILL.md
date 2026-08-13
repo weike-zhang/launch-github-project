@@ -1,11 +1,24 @@
 ---
-name: launch-github-project
-description: Audit, position, document, validate, package, and prepare the GitHub launch of any project type, including software, CLI tools, Agent Skills, datasets, courses, documentation, research, design resources, content projects, and portfolios. Use when a user wants to publish or open-source a project, make a repository release-ready, improve or resynchronize its README after project changes, generate a GitHub Release page or Release asset, evaluate launch readiness, or plan evidence-based distribution. Ask only when a decision becomes necessary, adapt outputs to the project type, and require explicit authorization before remote or public actions.
+name: project-publisher
+description: Audit, position, name, document, validate, package, publish, promote, and maintain the public surface of any project type, including software, CLI tools, Agent Skills, datasets, courses, documentation, research, design resources, content projects, and portfolios. Use when a user wants to publish or open-source a project, rename or position it, make a repository release-ready, improve or resynchronize its README after project changes, generate a GitHub Release page or asset, evaluate publication readiness, plan evidence-based distribution, or keep later updates aligned. Ask only when a decision becomes necessary, adapt outputs to the project type, and require explicit authorization before remote or public actions.
 ---
 
-# Launch GitHub Project
+# Project Publisher
 
-Turn the project that actually exists into the smallest complete public repository it needs. Do not force every project through a software or Agent Skill template.
+Help the project that actually exists earn and keep a clear public life: review it, position it, prepare the smallest useful publication surface, support distribution with evidence, and keep later updates synchronized. Do not force every project through a software or Agent Skill template.
+
+## Resolve companion capabilities before work
+
+Read [references/companion-orchestration.md](references/companion-orchestration.md) when the task includes public copy, visuals, rendered-page proof, security review or remote publication.
+
+If `$HOME/.codex/project-publisher/install-state.json` exists, inspect it as installation evidence, then recheck the current host because that state may be stale. Before entering any stage whose required or conditional dependency is unavailable, failed, declined, disabled or untrusted, tell the user what is unavailable, what work or proof it affects, and which fallback can still complete. Never silently omit a companion pass or report its gate as passed.
+
+- Inspect the Skills and tools that the current host actually exposes. A lock file, bundled folder or file on disk does not prove that the current session loaded it.
+- Add each applicable companion to the working plan, announce its use and read its complete instructions before taking actions governed by it.
+- The distributed package includes `$humanizer`. After facts, commands, links, versions and evidence boundaries are settled, use its file or embedded mode for public copy. If the host did not load it, run the manual AI-pattern pass in [references/readme-patterns.md](references/readme-patterns.md) and report that the companion pass was unavailable.
+- Treat hooks as host lifecycle configuration, not callable subroutines. Inspect only active, trusted hooks; never claim a hook ran merely because a repository or plugin contains hook files. Keep required release gates in the bundled deterministic scripts.
+- Never install a missing companion, enable a plugin, trust a hook or broaden permissions without the user's authorization.
+- The repository installer may install bundled dependencies before a launch task. Its recorded result does not replace the runtime recheck above.
 
 ## Start with a read-only audit
 
@@ -40,7 +53,7 @@ Ask only when the missing choice changes the current artifact or action. Combine
 
 Examples:
 
-- Before naming and positioning: target user, intended outcome and author or project brand.
+- Before naming and positioning: target user, intended outcome and author or project brand. Read [references/naming-and-positioning.md](references/naming-and-positioning.md) before proposing candidates or changing identifiers.
 - Before repository creation: repository name, visibility and license.
 - When risk is found: remove, replace, keep local, or obtain permission.
 - Before distribution planning: goal, audience, available proof, existing channels and effort constraints.
@@ -52,11 +65,13 @@ Explain why the decision is needed, recommend a safe default, and continue with 
 
 Read [references/repository-standard.md](references/repository-standard.md) for common requirements and [references/readme-patterns.md](references/readme-patterns.md) for type-specific README sections.
 
+When naming or renaming the project, read [references/naming-and-positioning.md](references/naming-and-positioning.md). Name the durable role or outcome, not the first demo, platform or release stage. Keep identity, promise, capabilities and evidence separate; then validate speech, guessability, real scope, room to grow and search collision. Preserve historical release truth and treat remote renames as separately authorized actions.
+
 Before drafting a README, identify the reader's recognizable situation, the outcome they want and the proof the project can honestly show. Order the page around the reader's decision path. Translate internal mechanisms, protocol names and maintainer terminology into observable user consequences before presenting implementation detail. Do not treat synonym replacement or a more casual tone as a substitute for clear positioning.
 
 For Chinese README, Release, repository description or distribution copy, read [references/chinese-public-copy.md](references/chinese-public-copy.md). Treat English and Chinese as sibling narratives that share facts, evidence and boundaries, not as a master document and its line-by-line translation. Give the Chinese page its own hook, familiar failure scene, concrete cost, proof and action; require a native-speaker read-aloud check and localized text inside public visuals.
 
-After the factual draft is complete, use `$humanizer` when it is installed to review README prose, repository descriptions, Release copy and every user-visible string embedded in images. Use file mode for a single document or embedded mode inside a larger launch task. Preserve commands, links, version numbers, observed results and evidence boundaries. Reject fabricated specificity, and do not flatten a real author voice merely because one sentence matches a generic detector. Treat this as a voice pass only: natural copy can still be generic, product-blind or unpersuasive. If Humanizer is unavailable, apply the AI-pattern check in [references/readme-patterns.md](references/readme-patterns.md) manually.
+After the factual draft is complete, use the resolved `$humanizer` companion to review README prose, repository descriptions, Release copy and every user-visible string embedded in images. Use file mode for a single document or embedded mode inside a larger launch task. Preserve commands, links, version numbers, observed results and evidence boundaries. Reject fabricated specificity, and do not flatten a real author voice merely because one sentence matches a generic detector. Treat this as a voice pass only: natural copy can still be generic, product-blind or unpersuasive. If the current host did not load Humanizer, apply the AI-pattern check in [references/readme-patterns.md](references/readme-patterns.md) manually and keep that validation boundary explicit.
 
 Create or improve only the artifacts justified by the project:
 
@@ -73,6 +88,8 @@ Do not add badges, governance documents, CI, websites, videos, telemetry or comm
 Default to one project-owned hero or product preview and no other images. Before adding another visual, apply the necessity and format gate in `references/readme-patterns.md`. Use text, a table or a code block when it communicates the evidence just as well. Use a reproducible chart only for real quantitative data or a relationship that becomes materially clearer when plotted; keep its source data and generation script. Use screenshots for observable UI state. Avoid raster diagrams full of prose, especially localized Chinese copy, and never present decorative generated art as product evidence. If a hero or necessary proof visual exists, decide explicitly whether it belongs in the initial viewport; do not leave it below several paragraphs by accident.
 
 After drafting and the voice pass, perform both cold-reader gates in `references/readme-patterns.md`: comprehension and desire to try. Require the opening to name a recognizable pain or goal, a project-specific first result, and a low-commitment next step. If replacing the project name with an unrelated tool leaves the headline equally plausible, rewrite it. If a target reader cannot identify why the project matters, what changes in use and what to try without understanding the implementation first, or if the initial viewport is visually dominated by undifferentiated prose while the useful proof sits below the fold, revise the reading path before validating links or packaging.
+
+Give every public sentence, heading, navigation label, CTA and image string one clear job: help the reader recognize a pain or goal, state a user-visible result or advantage, add proof, set a boundary, or lead to a next step whose payoff is clear from context. Reject orphan imperatives such as “Try one feature,” “See an example,” “Ask once,” “试一个功能,” “看案例” or “问一次” when they describe only the reader's motion. Replacing `feature` with a concrete noun such as `login flow` does not fix the missing purpose. Rewrite from the question the reader would naturally ask or the result they will get, then read it aloud in that reader's language.
 
 ## Resynchronize the current README after project changes
 
@@ -172,6 +189,7 @@ Use a dedicated GitHub publish workflow such as `yeet` for branch, commit, push 
 ## Resources
 
 - [references/project-type-routing.md](references/project-type-routing.md): project classification and type-specific proof.
+- [references/naming-and-positioning.md](references/naming-and-positioning.md): durable names, candidate tests, bilingual word order and rename migration gates.
 - [references/repository-standard.md](references/repository-standard.md): common release-ready requirements.
 - [references/readme-patterns.md](references/readme-patterns.md): README selection by project type.
 - [references/chinese-public-copy.md](references/chinese-public-copy.md): native Chinese persuasion, translationese traps and bilingual workflow.
@@ -184,6 +202,7 @@ Use a dedicated GitHub publish workflow such as `yeet` for branch, commit, push 
 - `scripts/check_links.py`: local Markdown link verification.
 - `scripts/review_public_surface.py`: deterministic public-surface blocker and warning scan.
 - [references/adoption-and-trust.md](references/adoption-and-trust.md): first-success, proof, retention and contribution checks derived from real adoption failures.
+- [references/companion-orchestration.md](references/companion-orchestration.md): companion Skill selection, Humanizer invocation, Hook boundaries and degraded-mode reporting.
 - `scripts/build_release_bundle.py`: deterministic ZIP builder with safety exclusions and symlink rejection.
 - [references/release-page.md](references/release-page.md): required Release-page content, version alignment and remote-state gates.
 - `scripts/generate_release_page.py`: deterministic GitHub Release-page generator and stale-page check.

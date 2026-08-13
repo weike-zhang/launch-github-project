@@ -1,26 +1,29 @@
 <p align="center">
-  <img src="assets/hero.png" alt="Launch GitHub Project finds what stops new users from trying a project, then prepares its README, visuals, install path, Release page and source bundle" width="100%">
+  <img src="assets/hero.png" alt="Project Publisher reviews, positions, publishes and keeps a project's public materials current" width="100%">
 </p>
 
 <p align="center">
-  <strong>The project is finished, but the README, visuals, Release, and source bundle are not. Give the repository to this Skill, review the gaps it finds, then decide what it may change.</strong>
+  <strong>Your project changed. Its README, Release and launch posts did not. Project Publisher finds the mismatch, fixes the public materials you approve and leaves remote actions to you.</strong>
 </p>
 
 <p align="center">
-  <a href="#run-a-read-only-launch-check">Run a read-only launch check</a> ·
-  <a href="examples/self-audit-bundle-safety.md">See a real failure it caught</a> ·
+  <a href="#find-the-biggest-public-gap-first">Find the biggest public gap</a> ·
+  <a href="examples/self-audit-bundle-safety.md">See the release leak it caught</a> ·
   <a href="README.zh-CN.md">简体中文</a>
 </p>
 
-A project can work locally and still lose a new user on GitHub: the README starts with maintainer detail, the install path is hard to find, the Release explains changes instead of value, or the source bundle contains local debris.
+A project can work locally and still lose people when it becomes public: the name describes only the first demo, the README starts with maintainer detail, the install path is hard to find, the Release explains changes instead of value, or later updates leave the public story behind.
 
-Launch GitHub Project is an Agent Skill for finishing the public release. Its first pass is read-only: it identifies the biggest obstacle to first use, release blockers and decisions only you can make. After approval, it prepares the README, visuals, install guidance, Release page and source bundle for the actual project type instead of forcing everything through one template.
+Project Publisher handles that public side of the project. It reviews what exists, sharpens the name and position, prepares the smallest useful release surface, turns real evidence into distribution material, and resynchronizes the public story after the product changes. Its first pass is read-only, and it adapts the work to the actual project type instead of forcing everything through one template.
+
+After the remote repository is renamed to `project-publisher`, the v0.3.0 install path will be:
 
 ```bash
-npx skills add weike-zhang/launch-github-project --agent codex --skill launch-github-project -g -y
+git clone https://github.com/weike-zhang/project-publisher.git
+python3 project-publisher/scripts/install.py
 ```
 
-Then ask: `Use $launch-github-project to audit this project for GitHub. Start read-only.` Nothing changes in the first pass; you get a concrete gap report first. [See the verified Codex first audit](evals/results/codex-first-audit-v0.2.0.md).
+Then ask: `Use $project-publisher to review this project before I publish or update it. Start read-only and tell me the biggest reason a new visitor may not try it.` Nothing changes in the first pass; you get a concrete gap report first. The integrated installer belongs to the local v0.3.0 candidate; [the linked Codex first audit covers the published v0.2.0 Skills-only path under the former name](evals/results/codex-first-audit-v0.2.0.md).
 
 ## Keep files from outside the project out of the release ZIP
 
@@ -37,22 +40,27 @@ ZIP not created; target file not read
 
 The bundler now stops before reading the target. Release ZIP contents are part of the same audit as the README, and regression tests preserve the fix.
 
-[Read the reproduction, root cause and limits](examples/self-audit-bundle-safety.md) · [Inspect the v0.1.2 fix Release](https://github.com/weike-zhang/launch-github-project/releases/tag/v0.1.2)
+[Read the reproduction, root cause and limits](examples/self-audit-bundle-safety.md) · [Inspect the historical v0.1.2 fix Release](https://github.com/weike-zhang/launch-github-project/releases/tag/v0.1.2)
 
 This is release-safety evidence, not a claim that automation can prove ownership, product quality or adoption.
 
-## Run a read-only launch check
+## Find the biggest public gap first
+
+The clone command below is the intended v0.3.0 path after the authorized remote rename; use the current checkout until then.
 
 ```bash
-npx skills add weike-zhang/launch-github-project --agent codex --skill launch-github-project -g -y
+git clone https://github.com/weike-zhang/project-publisher.git
+python3 project-publisher/scripts/install.py
 ```
+
+The integrated installer adds Project Publisher, bundled Humanizer and the dependency-guard Hook, then verifies the required command-line tools. Review and trust the Hook with `/hooks`; the installer cannot grant trust for you. Project Publisher uses Humanizer after factual claims and evidence are settled, then reruns its own comprehension and desire-to-try checks. If any dependency failed, was declined or is unavailable in the active host, it reports the affected proof and fallback when that stage is reached. [See all install paths and boundaries](docs/INSTALL.md).
 
 From the project you want to publish:
 
 ```text
-Use $launch-github-project to audit this project for GitHub.
-Start read-only. Identify the project type, the smallest public surface it needs,
-the evidence behind each claim, and every decision required before publishing.
+Use $project-publisher to review this project before I publish or update it.
+Start read-only. Tell me the biggest reason a new visitor may not understand or
+try it, show me the evidence, and recommend the smallest useful fix.
 Do not perform remote actions without my explicit approval.
 ```
 
@@ -69,10 +77,11 @@ Action taken       none; read-only audit
 
 The findings vary by repository. The Skill inspects first, labels assumptions, explains why each artifact is needed and waits for approval before remote work. See [installation and update options](docs/INSTALL.md).
 
-## What it prepares
+## What it handles
 
 | Need | Result |
 | --- | --- |
+| The project name describes one demo, platform or release moment | A short identity that fits the durable role, with the missing precision carried by the description and evidence |
 | A README that lists features but does not explain the value | A README that says who the project is for, shows direct proof and gives readers a first step |
 | The project changed but its README still teaches old behavior or commands | A full reread after implementation, followed by an in-place update when any public contract moved |
 | Every section has an image, including raster text that renders badly | One hero by default; code blocks for paths and short output, and charts only when real data needs plotting |
@@ -81,6 +90,7 @@ The findings vary by repository. The Skill inspects first, labels assumptions, e
 | A stale or hand-written Release page | A page generated from structured evidence, including optional version-pinned visual proof |
 | A source archive that may contain local debris | A deterministic ZIP that excludes local state, rejects symlinks and is actually listed and extracted |
 | Local, PR, tag and Release versions drifting apart | A version check that distinguishes an uploaded artifact from a public Release |
+| A launch post that merely announces a repository | Distribution material built around a useful result, caught failure or reproducible proof |
 
 Depending on the project, the Skill may prepare documentation, evidence, release assets or a distribution brief. It will not add a website, community, benchmark or roadmap unless the project actually supports one.
 
@@ -96,22 +106,23 @@ Depending on the project, the Skill may prepare documentation, evidence, release
 
 A clean scan is a gate result, not proof of safety, usefulness or demand.
 
-## How the release path works
+## How the publication lifecycle works
 
 1. Audit files, Git state, risks and gaps without editing.
-2. Classify the primary project type before choosing artifacts.
+2. Classify the primary project type and check whether its name and promise match the durable role.
 3. Build the reader path and the smallest evidence surface for the core promise.
 4. Validate links, secrets, public content, visuals, versions and the actual ZIP.
-5. Generate a Release page for review, then perform only the remote actions that were approved.
-6. Verify the public repository and Release from a visitor view.
+5. Prepare the Release and evidence-led distribution material, then perform only the remote actions that were approved.
+6. Verify the public result from a visitor view and resynchronize it when the project changes.
 
 ## Evidence and compatibility
 
 | Surface | Current status | Evidence |
 | --- | --- | --- |
 | Public v0.2.0: global install → invoke → first audit | Verified on Codex CLI 0.147.0-alpha.6.5 | [Install, clean fixture and observed output](evals/results/codex-first-audit-v0.2.0.md#post-publication-check) |
-| Local 0.2.0 candidate: project install → invoke → first audit | Verified on the same host before publication | [Candidate fixture, command and sanitized output](evals/results/codex-first-audit-v0.2.0.md#release-candidate-check) |
-| Release scripts | Verified on Python 3.12 | [Regression tests](tests/test_release_tools.py) and [GitHub Actions](https://github.com/weike-zhang/launch-github-project/actions/workflows/validate.yml) |
+| Historical local 0.2.0 candidate: project install → invoke → first audit | Verified on the same host before publication | [Candidate fixture, command and sanitized output](evals/results/codex-first-audit-v0.2.0.md#release-candidate-check) |
+| Local 0.3.0 candidate: rename, integrated install and publication lifecycle | Verified locally, including the extracted ZIP; remote rename not performed | This checkout and its candidate release checks |
+| Release scripts | Verified on Python 3.12 for the published v0.2.0 path | [Regression tests](tests/test_release_tools.py) and [historical GitHub Actions path](https://github.com/weike-zhang/launch-github-project/actions/workflows/validate.yml) |
 | Project-type routes and evaluation files | Integrity checked | [Fixture validator](evals/validate_fixtures.py); not a model-quality score |
 | Distribution behavior | One exploratory pair | [Exact prompt, baseline, Skill response and limitations](evals/results/model-comparison.md) |
 | Other Agent Skills hosts | Unverified | Compatibility reports with host and version are welcome |
@@ -122,7 +133,7 @@ A clean scan is a gate result, not proof of safety, usefulness or demand.
 - Secret detection is pattern-based and never replaces human review.
 - The bundler rejects symlinks and non-regular files, but it is not a sandbox against malicious concurrent file replacement.
 - Automated checks cannot prove asset ownership, privacy safety, product quality, user adoption or unsigned rendering.
-- Working notes belong in `.launch-github-project/`; the directory is ignored and excluded from release bundles.
+- Working notes belong in `.project-publisher/`; the directory is ignored and excluded from release bundles.
 
 Read [PRIVACY.md](PRIVACY.md), [SECURITY.md](SECURITY.md), the [visual asset notice](assets/ASSET-NOTICE.md) and [third-party notices](THIRD-PARTY-NOTICES.md) for the full boundaries.
 

@@ -30,7 +30,7 @@ class PublicCopyContractTests(unittest.TestCase):
         for text in (english, chinese):
             self.assertNotIn("audit-proof", text)
             self.assertIn("outside.txt -> /etc/hosts", text)
-            self.assertIn("$launch-github-project", text)
+            self.assertIn("$project-publisher", text)
             self.assertIn("examples/self-audit-bundle-safety.md", text)
             self.assertIn("evals/results/model-comparison.md", text)
             self.assertIn("SECURITY.md", text)
@@ -57,8 +57,8 @@ class PublicCopyContractTests(unittest.TestCase):
         for text in (english, chinese):
             self.assertEqual(text.count("<img "), 1)
             self.assertNotRegex(text, r"!\[[^\]]*\]\([^)]+\)")
-        self.assertIn("项目已经做完", chinese)
-        self.assertIn("先看它找出的缺口", chinese)
+        self.assertIn("项目已经变了", chinese)
+        self.assertIn("先找出最影响传播的缺口", chinese)
 
     def test_public_guide_contains_no_author_profile_setup_draft(self):
         guide = self.read("docs/FIRST-GITHUB-LAUNCH.zh-CN.md")
@@ -132,10 +132,10 @@ class PublicCopyContractTests(unittest.TestCase):
         for phrase in stale_phrases:
             self.assertNotIn(phrase, chinese)
         opening = chinese.split("```bash", 1)[0]
-        self.assertIn("项目已经做完", opening)
-        self.assertIn("把仓库交给这个 Skill", opening)
-        self.assertIn("先看它找出的缺口", opening)
-        self.assertIn("README、配图、安装说明、Release 页面和发布包", opening)
+        self.assertIn("项目已经变了", opening)
+        self.assertIn("先找出哪里没跟上", opening)
+        self.assertIn("审查现状、梳理名字和定位", opening)
+        self.assertIn("后续更新时重新对齐", opening)
         self.assertNotIn("检查仓库，核对公开主张，发布前再验一遍", opening)
         prose = [
             part
@@ -146,21 +146,56 @@ class PublicCopyContractTests(unittest.TestCase):
 
     def test_humanizer_is_locked_and_used_as_a_bounded_copy_pass(self):
         lock = json.loads(self.read("skills-lock.json"))
-        skill = self.read("skills/launch-github-project/SKILL.md")
-        patterns = self.read("skills/launch-github-project/references/readme-patterns.md")
+        skill = self.read("skills/project-publisher/SKILL.md")
+        patterns = self.read("skills/project-publisher/references/readme-patterns.md")
+        orchestration = self.read(
+            "skills/project-publisher/references/companion-orchestration.md"
+        )
+        bundled = self.read("skills/humanizer/SKILL.md")
+        development_path = ROOT / ".agents/skills/humanizer/SKILL.md"
 
         self.assertEqual(lock["skills"]["humanizer"]["source"], "blader/humanizer")
+        if development_path.is_file():
+            self.assertEqual(bundled, development_path.read_text(encoding="utf-8"))
         self.assertIn("$humanizer", skill)
         self.assertIn("Preserve commands, links, version numbers", skill)
         self.assertIn("never authorizes invented facts", patterns)
         self.assertIn("name-swap test", patterns)
         self.assertIn("desire to try", patterns)
         self.assertIn("natural copy can still be generic", skill)
+        self.assertIn("file mode for one file or embedded mode", orchestration)
+        self.assertIn("A Skill cannot call a hook like a function", orchestration)
+        self.assertIn("Do not silently install or enable anything", orchestration)
+
+    def test_install_paths_include_companions_hook_and_runtime_disclosure(self):
+        for relative in ("README.md", "README.zh-CN.md"):
+            text = self.read(relative)
+            self.assertIn("python3 project-publisher/scripts/install.py", text)
+
+        for relative in ("docs/INSTALL.md", "docs/INSTALL.zh-CN.md"):
+            text = self.read(relative)
+            self.assertIn("python3 project-publisher/scripts/install.py", text)
+            self.assertRegex(text, r"--skill project-publisher humanizer")
+            self.assertIn("/hooks", text)
+
+        manifest = json.loads(self.read(".codex-plugin/plugin.json"))
+        self.assertEqual(manifest["skills"], "./skills/")
+        self.assertEqual(manifest["hooks"], "./hooks/hooks.json")
+        self.assertTrue((ROOT / "skills/humanizer/SKILL.md").is_file())
+        self.assertTrue((ROOT / "skills/project-publisher/SKILL.md").is_file())
+
+        skill = self.read("skills/project-publisher/SKILL.md")
+        orchestration = self.read(
+            "skills/project-publisher/references/companion-orchestration.md"
+        )
+        self.assertIn("Never silently omit a companion pass", skill)
+        self.assertIn("installed_pending_trust", orchestration)
+        self.assertIn("failed, declined, disabled or untrusted", skill)
 
     def test_agent_skill_template_requires_a_product_specific_first_result(self):
-        template = self.read("skills/launch-github-project/assets/readme/agent-skill.md")
+        template = self.read("skills/project-publisher/assets/readme/agent-skill.md")
         public_review = self.read(
-            "skills/launch-github-project/references/public-surface-review.md"
+            "skills/project-publisher/references/public-surface-review.md"
         )
 
         self.assertIn("project_specific_outcome", template)
@@ -168,9 +203,29 @@ class PublicCopyContractTests(unittest.TestCase):
         self.assertIn("low_commitment_reason_to_try_now", template)
         self.assertIn("product-blind taglines", public_review)
 
+    def test_public_copy_requires_a_reader_purpose_not_only_motion(self):
+        skill = self.read("skills/project-publisher/SKILL.md")
+        patterns = self.read("skills/project-publisher/references/readme-patterns.md")
+        chinese = self.read("skills/project-publisher/references/chinese-public-copy.md")
+        public_review = self.read(
+            "skills/project-publisher/references/public-surface-review.md"
+        )
+
+        self.assertIn("Give every public sentence", skill)
+        self.assertIn("Replacing `feature` with a concrete noun", skill)
+        self.assertIn("## Give every public line a job", patterns)
+        self.assertIn("Try one feature", patterns)
+        self.assertIn("How does login actually work?", patterns)
+        self.assertIn("问一次登录流程", chinese)
+        self.assertIn("登录功能到底是怎么跑起来的？", chinese)
+        self.assertIn("only narrate motion", public_review)
+        self.assertIn(
+            "A concrete noun does not rescue an empty instruction", public_review
+        )
+
     def test_skill_resynchronizes_the_authoritative_readme_after_changes(self):
-        skill = self.read("skills/launch-github-project/SKILL.md")
-        patterns = self.read("skills/launch-github-project/references/readme-patterns.md")
+        skill = self.read("skills/project-publisher/SKILL.md")
+        patterns = self.read("skills/project-publisher/references/readme-patterns.md")
         english = self.read("README.md")
         chinese = self.read("README.zh-CN.md")
 
@@ -202,6 +257,26 @@ class PublicCopyContractTests(unittest.TestCase):
         ]
         for phrase in stale:
             self.assertNotIn(phrase, source)
+
+    def test_project_publisher_name_describes_the_durable_role(self):
+        manifest = json.loads(self.read(".codex-plugin/plugin.json"))
+        skill = self.read("skills/project-publisher/SKILL.md")
+        naming = self.read("skills/project-publisher/references/naming-and-positioning.md")
+        english = self.read("README.md")
+        chinese = self.read("README.zh-CN.md")
+
+        self.assertEqual(manifest["name"], "project-publisher")
+        self.assertEqual(manifest["version"], "0.3.0")
+        self.assertEqual(manifest["interface"]["displayName"], "Project Publisher")
+        self.assertIn("name: project-publisher", skill)
+        self.assertIn("Name the durable role or outcome", skill)
+        self.assertIn("## Name the durable role, not the first demo", naming)
+        self.assertIn("Speech", naming)
+        self.assertIn("Grounded AI Tutor", naming)
+        self.assertIn("reviews what exists, sharpens the name and position", english)
+        self.assertIn("项目对外发布后的整套工作", chinese)
+        for text in (english, chinese):
+            self.assertNotIn("Use $launch-github-project", text)
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
-  <title id="title">Launch GitHub Project icon</title>
+  <title id="title">Project Publisher icon</title>
   <desc id="desc">A launch arrow crossing a repository folder.</desc>
   <rect width="128" height="128" rx="28" fill="#162033"/>
   <path d="M22 40h31l8 10h45v46H22Z" fill="#FFB423" stroke="#FFF3E8" stroke-width="5" stroke-linejoin="round"/>

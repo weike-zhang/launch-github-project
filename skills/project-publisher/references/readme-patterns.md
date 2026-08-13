@@ -64,6 +64,30 @@ Do not solve “AI-sounding” copy by swapping synonyms, adding casual filler o
 
 Prefer concrete nouns and verbs over clusters such as “comprehensive,” “end-to-end,” “evidence-driven,” “empower” or “unlock.” These words are acceptable only when the next sentence shows what they mean. Keep paragraphs short enough to scan; one to three sentences is usually enough.
 
+## Give every public line a job
+
+Review headings, navigation labels, CTAs, captions and image text as copy, not structural filler. Each line should do at least one of these jobs:
+
+- let the intended reader recognize a pain, stalled state or goal;
+- name the result or advantage they receive;
+- show evidence or explain what a comparison proves;
+- state a risk, limit or trust boundary;
+- move to a necessary next action when the payoff is already clear.
+
+Fail a line when it describes only the reader's motion: “Try one feature,” “See an example,” “Ask once,” “直接试一个功能,” “看一个公开案例” and “问一次登录流程” do not explain why the action matters. Adding a more concrete noun is not enough: “Try the login flow” still has no reader purpose.
+
+Prefer the question a person would already ask or the result they want to inspect:
+
+| Motion without purpose | Reader purpose |
+| --- | --- |
+| Try one feature | How does login actually work? |
+| See one public example | What changes in the answer? |
+| Ask once about the login flow | See where login data goes before changing the code |
+| 直接试一个功能 | 登录功能到底是怎么跑起来的？ |
+| 看一个公开案例 | 同一个端口问题，它会多做什么？ |
+
+Do not force every operational sentence to repeat the value proposition. An install command can simply tell the reader what to run once the surrounding heading has made the outcome clear. The test is whether each line contributes to the decision path, not whether every line sounds persuasive in isolation.
+
 ## Show proof a reader can interpret
 
 Prefer proof in this order when available:
@@ -110,6 +134,7 @@ Read the first screen without relying on repository history or implementation kn
 - What concrete proof is visible?
 - What should they try first?
 - Is there one sentence they would naturally repeat or forward?
+- Do headings and CTAs explain why to continue, rather than merely telling them to click, try, see or ask?
 
 Rewrite when the answers require decoding internal terms, reading the architecture section or trusting unsupported praise. A structurally complete README can still fail this check.
 

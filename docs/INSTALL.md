@@ -2,51 +2,70 @@
 
 Verified requirements for this release:
 
-- Node.js and `npx` for the Skills CLI install path;
-- Python 3.12 for the bundled audit, Release-page and packaging scripts.
+- Git to download and inspect repositories;
+- Python 3.10 or newer for the integrated installer and bundled audit, Release-page and packaging scripts;
+- Node.js and `npx` only for the Skills-only alternative.
 
 ## Recommended
 
+The commands below become public after the authorized repository rename to `project-publisher`. Until then, use the current local checkout; the new remote path is not claimed as published.
+
 ```bash
-npx skills add weike-zhang/launch-github-project \
-  --agent codex --skill launch-github-project -g -y
+git clone https://github.com/weike-zhang/project-publisher.git
+python3 project-publisher/scripts/install.py
 ```
 
-The public global command above was verified after v0.2.0 was published: Codex CLI `0.147.0-alpha.6.5` loaded the GitHub-installed Skill in a clean project and completed a first audit in a read-only sandbox. The local release candidate had already passed the same project-level path before publication. Start a new Codex task in the target project after installation, then invoke:
+This integrated path installs Project Publisher and its bundled Humanizer companion together, verifies the required command-line tools, installs the dependency-guard Hook, and records every component state. Open `/hooks` in Codex after installation, review `dependency-guard`, and trust it if you accept its source. Codex does not allow an installer to grant that trust for you.
+
+Project Publisher invokes Humanizer only after the factual draft is stable, using file or embedded mode. The main Skill rechecks dependencies at the stage where they are needed. If installation failed, the user declined the Hook, or the active host does not expose a companion, Project Publisher must report the affected proof and fallback instead of silently skipping it.
+
+The integrated path is verified from the current local candidate and its extracted Release ZIP: both Skills installed, required tools passed preflight, the Hook was registered as pending trust, and a second run remained idempotent. It is not a publicly released path until the next version is published. The previous Skills-only v0.2.0 path was verified after publication with Codex CLI `0.147.0-alpha.6.5` in a clean project. Start a new Codex task in the target project after installation, then invoke:
 
 ```text
-Use $launch-github-project to audit this project for GitHub.
-Start read-only. Do not edit files or perform remote actions.
+Use $project-publisher to review this project before I publish or update it.
+Start read-only. Tell me the biggest reason a new visitor may not understand or
+try it. Do not edit files or perform remote actions.
 ```
 
 Compare the first response with the saved [activation check](../evals/results/codex-first-audit-v0.2.0.md). Other clients and versions remain unverified unless named in the compatibility table.
 
-For an existing global installation:
+For an existing checkout, update and replace only the managed Project Publisher components:
 
 ```bash
-npx skills update launch-github-project -g -y
+git -C project-publisher pull --ff-only
+python3 project-publisher/scripts/install.py --yes
 ```
+
+The installer preserves a timestamped backup before replacing a different Skill installation. Its state is written to `~/.codex/project-publisher/install-state.json`.
+
+## Skills-only alternative
+
+```bash
+npx skills add weike-zhang/project-publisher \
+  --agent codex --skill project-publisher humanizer -g -y
+```
+
+This installs both Skills but does not install the dependency-guard Hook or run the integrated tool preflight. Use it only when the host or administrator manages Hooks separately.
 
 ## Local checkout
 
-From this repository's parent directory, install the local Skill checkout with the same Skills CLI:
+For continuous local development, link both Skills and the Hook to this checkout:
 
 ```bash
-npx skills add ./launch-github-project \
-  --agent codex --skill launch-github-project --copy -y
+python3 scripts/install.py --mode link --yes
 ```
 
-This avoids depending on a client-specific local-plugin command. You can also copy `skills/launch-github-project/` into a client's Agent Skills directory and restart the client.
+Edits in the checkout are then visible to new Codex tasks without reinstalling. Changed Hooks still require review because Codex binds trust to the current Hook definition.
 
 ## Local validation
 
 ```bash
 python3 -m unittest discover -s tests -v
-python3 skills/launch-github-project/scripts/audit_repository.py . --json
-python3 skills/launch-github-project/scripts/check_secrets.py . --json
-python3 skills/launch-github-project/scripts/check_links.py .
-python3 skills/launch-github-project/scripts/review_public_surface.py . --strict
-python3 skills/launch-github-project/scripts/generate_release_page.py . --check-all
+python3 skills/project-publisher/scripts/audit_repository.py . --json
+python3 skills/project-publisher/scripts/check_secrets.py . --json
+python3 skills/project-publisher/scripts/check_links.py .
+python3 skills/project-publisher/scripts/review_public_surface.py . --strict
+python3 skills/project-publisher/scripts/generate_release_page.py . --check-all
 python3 evals/validate_fixtures.py
 ```
 

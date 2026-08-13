@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "skills": [
+    {
+      "id": "project-publisher",
+      "source": "skills/project-publisher",
+      "required": true,
+      "neededWhen": "the Project Publisher workflow is invoked"
+    },
+    {
+      "id": "humanizer",
+      "source": "skills/humanizer",
+      "required": true,
+      "neededWhen": "public prose or text inside a public image is rewritten"
+    }
+  ],
+  "tools": [
+    {
+      "id": "python3",
+      "commands": ["python3"],
+      "minimumVersion": "3.10",
+      "required": true,
+      "neededWhen": "bundled audits, release-page generation or packaging run"
+    },
+    {
+      "id": "git",
+      "commands": ["git"],
+      "required": true,
+      "neededWhen": "repository state, history or release alignment is inspected"
+    },
+    {
+      "id": "github-publisher",
+      "commands": ["gh"],
+      "required": false,
+      "alternatives": ["an active GitHub connector or dedicated publishing Skill"],
+      "neededWhen": "the user authorizes a remote GitHub mutation"
+    }
+  ],
+  "hostCapabilities": [
+    {
+      "id": "image-generation",
+      "required": false,
+      "neededWhen": "a necessary raster asset must be created or edited"
+    },
+    {
+      "id": "browser",
+      "required": false,
+      "neededWhen": "rendered or unsigned public-page proof is required"
+    },
+    {
+      "id": "security-review",
+      "required": false,
+      "neededWhen": "the user requests a security-focused review beyond the bundled scans"
+    }
+  ],
+  "hook": {
+    "id": "dependency-guard",
+    "source": "hooks/dependency_guard.py",
+    "event": "UserPromptSubmit",
+    "required": false,
+    "neededWhen": "a publication-related prompt reaches Codex with a missing or declined dependency"
+  }
+}

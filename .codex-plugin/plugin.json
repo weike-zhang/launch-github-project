@@ -1,26 +1,27 @@
 {
-  "name": "launch-github-project",
-  "version": "0.2.0",
-  "description": "Audit any local project, build only the public surface it needs, and ship a verifiable GitHub Release.",
+  "name": "project-publisher",
+  "version": "0.3.0",
+  "description": "Review, position, publish, promote, and keep a project's public materials current.",
   "author": {
     "name": "Weike Zhang",
     "url": "https://github.com/weike-zhang"
   },
-  "repository": "https://github.com/weike-zhang/launch-github-project",
+  "repository": "https://github.com/weike-zhang/project-publisher",
   "license": "MIT",
-  "keywords": ["github", "open-source", "release", "readme", "launch", "project-audit"],
+  "keywords": ["project", "publisher", "github", "open-source", "release", "readme", "distribution"],
   "skills": "./skills/",
+  "hooks": "./hooks/hooks.json",
   "interface": {
-    "displayName": "Launch GitHub Project",
-    "shortDescription": "Turn local work into a release strangers can verify.",
-    "longDescription": "Audits the real project, builds only the public surface its type needs, checks public risk, creates purposeful visual proof, generates evidence-based Release pages, packages a deterministic bundle, and keeps remote actions behind explicit authorization.",
+    "displayName": "Project Publisher",
+    "shortDescription": "Give a project a clear, verifiable public life.",
+    "longDescription": "Reviews and positions the real project, prepares only the public materials its type needs, coordinates a bundled Humanizer copy pass, checks public risk, creates purposeful proof, prepares releases and distribution, and keeps later updates synchronized while remote actions stay behind explicit authorization.",
     "developerName": "Weike Zhang",
     "category": "Productivity",
-    "capabilities": ["repository-audit", "release-page-generation", "release-packaging", "distribution-planning"],
+    "capabilities": ["project-positioning", "repository-audit", "companion-skill-orchestration", "release-page-generation", "release-packaging", "distribution-planning", "public-surface-maintenance"],
     "composerIcon": "./assets/icon.svg",
     "logo": "./assets/icon.svg",
-    "screenshots": ["./assets/hero.png", "./assets/audit-proof.png"],
+    "screenshots": ["./assets/hero.png", "./assets/activation-proof.png"],
     "brandColor": "#F24B22",
-    "defaultPrompt": "Use $launch-github-project to audit this project read-only, prepare the smallest verifiable public surface it needs, and list every decision required before any remote action."
+    "defaultPrompt": "Use $project-publisher to review this project before I publish or update it. Start read-only, show me the biggest reason a new visitor may not understand or try it, and recommend the smallest useful fix before any remote action."
   }
 }

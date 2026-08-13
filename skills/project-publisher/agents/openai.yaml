@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Publisher"
+  short_description: "审查、定位、发布并持续更新项目的对外材料"
+  default_prompt: "Use $project-publisher to review this project before I publish or update it. Start read-only, show me the biggest reason a new visitor may not understand or try it, and recommend the smallest useful fix before any remote action."

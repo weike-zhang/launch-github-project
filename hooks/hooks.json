@@ -1,0 +1,17 @@
+{
+  "description": "Surface material Project Publisher dependency gaps when a publication workflow is requested.",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$PLUGIN_ROOT/hooks/dependency_guard.py\"",
+            "timeout": 5,
+            "statusMessage": "Checking Project Publisher dependencies"
+          }
+        ]
+      }
+    ]
+  }
+}

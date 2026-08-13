@@ -1,5 +1,6 @@
 .DS_Store
-.launch-github-project/
+.agents/
+.project-publisher/
 *.private.md
 *.local.md
 __pycache__/
