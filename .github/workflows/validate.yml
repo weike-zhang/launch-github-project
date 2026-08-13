@@ -17,5 +17,15 @@ jobs:
       - run: python skills/launch-github-project/scripts/check_links.py .
       - run: python skills/launch-github-project/scripts/check_secrets.py .
       - run: python skills/launch-github-project/scripts/review_public_surface.py . --strict
-      - run: python skills/launch-github-project/scripts/generate_release_page.py . --spec release/v0.1.2.json --output release/v0.1.2.md --check
+      - run: python skills/launch-github-project/scripts/generate_release_page.py . --check-all
+      - name: Build and inspect the actual repository bundle
+        run: |
+          python skills/launch-github-project/scripts/build_release_bundle.py . --output "$RUNNER_TEMP/launch-github-project.zip"
+          unzip -t "$RUNNER_TEMP/launch-github-project.zip"
+          mkdir "$RUNNER_TEMP/release-extract"
+          unzip -q "$RUNNER_TEMP/launch-github-project.zip" -d "$RUNNER_TEMP/release-extract"
+          if unzip -Z1 "$RUNNER_TEMP/launch-github-project.zip" | grep -Eq '(^|/)\.git(/|$)'; then
+            echo "Git metadata entered the release bundle" >&2
+            exit 1
+          fi
       - run: python -m json.tool .codex-plugin/plugin.json >/dev/null

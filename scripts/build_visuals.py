@@ -27,7 +27,7 @@ for y in range(900):
     draw.line((0, y, 1600, y), fill=tuple(round(a * (1 - blend) + b * blend) for a, b in zip((22, 32, 51), (35, 46, 67))))
 
 draw.rounded_rectangle((92, 92, 450, 144), radius=26, fill="#29364C")
-draw.text((120, 104), "OPEN-SOURCE WORKFLOW", font=font(24, True), fill="#FFB423")
+draw.text((120, 104), "GITHUB RELEASE WORKFLOW", font=font(24, True), fill="#FFB423")
 draw.text((92, 226), "Launch", font=font(104, True), fill="white")
 draw.text((92, 346), "GitHub Project", font=font(84, True), fill="white")
 draw.text((100, 490), "Audit what exists. Prove what works.", font=font(35), fill="#DDE5F0")

@@ -7,6 +7,7 @@ Run this review after release materials are drafted and again immediately before
 - Inspect the staged diff, archive listing and remote default branch separately.
 - Detect nested repositories, duplicated project folders, editor workspaces, caches, `.DS_Store`, build debris and machine-specific paths.
 - Keep maintainer planning notes, replacement instructions, launch-copy drafts and private evaluation runs outside the public repository unless they intentionally help contributors.
+- Treat author-profile setup drafts, planned username changes and repository-specific onboarding notes as maintainer material, not a reusable public guide.
 
 Run:
 

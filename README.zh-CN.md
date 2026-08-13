@@ -1,63 +1,89 @@
-<div align="center">
-  <img src="assets/hero.png" alt="Launch GitHub Project——为任意项目准备安全、可验证的 GitHub 发布" width="100%">
-
 # Launch GitHub Project
 
-**把本地项目变成它真正需要的、最小而可信的 GitHub 仓库。**
+**把本地项目变成陌生访客能看懂、能试用、能验证的 GitHub 发布。**
 
-[English](README.md) · [安装](docs/INSTALL.zh-CN.md) · [首次发布指南](docs/FIRST-GITHUB-LAUNCH.zh-CN.md)
+[English](README.md) · [安装](docs/INSTALL.zh-CN.md) · [首次发布指南](docs/FIRST-GITHUB-LAUNCH.zh-CN.md) · [最新 Release](https://github.com/weike-zhang/launch-github-project/releases/latest)
 
-</div>
+当项目已经能在本地使用，但公开发布面仍不确定时，可以使用这个 Agent Skill：README 没说清使用结果；通用清单把所有项目都当成软件应用；公开主张与证据对不上；或者本地版本、开放 PR、默认分支和 Release 已经发生漂移。
 
-很多发布建议默认你在做软件产品。这个 Skill 先看项目真实存在的内容，再判断它属于软件、Agent Skill、数据集、课程/文档、研究、设计资源、内容、作品集或通用项目，只生成这个项目确实需要的发布材料。
+Launch GitHub Project 会先只读审计，再判断项目类型，只准备访客做出判断、尝试使用和核验证据确实需要的材料。它可以拦截高风险公开文件并生成确定性的 ZIP，但不会把“扫描干净”冒充成安全、采用或质量证明。所有远程动作都需要明确目标和明确授权。
 
-它会先只读审计，扫描并脱敏疑似密钥，检查本地链接和未完成占位符，按照项目类型准备 README、安装说明、示例、数据卡、方法、案例或视觉预览，生成确定性的发布 ZIP，并根据用户的传播目标、受众、证据、渠道和投入约束规划传播组合。不按天数套日历，也不会未经授权执行远程发布。
+**安装前先看证据：** [真实自审与修复](examples/self-audit-bundle-safety.md) · [v0.1.2 Release 与 ZIP](https://github.com/weike-zhang/launch-github-project/releases/tag/v0.1.2) · [已公开的试运行输入与输出](evals/results/model-comparison.md)
 
-它也能从结构化证据生成 GitHub Release 页面，明确写出更新理由、安装方式、验证结果、兼容性和已知限制，并检查本地提交、远程默认分支、开放 PR 与最新 Release 是否处于同一个版本状态。
-
-![发布流程](assets/launch-flow.svg)
-
-## 快速开始
-
-安装 Skill：
+## 安装并调用
 
 ```bash
 npx skills add weike-zhang/launch-github-project --skill launch-github-project -g
 ```
 
-然后在需要准备发布的项目中调用：
+然后在要准备发布的项目中调用：
 
 ```text
-使用 $launch-github-project 帮我准备这个项目上线 GitHub。先只读审计，
-先判断项目类型；只有当决策会改变产物时，才合并询问我；没有我的明确授权不要远程发布。
+使用 $launch-github-project 审计这个项目的 GitHub 发布面。
+先只读，告诉我这个项目类型真正需要的最小公开面、每项主张的证据，
+以及发布前必须由我决定的事项。没有我的明确授权，不要执行远程动作。
 ```
 
-普通用户到这里即可开始。需要单独运行审计脚本或维护本项目时，再使用[安装文档](docs/INSTALL.zh-CN.md)中的命令。
+本地检出、校验和更新命令见[安装文档](docs/INSTALL.zh-CN.md)。
 
-## 这个版本实际拦住了什么
+第一次响应应该先判断项目类型，分开事实与假设，列出有理由生成的最小公开材料，为每项公开主张挂上证据，并在任何远程动作前停下来等待决定。如果一上来就编辑文件或默认生成所有材料，请停止执行并反馈客户端及版本；当前项目尚未声称所有 Agent Skills 客户端的行为都已经验证。
 
-本仓库自审时发现：如果项目里有一个指向仓库外文件的符号链接，旧版打包器会把目标文件内容写进 ZIP。0.1.2 会在读取之前拒绝文件和目录符号链接，把它列为公开面阻断项，并用回归测试锁住这条安全边界。
+## 项目会发生什么变化
 
-完整复现、根因、修复和验证命令见[打包安全自审案例](examples/self-audit-bundle-safety.md)。同一次自审还发现：开放 PR 已经上传并不等于默认分支或最新 Release 已经发布；现在会把这些状态分开报告。
+| 当前状态 | Skill 产生的结果 |
+| --- | --- |
+| 所有项目套同一个 README 模板 | 根据软件、Agent Skill、数据集、研究、课程、设计资源、作品集或其他真实项目类型组织读者路径和证据 |
+| 不确定哪些文件可以公开 | 在打包前给出脱敏的密钥发现、公开面阻断项和必须确认的素材权利 |
+| 把脚本通过写成产品效果证明 | 把发布完整性、行为证据、采用证据和流行度分开报告 |
+| 本地版本、开放 PR、默认分支和 Release 不一致 | 生成 Release 页面并显式核对发布状态，不把“已经上传”写成“已经发布” |
+| 传播从排日历或求 Star 开始 | 根据真正目标、受众和已有证据选择最小传播路径 |
 
-## 设计原则
+它可以按需准备 README、安装或复现步骤、示例、数据卡、方法、视觉预览、隐私与许可说明、Release 页面、发布 ZIP 或传播简报；不会默认把全部文件都生成一遍。
 
-- 先证据再定位：观察事实、推断、风险和待决策项分开写。
-- 先类型再模板：数据集要数据卡，Skill 要触发与行为证据，作品集要责任与结果。
-- 先目标再传播：根据用户真正想获得的结果选择最小有效渠道组合，不套固定时间表。
-- 先审查公开面再发布：检查准确的暂存树、符号链接、压缩包、素材权利、证据、Git 身份与未登录访客体验。
-- 先本地再远程：审计和打包在本地完成，创建仓库、Push、Release 和外部发帖都作为明确交接步骤。
+<img src="assets/hero.png" alt="Launch GitHub Project 的审计、证据、打包与发布工作流" width="760">
 
-## 评估证据
+## 本仓库的真实证据
 
-```bash
-python evals/validate_fixtures.py
-```
+这个项目已经用自己审计过自己。第一次自审发现：文件符号链接可能把项目外的字节写入发布 ZIP。0.1.2 会在读取前拒绝文件和目录符号链接，同时明确保留尚未消除的并发替换边界。
 
-这里报告的是夹具结构与发布文件检查是否通过，不是模型质量分数。公开的试运行对照包含方法、完整脱敏输出和限制；不会伪造用户数、下载量或“必火”指标。
+- [复现、根因、修复与限制](examples/self-audit-bundle-safety.md)
+- [v0.1.2 Release 页面与已验证 ZIP](https://github.com/weike-zhang/launch-github-project/releases/tag/v0.1.2)
+- [已公开输入、响应对照与限制的传播试运行](evals/results/model-comparison.md)
 
-## 许可
+这只是一组探索性对照，不是基准测试，也不能预测 Star、采用或传播效果。
 
-MIT。发布包含第三方图片、字体、数据或文字的项目之前，请先阅读 [SECURITY.md](SECURITY.md) 和 [CONTRIBUTING.md](CONTRIBUTING.md)。
+## 证据与兼容性
 
-Built by [Weike Zhang](https://github.com/weike-zhang)。
+| 使用面 | 状态 | 证据 |
+| --- | --- | --- |
+| Skills CLI 仓库发现 | 已验证 | 可以从公开仓库发现可安装的 `launch-github-project` Skill |
+| 发布工具回归 | Python 3.12 已验证 | [测试](tests/test_release_tools.py)与 [GitHub Actions](https://github.com/weike-zhang/launch-github-project/actions/workflows/validate.yml) |
+| 夹具与类型路径覆盖 | 仅发布完整性 | `python3 evals/validate_fixtures.py`，不是模型质量分数 |
+| 传播行为 | 仅探索性证据 | 一组已公开[输入与基线/Skill 响应](evals/results/model-comparison.md)的对照 |
+| 其他 Agent Skills 客户端 | 未验证 | 欢迎提交兼容性报告 |
+
+## 权限与限制
+
+- 密钥发现基于规则匹配，仍需人工判断；输出不会回显完整匹配值。
+- 自动检查不能证明素材权利、隐私安全、产品质量或用户采用。
+- 发布打包器会拒绝符号链接和非常规文件，但它不是抵御恶意并发替换的通用沙箱。
+- 安装 Skill 不代表已经允许它创建仓库、Push、修改可见性、发布 Release 或向外部平台发帖；每个远程动作都需要明确目标和授权。
+- 工作笔记应放在 `.launch-github-project/`，该目录默认被 Git 忽略，也不会进入发布包。
+
+完整边界见 [PRIVACY.md](PRIVACY.md)、[SECURITY.md](SECURITY.md)和[视觉素材说明](assets/ASSET-NOTICE.md)。
+
+## 工作方式
+
+![先审计、分类、证明和打包，再明确交接远程动作](assets/launch-flow.svg)
+
+1. 先只读检查事实、风险、缺口和 Git 状态。
+2. 先判断主要项目类型，再选择公开材料。
+3. 为核心承诺建立读者路径和直接证据。
+4. 验证链接、密钥、公开面、版本信息和发布包。
+5. 只交接或执行得到明确授权的远程动作，最后以未登录访客身份核验结果。
+
+## 贡献与许可
+
+最有价值的贡献是可复现的发布失败、当前分类没有处理好的项目类型，或无法核验证据的公开主张。参见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
+MIT 许可。Built by [Weike Zhang](https://github.com/weike-zhang)。

@@ -1,34 +1,16 @@
-<div align="center">
-  <img src="assets/hero.png" alt="Launch GitHub Project — prepare any project for a safe, evidence-based launch" width="100%">
-
 # Launch GitHub Project
 
-**Turn a local project into the smallest credible GitHub repository it needs.**
+**Turn a local project into a GitHub release that strangers can understand, try, and verify.**
 
-[简体中文](README.zh-CN.md) · [Install](docs/INSTALL.md) · [First GitHub launch guide](docs/FIRST-GITHUB-LAUNCH.zh-CN.md)
+[简体中文](README.zh-CN.md) · [Install](docs/INSTALL.md) · [First launch guide](docs/FIRST-GITHUB-LAUNCH.zh-CN.md) · [Latest Release](https://github.com/weike-zhang/launch-github-project/releases/latest)
 
-</div>
+Use this Agent Skill when a project works locally but its public release surface is still uncertain: the README does not show the outcome, a generic checklist assumes every project is an app, evidence does not match the claims, or the default branch, tag and Release have drifted apart.
 
-Most launch advice assumes a software product. This Skill starts with what exists, classifies the project, and creates only the public surface that its type and evidence justify.
+Launch GitHub Project starts read-only, identifies the project type, and prepares only the material a visitor needs to decide, try and verify. It can flag risky public files and package a deterministic ZIP, but it does not treat a clean scan as proof of safety, adoption or quality. Remote actions require an exact target and explicit authorization.
 
-It can prepare software, CLI tools, Agent Skills, datasets, courses, documentation, research, design resources, content projects, portfolios, and general projects. It audits before editing, redacts suspected secrets, keeps compatibility claims honest, packages a deterministic ZIP, and asks grouped questions only at real decision points.
+**Verify before installing:** [real self-audit and fix](examples/self-audit-bundle-safety.md) · [v0.1.2 Release and ZIP](https://github.com/weike-zhang/launch-github-project/releases/tag/v0.1.2) · [published pilot prompt and outputs](evals/results/model-comparison.md)
 
-![Release flow](assets/launch-flow.svg)
-
-## What it produces
-
-- repository metadata, name and positioning options;
-- a README matched to the project type;
-- installation, examples, data cards, methodology, case studies, or visual previews when needed;
-- privacy, security, license and attribution guidance;
-- checks for secrets, links, placeholders, asset-rights status and public-risk patterns;
-- release notes, launch copy and a distribution plan selected from the user's outcome, audience, evidence, channels and effort;
-- a GitHub Release page with install instructions, verification, compatibility and known limits kept in sync with version metadata;
-- a handoff with exact local commands and explicit gates for any remote action.
-
-## Quick start
-
-Install the Skill:
+## Install and invoke
 
 ```bash
 npx skills add weike-zhang/launch-github-project --skill launch-github-project -g
@@ -37,39 +19,72 @@ npx skills add weike-zhang/launch-github-project --skill launch-github-project -
 Then invoke it from the project you want to prepare:
 
 ```text
-Use $launch-github-project to prepare this project for GitHub. Start read-only,
-classify the project, ask only grouped questions when a decision changes the
-artifacts, and do not publish remotely without my explicit approval.
+Use $launch-github-project to audit this project for GitHub.
+Start read-only. Show me the smallest public surface this project type needs,
+the evidence behind each claim, and every decision required before publishing.
+Do not perform remote actions without my explicit approval.
 ```
 
-That is the end-user path. Maintainers and people running individual gates can use the commands in [Install](docs/INSTALL.md).
+See [Install](docs/INSTALL.md) for local-checkout, validation and update commands.
 
-## A real failure this release now catches
+The first response should classify the project, separate facts from assumptions, list the smallest justified public artifacts, attach evidence to each public claim, and stop for decisions before any remote action. If it starts editing or proposes every artifact before that audit, stop and report the host and version; host-level behavior is not yet claimed as broadly verified.
 
-During this repository's own release audit, a file symlink pointing outside the project was copied into the generated ZIP. Version 0.1.2 rejects file and directory symlinks before reading them, treats them as public-surface blockers, and covers the behavior with regression tests.
+## What changes for the project
 
-Read the complete [self-audit case](examples/self-audit-bundle-safety.md), including the reproduction, root cause, fix and verification commands. The same audit also found that the public default branch and latest Release can lag behind an open release PR; the Skill now reports those as separate publication states.
+| Starting state | Result from the Skill |
+| --- | --- |
+| One generic README template for every project | A reader path and evidence surface matched to software, an Agent Skill, dataset, research, course, design resource, portfolio or another real project type |
+| Unsure which files are safe to expose | Redacted secret findings, public-surface blockers and explicit rights decisions before packaging |
+| A passing script is being presented as product proof | Release integrity, behavior evidence, adoption evidence and popularity reported separately |
+| Local version, open PR, default branch and Release disagree | A generated Release page and an explicit publication-state check instead of calling uploaded work published |
+| Promotion starts with a calendar or a request for stars | A small distribution path based on the intended outcome, audience and evidence already available |
 
-## Design principles
+The Skill may prepare a README, install or reproduction steps, examples, data card, methodology, visual preview, privacy and license guidance, Release page, release ZIP or distribution brief. It does not generate all of them by default.
 
-1. Evidence before positioning: observed facts, inference, risk and missing decisions stay separate.
-2. Type before template: a dataset needs a data card; a Skill needs trigger and behavior evidence; a portfolio needs outcomes and responsibility.
-3. Goal before distribution: choose the smallest useful channel set for the user's desired result instead of applying a calendar formula.
-4. Public surface before remote: review the exact staged tree, symlinks, archive contents, asset rights, claims, Git identity and unsigned visitor experience before publication.
-5. Local before remote: public-risk checks and bundles are prepared locally; push, visibility, releases and external posts remain explicit handoff steps.
+<img src="assets/hero.png" alt="Launch GitHub Project — prepare a GitHub release people can understand, try, and verify" width="760">
 
-## Evaluation
+## Evidence from this repository
 
-The repository contains trigger prompts and scenario fixtures. Run:
+This project has been run against itself. The first self-audit found that a file symlink could copy bytes from outside the project into a release ZIP. Version 0.1.2 rejects file and directory symlinks before reading them and keeps the remaining race boundary explicit.
 
-```bash
-python evals/validate_fixtures.py
-```
+- [Reproduction, root cause, fix and limitations](examples/self-audit-bundle-safety.md)
+- [v0.1.2 Release page and verified ZIP](https://github.com/weike-zhang/launch-github-project/releases/tag/v0.1.2)
+- [Published pilot prompt, response pair and limitations](evals/results/model-comparison.md)
 
-This reports fixture and release-file checks as passed or failed; it is not a model-quality score. The published pilot comparison includes its method, complete sanitized outputs and limitations. No adoption or popularity metrics are invented.
+The pilot is one exploratory comparison, not a benchmark. It does not predict stars, adoption or launch reach.
 
-## License
+## Evidence and compatibility
 
-MIT. See [SECURITY.md](SECURITY.md) and [CONTRIBUTING.md](CONTRIBUTING.md) before publishing a project that contains third-party material.
+| Surface | Status | Evidence |
+| --- | --- | --- |
+| Skills CLI repository discovery | Verified | The installable `launch-github-project` Skill is discovered from the public repository |
+| Release-tool regressions | Verified on Python 3.12 | [Tests](tests/test_release_tools.py) and [GitHub Actions](https://github.com/weike-zhang/launch-github-project/actions/workflows/validate.yml) |
+| Fixture and route coverage | Release integrity only | `python3 evals/validate_fixtures.py`; not a model-quality score |
+| Distribution behavior | Exploratory | One published [prompt and baseline/Skill response pair](evals/results/model-comparison.md) |
+| Other Agent Skills hosts | Unverified | Compatibility reports are welcome |
 
-Built by [Weike Zhang](https://github.com/weike-zhang).
+## Permissions and limits
+
+- Secret detection is pattern-based and requires human review; matched values are redacted.
+- Automated checks cannot prove asset ownership, privacy safety, product quality or user adoption.
+- The release bundler rejects symlinks and non-regular files, but it is not a general sandbox against malicious concurrent file replacement.
+- Installing the Skill does not grant permission to create repositories, push, change visibility, publish Releases or post externally. Each remote action needs an explicit target and authorization.
+- Working notes belong in `.launch-github-project/`, which is ignored and excluded from release bundles.
+
+Read [PRIVACY.md](PRIVACY.md), [SECURITY.md](SECURITY.md) and the [visual asset notice](assets/ASSET-NOTICE.md) for the full boundaries.
+
+## How it works
+
+![Audit, classify, prove, package, then hand off remote actions explicitly](assets/launch-flow.svg)
+
+1. Audit facts, risks, gaps and Git state without editing first.
+2. Classify the primary project type before choosing public artifacts.
+3. Build the reader path and direct evidence for the core promise.
+4. Validate links, secrets, public surface, version metadata and the release package.
+5. Hand off or perform only the specifically authorized remote actions, then verify the unsigned public result.
+
+## Contributing and license
+
+The most useful contribution is a reproducible release failure, a project type the current routing mishandles, or a public claim whose evidence cannot be checked. See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+MIT licensed. Built by [Weike Zhang](https://github.com/weike-zhang).

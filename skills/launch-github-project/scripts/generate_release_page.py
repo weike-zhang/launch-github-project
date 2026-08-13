@@ -54,7 +54,7 @@ def validate_versions(root: Path, version: str) -> None:
         )
 
 
-def render(root: Path, spec: dict[str, object]) -> str:
+def render(root: Path, spec: dict[str, object], *, validate_manifest: bool = True) -> str:
     project_name = require_text(spec, "project_name")
     version = require_text(spec, "version")
     title = require_text(spec, "title")
@@ -64,7 +64,8 @@ def render(root: Path, spec: dict[str, object]) -> str:
     install = require_text_list(spec, "install_or_update")
     compatibility = require_text_list(spec, "compatibility")
     limitations = require_text_list(spec, "limitations")
-    validate_versions(root, version)
+    if validate_manifest:
+        validate_versions(root, version)
 
     lines = [
         f"# {project_name} v{version} — {title}",
@@ -110,16 +111,55 @@ def render(root: Path, spec: dict[str, object]) -> str:
     return "\n".join(lines)
 
 
+def check_all(root: Path) -> list[Path]:
+    release_dir = root / "release"
+    candidates: list[tuple[tuple[int, int, int], Path]] = []
+    for spec_path in release_dir.glob("v*.json"):
+        match = re.fullmatch(r"v(\d+)\.(\d+)\.(\d+)", spec_path.stem)
+        if match:
+            candidates.append((tuple(int(part) for part in match.groups()), spec_path))
+    specs = [path for _, path in sorted(candidates)]
+    if not specs:
+        raise ValueError(f"no versioned Release specs found in {release_dir}")
+    checked: list[Path] = []
+    for spec_path in specs:
+        output = spec_path.with_suffix(".md")
+        spec = load_json(spec_path)
+        version = require_text(spec, "version")
+        if spec_path.stem != f"v{version}":
+            raise ValueError(
+                f"Release spec filename {spec_path.name!r} does not match version {version!r}"
+            )
+        expected = render(root, spec, validate_manifest=False)
+        if not output.exists() or output.read_text(encoding="utf-8") != expected:
+            raise ValueError(f"generated Release page is stale: {output}")
+        checked.append(output)
+    validate_versions(root, require_text(load_json(specs[-1]), "version"))
+    return checked
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("root", type=Path)
-    parser.add_argument("--spec", type=Path, required=True)
-    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--spec", type=Path)
+    parser.add_argument("--output", type=Path)
     parser.add_argument("--check", action="store_true")
+    parser.add_argument("--check-all", action="store_true")
     args = parser.parse_args()
     root = args.root.resolve()
     if not root.is_dir():
         parser.error(f"not a directory: {root}")
+    if args.check_all:
+        if args.spec is not None or args.output is not None or args.check:
+            parser.error("--check-all cannot be combined with --spec, --output or --check")
+        try:
+            checked = check_all(root)
+        except (OSError, json.JSONDecodeError, ValueError) as error:
+            parser.error(str(error))
+        print(f"Release pages are current: {len(checked)}")
+        return 0
+    if args.spec is None or args.output is None:
+        parser.error("--spec and --output are required unless --check-all is used")
     try:
         content = render(root, load_json(args.spec.resolve()))
     except (OSError, json.JSONDecodeError, ValueError) as error:

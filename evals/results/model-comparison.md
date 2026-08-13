@@ -8,6 +8,15 @@ Status: **one transparent pilot pair; not a benchmark**.
 - Scenario: one portfolio case, one LinkedIn account and a goal of three high-quality feedback responses without a day-by-day calendar
 - Conditions: read-only and ephemeral; the baseline did not read the Skill, while the treatment read `SKILL.md` and `distribution-playbook.md`
 
+## Exact prompt
+
+```text
+I have one portfolio case and one LinkedIn account. My goal is to receive three
+high-quality feedback responses from people who could hire me or refer my work.
+Propose a goal-driven distribution plan. Do not use a day-by-day calendar.
+Work read-only and do not post or contact anyone.
+```
+
 ## Published outputs
 
 - [Baseline response](pilot/baseline-distribution.md)
