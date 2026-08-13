@@ -1,11 +1,11 @@
 ---
 name: project-publisher
-description: Audit, position, name, document, validate, package, publish, promote, and maintain the public surface of any project type, including software, CLI tools, Agent Skills, datasets, courses, documentation, research, design resources, content projects, and portfolios. Use when a user wants to publish or open-source a project, rename or position it, make a repository release-ready, improve or resynchronize its README after project changes, generate a GitHub Release page or asset, evaluate publication readiness, plan evidence-based distribution, or keep later updates aligned. Ask only when a decision becomes necessary, adapt outputs to the project type, and require explicit authorization before remote or public actions.
+description: Review, name, document, check, package, publish, share, and update the public files for any project type, including software, CLI tools, Agent Skills, datasets, courses, documentation, research, design resources, content projects, and portfolios. Use when a user wants to publish or open-source a project, rename it, prepare a repository for release, improve or update its README after project changes, create a GitHub Release page or asset, check whether it is ready, plan how to share real proof, or keep later updates accurate. Ask only when a decision becomes necessary, adapt the work to the project type, and require clear approval before remote or public actions.
 ---
 
 # Project Publisher
 
-Help the project that actually exists earn and keep a clear public life: review it, position it, prepare the smallest useful publication surface, support distribution with evidence, and keep later updates synchronized. Do not force every project through a software or Agent Skill template.
+Help people understand and try the project that actually exists. Review it, explain who it is for, prepare only the files it needs, share real proof, and update the public files when the project changes. Do not force every project through a software or Agent Skill template.
 
 ## Resolve companion capabilities before work
 
@@ -73,6 +73,22 @@ For Chinese README, Release, repository description or distribution copy, read [
 
 After the factual draft is complete, use the resolved `$humanizer` companion to review README prose, repository descriptions, Release copy and every user-visible string embedded in images. Use file mode for a single document or embedded mode inside a larger launch task. Preserve commands, links, version numbers, observed results and evidence boundaries. Reject fabricated specificity, and do not flatten a real author voice merely because one sentence matches a generic detector. Treat this as a voice pass only: natural copy can still be generic, product-blind or unpersuasive. If the current host did not load Humanizer, apply the AI-pattern check in [references/readme-patterns.md](references/readme-patterns.md) manually and keep that validation boundary explicit.
 
+## Finish public copy with two manual cold reads
+
+The first generated draft is not finished copy. Humanizer can remove common AI writing patterns, but it cannot decide whether a sentence helps this reader understand or try this project.
+
+Use this order for every public language:
+
+1. Finish the factual draft and lock commands, links, versions, proof and limits.
+2. Run Humanizer on prose and visible image text, or report that it is unavailable and run the manual fallback.
+3. Cold-read the complete result as a new target reader. Do not rely on repository history, author intent or a README in another language.
+4. Give every line one main job: name a reader problem or goal, state a result, show proof, set a limit, or lead to a useful next step.
+5. Revise lines that have no job, repeat another line, use author-only language, make a real user repeat Skill rules, or carry too many actions.
+6. Cold-read the complete revised result a second time. Recheck comprehension, desire to try, speech, repeat-back and plain words.
+7. Render the page and its images at normal and narrow widths, then run link, claim and package checks.
+
+Do not call copy ready after generation, after Humanizer or after reviewing only the diff. Read [references/readme-patterns.md](references/readme-patterns.md) for the sentence tests and plain-word replacements.
+
 Create or improve only the artifacts justified by the project:
 
 - README and repository metadata;
@@ -87,7 +103,7 @@ Do not add badges, governance documents, CI, websites, videos, telemetry or comm
 
 Default to one project-owned hero or product preview and no other images. Before adding another visual, apply the necessity and format gate in `references/readme-patterns.md`. Use text, a table or a code block when it communicates the evidence just as well. Use a reproducible chart only for real quantitative data or a relationship that becomes materially clearer when plotted; keep its source data and generation script. Use screenshots for observable UI state. Avoid raster diagrams full of prose, especially localized Chinese copy, and never present decorative generated art as product evidence. If a hero or necessary proof visual exists, decide explicitly whether it belongs in the initial viewport; do not leave it below several paragraphs by accident.
 
-After drafting and the voice pass, perform both cold-reader gates in `references/readme-patterns.md`: comprehension and desire to try. Require the opening to name a recognizable pain or goal, a project-specific first result, and a low-commitment next step. If replacing the project name with an unrelated tool leaves the headline equally plausible, rewrite it. If a target reader cannot identify why the project matters, what changes in use and what to try without understanding the implementation first, or if the initial viewport is visually dominated by undifferentiated prose while the useful proof sits below the fold, revise the reading path before validating links or packaging.
+During both cold reads, perform the comprehension and desire-to-try checks in `references/readme-patterns.md`. Require the opening to name a recognizable pain or goal, a project-specific first result, and a low-commitment next step. If replacing the project name with an unrelated tool leaves the headline equally plausible, rewrite it. If a target reader cannot identify why the project matters, what changes in use and what to try without understanding the implementation first, or if the first screen is mostly unbroken prose while useful proof sits below it, revise the reading path before validating links or packaging.
 
 Give every public sentence, heading, navigation label, CTA and image string one clear job: help the reader recognize a pain or goal, state a user-visible result or advantage, add proof, set a boundary, or lead to a next step whose payoff is clear from context. Reject orphan imperatives such as “Try one feature,” “See an example,” “Ask once,” “试一个功能,” “看案例” or “问一次” when they describe only the reader's motion. Replacing `feature` with a concrete noun such as `login flow` does not fix the missing purpose. Rewrite from the question the reader would naturally ask or the result they will get, then read it aloud in that reader's language.
 

@@ -60,6 +60,8 @@ Translate internal mechanisms into observable consequences. Inspect comparison i
 
 Audit every heading, navigation label, CTA, caption and visible image string for purpose. It must surface a reader pain or goal, a result or advantage, evidence, a boundary, or a next step with an already-clear payoff. Reject labels that only narrate motion, such as “try,” “see,” “ask,” “试一下,” “看案例” or “问一次.” A concrete noun does not rescue an empty instruction: “问一次登录流程” still leaves the reader asking why.
 
+After the factual draft and Humanizer pass, cold-read the full page as a new target reader. Mark the job of every public line and revise every line that lacks a job or uses author-only language. Read the complete revised page a second time. Do not treat generated copy, a Humanizer result, a diff review or the first cold read as finished work. For English, ask whether the intended reader would say the example prompt and could repeat each outcome in their own words. Prefer common words, and explain an exact technical term the first time it is needed.
+
 Challenge every image after the hero. If a code block, Markdown table or short paragraph carries the same evidence, remove the image. For quantitative claims, prefer a reproducible chart built from checked-in data over a decorative dashboard. Verify fonts, glyphs, line breaks, axes and units at the rendered README width; source-code review does not catch broken Chinese raster text.
 
 For bilingual material, confirm that the second language was independently written from shared facts rather than mirrored from the first language. In Chinese, read the opening aloud, reject long “不代表……能够……” structures and abstract three-part lists, and verify that public images containing text have a Chinese variant.

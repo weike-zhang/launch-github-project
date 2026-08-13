@@ -126,7 +126,7 @@ Keep limitations beside the claim they qualify, but do not make release-integrit
 
 ## Run a cold-reader check
 
-Read the first screen without relying on repository history or implementation knowledge. Confirm that a target reader can answer:
+Do not stop after generating or humanizing the page. Give every line exactly one main job, then read the first screen without relying on repository history or implementation knowledge. Confirm that a target reader can answer:
 
 - Who is this for?
 - What situation or goal should they recognize?
@@ -139,6 +139,33 @@ Read the first screen without relying on repository history or implementation kn
 Rewrite when the answers require decoding internal terms, reading the architecture section or trusting unsupported praise. A structurally complete README can still fail this check.
 
 Also fail the cold-reader check when the right facts exist but the initial viewport is dominated by undifferentiated prose, repeated titles or badge clutter while the useful visual, proof or first action sits below the fold.
+
+### Cold-read every sentence, then revise
+
+Run this pass on the complete generated page, not only the changed paragraph. For each sentence, heading, link label, prompt line and visible image string, write down its one main job: pain or goal, result, proof, limit, or useful next step. Delete or rewrite a line that only introduces a section, repeats the heading, repeats the previous line, shows that the author's framework is complete, or tells the reader to move without a clear payoff.
+
+Ask these questions in the reader's language:
+
+1. Would the intended reader say this?
+2. Can they repeat it in their own words?
+3. Does it use a word they already know, or explain the exact technical term they need?
+4. Does the sentence carry more than three separate actions? If so, split it.
+5. Does an example prompt describe the reader's real problem, or make them quote the Skill's hidden rules?
+
+Prefer plain reader language before the first proof:
+
+| Author-only phrase | Plain wording |
+| --- | --- |
+| public surface | public page or public files |
+| release surface | files needed for the release |
+| publication lifecycle | review, release and later updates |
+| resynchronize the public story | update the public files when the project changes |
+| evidence surface | proof a reader can check |
+| positioning | who it is for and why it matters |
+
+Keep an exact technical term when the reader needs it to run a command, find a setting or verify a claim. Explain it the first time. Do not replace a clear common word with a shorter but less familiar one.
+
+After revising every failed line, put the draft aside and cold-read the complete page again. A second pass must still answer the first-screen questions and the desire-to-try questions below. Generation, Humanizer and the first cold read are intermediate steps, not the finish line.
 
 ### Separate comprehension from desire to try
 

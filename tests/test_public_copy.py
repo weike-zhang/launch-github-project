@@ -87,7 +87,7 @@ class PublicCopyContractTests(unittest.TestCase):
         self.assertIn("## Exact prompt", comparison)
         self.assertIn("Do not use a day-by-day calendar", comparison)
         self.assertNotIn("Complete distribution pilot", readme)
-        self.assertIn("Other Agent Skills hosts", readme)
+        self.assertIn("Other tools that support Agent Skills", readme)
 
     def test_public_visuals_are_shipped_pngs(self):
         for relative in (
@@ -223,6 +223,66 @@ class PublicCopyContractTests(unittest.TestCase):
             "A concrete noun does not rescue an empty instruction", public_review
         )
 
+    def test_english_readme_uses_plain_reader_language(self):
+        english = self.read("README.md")
+        opening = english.split("## Keep files from outside the project", 1)[0]
+
+        self.assertEqual(
+            english.count("git clone https://github.com/weike-zhang/project-publisher.git"),
+            1,
+        )
+        self.assertIn("Find what stops new users from trying it", opening)
+        self.assertIn("asks before it does anything on GitHub", opening)
+        self.assertIn("Show me what you found", english)
+        self.assertIn("Blocks release", english)
+
+        stale_phrases = [
+            "biggest public gap",
+            "release surface",
+            "distribution material",
+            "resynchronizes the public story",
+            "semantic version alignment",
+            "publication lifecycle",
+            "evidence surface",
+            "Start read-only",
+        ]
+        for phrase in stale_phrases:
+            self.assertNotIn(phrase, english)
+
+    def test_visible_english_image_copy_uses_plain_words(self):
+        source = self.read("scripts/build_visuals.py")
+
+        self.assertIn("PUBLISH YOUR PROJECT", source)
+        self.assertIn("Make your project easy to understand.", source)
+        self.assertIn("Keep its public materials up to date.", source)
+        self.assertIn('"SHARE"', source)
+        for phrase in (
+            "PROJECT PUBLICATION",
+            "Make the project clear in public.",
+            "Keep the story true as it changes.",
+            '"DISTRIBUTE"',
+        ):
+            self.assertNotIn(phrase, source)
+
+    def test_skill_requires_manual_cold_read_revision_after_generation(self):
+        skill = self.read("skills/project-publisher/SKILL.md")
+        patterns = self.read("skills/project-publisher/references/readme-patterns.md")
+        public_review = self.read(
+            "skills/project-publisher/references/public-surface-review.md"
+        )
+
+        for text in (skill, patterns, public_review):
+            self.assertIn("cold-read", text.lower())
+            self.assertRegex(text.lower(), r"revise|rewrite")
+            self.assertRegex(text.lower(), r"second|again")
+
+        self.assertIn("The first generated draft is not finished copy", skill)
+        self.assertIn("Give every line exactly one main job", patterns)
+        self.assertIn("Would the intended reader say this?", patterns)
+        self.assertIn("Can they repeat it in their own words?", patterns)
+        self.assertIn("public surface", patterns)
+        self.assertIn("Read the complete revised page a second time", public_review)
+
     def test_skill_resynchronizes_the_authoritative_readme_after_changes(self):
         skill = self.read("skills/project-publisher/SKILL.md")
         patterns = self.read("skills/project-publisher/references/readme-patterns.md")
@@ -233,7 +293,7 @@ class PublicCopyContractTests(unittest.TestCase):
         self.assertIn("edit the authoritative README in place", skill)
         self.assertIn("Do not create `README.new.md`", skill)
         self.assertIn("Re-read the existing README after implementation", patterns)
-        self.assertIn("README still teaches old behavior or commands", english)
+        self.assertIn("README still teaches old commands", english)
         self.assertIn("需要更新就直接覆盖旧内容", chinese)
 
     def test_visible_image_copy_rejects_framework_slogans(self):
@@ -273,7 +333,7 @@ class PublicCopyContractTests(unittest.TestCase):
         self.assertIn("## Name the durable role, not the first demo", naming)
         self.assertIn("Speech", naming)
         self.assertIn("Grounded AI Tutor", naming)
-        self.assertIn("reviews what exists, sharpens the name and position", english)
+        self.assertIn("reviews your project, fixes the public files you approve", english)
         self.assertIn("项目对外发布后的整套工作", chinese)
         for text in (english, chinese):
             self.assertNotIn("Use $launch-github-project", text)

@@ -1,20 +1,20 @@
 <p align="center">
-  <img src="assets/hero.png" alt="Project Publisher reviews, positions, publishes and keeps a project's public materials current" width="100%">
+  <img src="assets/hero.png" alt="Project Publisher helps people understand a project and keeps its public materials up to date" width="100%">
 </p>
 
 <p align="center">
-  <strong>Your project changed. Its README, Release and launch posts did not. Project Publisher finds the mismatch, fixes the public materials you approve and leaves remote actions to you.</strong>
+  <strong>Your project changed. Its README, Release and launch posts did not. Project Publisher shows you what is out of date, fixes only the files you approve, and asks before it does anything on GitHub.</strong>
 </p>
 
 <p align="center">
-  <a href="#find-the-biggest-public-gap-first">Find the biggest public gap</a> ·
+  <a href="#find-what-stops-new-users-from-trying-it">Find what stops new users from trying it</a> ·
   <a href="examples/self-audit-bundle-safety.md">See the release leak it caught</a> ·
   <a href="README.zh-CN.md">简体中文</a>
 </p>
 
-A project can work locally and still lose people when it becomes public: the name describes only the first demo, the README starts with maintainer detail, the install path is hard to find, the Release explains changes instead of value, or later updates leave the public story behind.
+A project can work well and still be hard for new users to understand. Its name may fit only the first demo. The README may start with details for maintainers. The install command may be buried, and the Release may list changes without saying why they matter.
 
-Project Publisher handles that public side of the project. It reviews what exists, sharpens the name and position, prepares the smallest useful release surface, turns real evidence into distribution material, and resynchronizes the public story after the product changes. Its first pass is read-only, and it adapts the work to the actual project type instead of forcing everything through one template.
+Project Publisher reviews your project, fixes the public files you approve, and updates them when the project changes. It can also turn a real result or a caught failure into material you can share. The first review does not change files.
 
 Install Project Publisher and its bundled Humanizer from the public repository:
 
@@ -23,11 +23,11 @@ git clone https://github.com/weike-zhang/project-publisher.git
 python3 project-publisher/scripts/install.py
 ```
 
-Then ask: `Use $project-publisher to review this project before I publish or update it. Start read-only and tell me the biggest reason a new visitor may not try it.` Nothing changes in the first pass; you get a concrete gap report first. The v0.3.0 public clone, integrated installer and Skills CLI discovery are [verified from clean temporary paths](evals/results/public-install-v0.3.0.md); [the earlier Codex first audit covers the published v0.2.0 Skills-only path under the former name](evals/results/codex-first-audit-v0.2.0.md).
+Then ask: `Use $project-publisher to review this project before I publish or update it. Do not change anything yet. Tell me what is most likely to stop a new visitor from trying it.` The first response shows what it found before any file changes. The v0.3.0 public clone, installer and Skills CLI setup were [tested from clean temporary folders](evals/results/public-install-v0.3.0.md). [An earlier Codex test covers the published v0.2.0 Skills-only install under the former name](evals/results/codex-first-audit-v0.2.0.md).
 
 ## Keep files from outside the project out of the release ZIP
 
-While auditing its own repository, the Skill found that a symlink inside the project could read a file outside the project directory. The old bundler copied those bytes into the ZIP.
+While checking its own repository, the Skill found a symbolic link, which is a file that points to another file. That link pointed outside the project, and the old ZIP builder copied the outside file into the release.
 
 ```text
 project/
@@ -38,107 +38,96 @@ Release stopped: outside.txt is a symbolic link
 ZIP not created; target file not read
 ```
 
-The bundler now stops before reading the target. Release ZIP contents are part of the same audit as the README, and regression tests preserve the fix.
+The ZIP builder now stops before reading the outside file. The same release review checks both the README and the ZIP contents. Automated tests keep this bug from coming back.
 
-[Read the reproduction, root cause and limits](examples/self-audit-bundle-safety.md) · [Inspect the historical v0.1.2 fix Release](https://github.com/weike-zhang/launch-github-project/releases/tag/v0.1.2)
+[Read how the bug was found, fixed, and tested](examples/self-audit-bundle-safety.md) · [See the v0.1.2 Release for the fix](https://github.com/weike-zhang/launch-github-project/releases/tag/v0.1.2)
 
-This is release-safety evidence, not a claim that automation can prove ownership, product quality or adoption.
+This example proves only that the ZIP check caught this known problem. It does not prove that a project is safe, useful, or popular.
 
-## Find the biggest public gap first
+## Find what stops new users from trying it
 
-The same public install path works from a clean directory:
-
-```bash
-git clone https://github.com/weike-zhang/project-publisher.git
-python3 project-publisher/scripts/install.py
-```
-
-The integrated installer adds Project Publisher, bundled Humanizer and the dependency-guard Hook, then verifies the required command-line tools. Review and trust the Hook with `/hooks`; the installer cannot grant trust for you. Project Publisher uses Humanizer after factual claims and evidence are settled, then reruns its own comprehension and desire-to-try checks. If any dependency failed, was declined or is unavailable in the active host, it reports the affected proof and fallback when that stage is reached. [See all install paths and boundaries](docs/INSTALL.md).
+The installer adds Project Publisher and Humanizer, then checks that Python and Git are available. It also adds an optional Hook that warns when a needed tool or Skill is missing. You must review and trust that Hook with `/hooks` before it can run. If any part is missing, refused, or unavailable, Project Publisher tells you what it cannot check and what it can still do. [See every install option and limit](docs/INSTALL.md).
 
 From the project you want to publish:
 
 ```text
 Use $project-publisher to review this project before I publish or update it.
-Start read-only. Tell me the biggest reason a new visitor may not understand or
-try it, show me the evidence, and recommend the smallest useful fix.
-Do not perform remote actions without my explicit approval.
+Do not change anything yet. Tell me what is most likely to stop a new visitor
+from understanding or trying it. Show me what you found and suggest the smallest
+useful fix. Ask before doing anything on GitHub.
 ```
 
-A useful first response is structured like this:
+The first response shows the project type, what was checked, the main problem, and what still needs your choice:
 
 ```text
-Primary type       Agent Skill
-Observed           SKILL.md, install path, scripts, release history
-Public gap         no direct input/output proof on the first screen
-Release blocker    version metadata and latest Release disagree
-Human decisions    asset rights, visibility, exact remote target
-Action taken       none; read-only audit
+Project type       Agent Skill
+What I checked     SKILL.md, install path, scripts, release history
+Biggest problem    no direct input/output example on the first screen
+Blocks release     version in the files and latest Release do not match
+Needs your choice  asset rights, visibility, exact GitHub repository
+Changed            nothing
 ```
 
-The findings vary by repository. The Skill inspects first, labels assumptions, explains why each artifact is needed and waits for approval before remote work. See [installation and update options](docs/INSTALL.md).
+The answer changes with the project. The Skill checks first, marks what it had to assume, and explains why each file is needed. It waits for your approval before any GitHub change. See [installation and update options](docs/INSTALL.md).
 
-## What it handles
+## What it helps you fix
 
 | Need | Result |
 | --- | --- |
-| The project name describes one demo, platform or release moment | A short identity that fits the durable role, with the missing precision carried by the description and evidence |
-| A README that lists features but does not explain the value | A README that says who the project is for, shows direct proof and gives readers a first step |
-| The project changed but its README still teaches old behavior or commands | A full reread after implementation, followed by an in-place update when any public contract moved |
-| Every section has an image, including raster text that renders badly | One hero by default; code blocks for paths and short output, and charts only when real data needs plotting |
-| Uncertainty about what can safely become public | A redacted secret scan, publishing blockers and the asset-rights questions that still need a decision |
-| Tests being used as marketing proof | A report that separates release checks and observed behavior from adoption or popularity |
-| A stale or hand-written Release page | A page generated from structured evidence, including optional version-pinned visual proof |
-| A source archive that may contain local debris | A deterministic ZIP that excludes local state, rejects symlinks and is actually listed and extracted |
-| Local, PR, tag and Release versions drifting apart | A version check that distinguishes an uploaded artifact from a public Release |
-| A launch post that merely announces a repository | Distribution material built around a useful result, caught failure or reproducible proof |
+| The name fits only one demo or platform | A short name for what the project will keep doing, with details in the description |
+| The README lists features but gives no reason to care | A clear reader problem, a useful result, proof, and a first step |
+| The project changed but the README still teaches old commands | A full reread and an update where the old claim already lives |
+| You do not know what is safe to publish | A secret check that hides matched values, plus clear questions about private data and rights |
+| The README, tag, ZIP, and Release disagree | Matching version details and a ZIP whose contents were listed and extracted |
+| A post only says that the repository exists | Shareable material built around a real result, a caught failure, or a test someone can repeat |
 
-Depending on the project, the Skill may prepare documentation, evidence, release assets or a distribution brief. It will not add a website, community, benchmark or roadmap unless the project actually supports one.
+The exact files depend on the project. The Skill will not add a website, community, benchmark, or roadmap unless the project needs one.
 
 ## Automatic checks and human decisions
 
 | Automated | Still requires judgment |
 | --- | --- |
-| Local links, unresolved placeholders and machine-specific paths | Whether the first screen makes sense to the intended reader |
-| Redacted secret-pattern scan | Whether an apparent secret or personal detail is genuinely safe |
-| Nested repositories, editor files, internal drafts and identity-setup copy | Whether assets, data and screenshots may legally be published |
-| Release-page freshness and semantic version alignment | Whether the evidence supports the public promise |
-| Deterministic bundle contents, symlinks and extraction | Whether the repository deserves to be public and where it should be published |
+| Local links, unfinished text, and paths from your computer | Whether a new reader understands the first screen |
+| Possible secrets, with matched values hidden | Whether a secret or personal detail is truly safe to share |
+| Extra repositories, editor files, and private drafts | Whether you have the right to publish each image, file, and dataset |
+| Whether the README, plugin version, tag, and Release agree | Whether the proof supports what the page promises |
+| What is inside the ZIP and whether it can be extracted | Whether the project should be public and where it should live |
 
-A clean scan is a gate result, not proof of safety, usefulness or demand.
+Passing these checks does not prove that the project is safe, useful, or wanted.
 
-## How the publication lifecycle works
+## How it works
 
-1. Audit files, Git state, risks and gaps without editing.
-2. Classify the primary project type and check whether its name and promise match the durable role.
-3. Build the reader path and the smallest evidence surface for the core promise.
-4. Validate links, secrets, public content, visuals, versions and the actual ZIP.
-5. Prepare the Release and evidence-led distribution material, then perform only the remote actions that were approved.
-6. Verify the public result from a visitor view and resynchronize it when the project changes.
+1. Read the files, Git history, risks, and missing details without changing anything.
+2. Work out the project type and whether the name matches what the project is becoming.
+3. Put the reader's problem, a useful example, and the first step in a clear order.
+4. Check links, possible secrets, images, versions, and the real ZIP file.
+5. Prepare the Release and material you can share. Ask before any GitHub action.
+6. Open the public page as a visitor. Read the full page again when the project changes.
 
 ## Evidence and compatibility
 
-| Surface | Current status | Evidence |
+| What was tested | Status | Proof |
 | --- | --- | --- |
-| Public v0.2.0: global install → invoke → first audit | Verified on Codex CLI 0.147.0-alpha.6.5 | [Install, clean fixture and observed output](evals/results/codex-first-audit-v0.2.0.md#post-publication-check) |
-| Historical local 0.2.0 candidate: project install → invoke → first audit | Verified on the same host before publication | [Candidate fixture, command and sanitized output](evals/results/codex-first-audit-v0.2.0.md#release-candidate-check) |
-| Public v0.3.0: clone → integrated install → Skills CLI discovery | Verified after the repository rename | [Clean temporary-path verification](evals/results/public-install-v0.3.0.md) |
-| Release scripts | Verified on Python 3.12 for the published v0.2.0 path | [Regression tests](tests/test_release_tools.py) and [historical GitHub Actions path](https://github.com/weike-zhang/launch-github-project/actions/workflows/validate.yml) |
-| Project-type routes and evaluation files | Integrity checked | [Fixture validator](evals/validate_fixtures.py); not a model-quality score |
-| Distribution behavior | One exploratory pair | [Exact prompt, baseline, Skill response and limitations](evals/results/model-comparison.md) |
-| Other Agent Skills hosts | Unverified | Compatibility reports with host and version are welcome |
+| Public v0.2.0: full install, first run, and first review | Checked with Codex CLI 0.147.0-alpha.6.5 | [Install steps, clean test project, and result](evals/results/codex-first-audit-v0.2.0.md#post-publication-check) |
+| Local v0.2.0 before release: project install, first run, and first review | Checked on the same computer | [Test project, command, and result with private values removed](evals/results/codex-first-audit-v0.2.0.md#release-candidate-check) |
+| Public v0.3.0: clone, install, and find both Skills | Checked after the repository rename | [Test from a new empty folder](evals/results/public-install-v0.3.0.md) |
+| Release scripts | Checked with Python 3.12 for public v0.2.0 | [Tests that keep fixed bugs from returning](tests/test_release_tools.py) and [the older GitHub Actions run](https://github.com/weike-zhang/launch-github-project/actions/workflows/validate.yml) |
+| Project type examples and test files | Required files checked | [File checker](evals/validate_fixtures.py); this does not measure answer quality |
+| Plan for sharing a project | One early comparison | [Exact prompt, answer without the Skill, answer with the Skill, and limits](evals/results/model-comparison.md) |
+| Other tools that support Agent Skills | Not tested | Reports with the tool name and version are welcome |
 
 ## Permissions and limits
 
-- Installing the Skill does not authorize repository creation, Push, visibility changes, Releases or external posts. Every remote action needs an exact target and explicit approval.
-- Secret detection is pattern-based and never replaces human review.
-- The bundler rejects symlinks and non-regular files, but it is not a sandbox against malicious concurrent file replacement.
-- Automated checks cannot prove asset ownership, privacy safety, product quality, user adoption or unsigned rendering.
+- Installing the Skill does not give it permission to create a repository, push code, change who can see it, publish a Release, or post anywhere. It asks before each GitHub action.
+- The secret check looks for known patterns and can miss things. Review the result yourself.
+- The ZIP builder rejects symbolic links and unusual file types. It cannot protect against every harmful file change while it runs.
+- Automated checks cannot prove that you own every asset, that every detail is safe to share, that users want the project, or that GitHub looks right to a signed-out visitor.
 - Working notes belong in `.project-publisher/`; the directory is ignored and excluded from release bundles.
 
-Read [PRIVACY.md](PRIVACY.md), [SECURITY.md](SECURITY.md), the [visual asset notice](assets/ASSET-NOTICE.md) and [third-party notices](THIRD-PARTY-NOTICES.md) for the full boundaries.
+Read [PRIVACY.md](PRIVACY.md), [SECURITY.md](SECURITY.md), the [visual asset notice](assets/ASSET-NOTICE.md) and [third-party notices](THIRD-PARTY-NOTICES.md) for the full details and limits.
 
 ## Contributing
 
-The most useful contribution is a reproducible release failure, a project type the current routing mishandles, a broken first-success path or a public claim whose evidence cannot be checked. See [CONTRIBUTING.md](CONTRIBUTING.md).
+The most useful contribution is a release problem someone else can repeat, a project type the Skill handles badly, a broken first-use path, or a public claim with no checkable proof. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 MIT licensed. Built by [Weike Zhang](https://github.com/weike-zhang).
