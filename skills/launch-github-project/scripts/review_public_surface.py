@@ -30,6 +30,9 @@ TEXT_RULE_EXEMPT_PATHS = {
     Path("skills/launch-github-project/references/public-surface-review.md"),
     Path("skills/launch-github-project/references/repository-standard.md"),
     Path("skills/launch-github-project/references/chinese-public-copy.md"),
+    Path("skills/launch-github-project/references/readme-patterns.md"),
+    Path("tests/test_public_copy.py"),
+    Path("tests/test_release_tools.py"),
 }
 TEXT_RULES = [
     (
@@ -73,7 +76,22 @@ TEXT_RULES = [
             r"变成.{0,24}可理解.{0,16}可试用.{0,16}可验证)"
         ),
     ),
+    (
+        "manufactured_public_copy",
+        "warning",
+        re.compile(
+            r"(?:别让.{0,30}死在|别先听我吹|不是讲概念[:：]|"
+            r"哪些绝不吹|想贡献[?？].{0,12}别夸|代码能跑.{0,12}只是及格)"
+        ),
+    ),
 ]
+HERO_IMAGE_PATTERN = re.compile(
+    r"(?:<img\b[^>]*\bsrc=[\"'](?P<html>[^\"']+)[\"'][^>]*>|"
+    r"!\[[^\]]*\]\((?P<markdown>[^)\s]+)(?:\s+[\"'][^\"']*[\"'])?\))",
+    re.IGNORECASE,
+)
+HERO_NAME_PATTERN = re.compile(r"(?i)(?:^|[-_/])(hero|banner|cover|masthead)(?:[-_.?/]|$)")
+MAX_CONTENT_BEFORE_HERO = 320
 
 
 def finding(severity: str, category: str, path: Path, root: Path, line: int | None = None) -> dict[str, object]:
@@ -100,6 +118,21 @@ def git_candidate_paths(root: Path) -> set[Path] | None:
     if result.returncode != 0:
         return None
     return {Path(item.decode("utf-8")) for item in result.stdout.split(b"\0") if item}
+
+
+def find_buried_hero(text: str) -> int | None:
+    """Return the line of a hero placed after a long README introduction."""
+    for match in HERO_IMAGE_PATTERN.finditer(text):
+        source = match.group("html") or match.group("markdown") or ""
+        if not HERO_NAME_PATTERN.search(source):
+            continue
+        prefix = text[: match.start()]
+        visible_prefix = re.sub(r"<[^>]+>|[`#*_>|\[\]()]", " ", prefix)
+        visible_prefix = re.sub(r"\s+", " ", visible_prefix).strip()
+        if len(visible_prefix) > MAX_CONTENT_BEFORE_HERO or "```" in prefix:
+            return text.count("\n", 0, match.start()) + 1
+        return None
+    return None
 
 
 def scan(root: Path) -> dict[str, object]:
@@ -155,6 +188,10 @@ def scan(root: Path) -> dict[str, object]:
             if b"\x00" in sample:
                 continue
             text = sample.decode("utf-8", errors="replace")
+            if relative_path.parent == Path(".") and relative_path.name.lower().startswith("readme"):
+                hero_line = find_buried_hero(text)
+                if hero_line is not None:
+                    findings.append(finding("warning", "hero_below_long_intro", path, root, hero_line))
             if relative_path not in TEXT_RULE_EXEMPT_PATHS:
                 for line_no, line in enumerate(text.splitlines(), start=1):
                     for category, severity, pattern in TEXT_RULES:
@@ -198,7 +235,10 @@ def self_test() -> None:
         (root / "README.md").write_text(
             "Before public release these are local release candidates.\n"
             "I planned to change the GitHub username before launch.\n"
-            "本地能跑不代表陌生用户能看懂、敢信、会用。\n",
+            "本地能跑不代表陌生用户能看懂、敢信、会用。\n"
+            "别先听我吹，直接看证据。\n"
+            + ("Long introduction. " * 24)
+            + "\n![Hero](assets/hero.png)\n",
             encoding="utf-8",
         )
         result = scan(root)
@@ -210,6 +250,8 @@ def self_test() -> None:
             "symbolic_link",
             "author_identity_setup",
             "translationese_public_copy",
+            "manufactured_public_copy",
+            "hero_below_long_intro",
         }
         if not expected <= categories:
             raise AssertionError(f"self-test failed: {sorted(categories)}")

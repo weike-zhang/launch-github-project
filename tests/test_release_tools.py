@@ -62,6 +62,10 @@ class ReleaseBundleTests(unittest.TestCase):
             root.mkdir()
             (root / "README.md").write_text("hello\n", encoding="utf-8")
             (root / ".env").write_text("TOKEN=private\n", encoding="utf-8")
+            installed = root / ".agents" / "skills" / "humanizer"
+            installed.mkdir(parents=True)
+            (installed / "SKILL.md").write_text("dependency\n", encoding="utf-8")
+            (root / "skills-lock.json").write_text('{"version": 1}\n', encoding="utf-8")
             first = base / "first.zip"
             second = base / "second.zip"
 
@@ -70,7 +74,10 @@ class ReleaseBundleTests(unittest.TestCase):
 
             self.assertEqual(first.read_bytes(), second.read_bytes())
             with zipfile.ZipFile(first) as archive:
-                self.assertEqual(archive.namelist(), ["project/README.md"])
+                self.assertEqual(
+                    archive.namelist(),
+                    ["project/README.md", "project/skills-lock.json"],
+                )
 
 
 class PublicSurfaceTests(unittest.TestCase):
@@ -115,6 +122,49 @@ class PublicSurfaceTests(unittest.TestCase):
             result = public_surface.scan(root)
 
             self.assertEqual(result["blocker_count"], 0)
+
+    def test_manufactured_chinese_punchline_is_a_warning(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "README.zh-CN.md").write_text(
+                "别先听我吹，直接看证据。\n",
+                encoding="utf-8",
+            )
+
+            result = public_surface.scan(root)
+
+            self.assertEqual(result["warning_count"], 1)
+            self.assertEqual(
+                result["warnings"][0]["category"],
+                "manufactured_public_copy",
+            )
+
+    def test_warns_when_an_existing_hero_is_buried_below_long_prose(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "README.md").write_text(
+                "# Example\n\n"
+                + ("This paragraph explains the project before showing its visual. " * 8)
+                + "\n\n![Project hero](assets/hero.png)\n",
+                encoding="utf-8",
+            )
+
+            result = public_surface.scan(root)
+
+            self.assertIn("hero_below_long_intro", {item["category"] for item in result["warnings"]})
+
+    def test_allows_a_hero_at_the_start_of_the_readme(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "README.md").write_text(
+                '<img src="assets/hero.png" alt="Project outcome">\n\n'
+                "# Example\n\nA concise outcome.\n",
+                encoding="utf-8",
+            )
+
+            result = public_surface.scan(root)
+
+            self.assertNotIn("hero_below_long_intro", {item["category"] for item in result["warnings"]})
 
 
 class AuditRepositoryTests(unittest.TestCase):

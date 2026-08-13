@@ -1,29 +1,15 @@
-# Launch GitHub Project
-
-Your project works locally. GitHub can still make it look unfinished, unsafe or impossible to try.
-
-**Launch GitHub Project is an Agent Skill that audits what actually exists, chooses the public material this project type needs, connects claims to evidence, builds a deterministic release bundle and keeps every remote action behind explicit approval.**
-
-It is for the awkward gap between “the work is done” and “a stranger can understand, trust and use it.” It supports software, Agent Skills, datasets, research, courses, design resources, portfolios and mixed projects without forcing them through one template.
-
-**Install:**
-
-```bash
-npx skills add weike-zhang/launch-github-project --agent codex --skill launch-github-project -g -y
-```
-
-Then ask: `Use $launch-github-project to audit this project for GitHub. Start read-only.`
-
-**See evidence first:** [real failure and fix](examples/self-audit-bundle-safety.md) · [verified Codex first audit](evals/results/codex-first-audit-v0.2.0.md) · [latest Release](https://github.com/weike-zhang/launch-github-project/releases/latest)
+<p align="center">
+  <img src="assets/hero.png" alt="Launch GitHub Project hero showing repository checks, claim review, release packaging and final verification" width="100%">
+</p>
 
 <p align="center">
-  <img src="assets/hero.png" alt="Launch GitHub Project transforms a working local project through audit, evidence, packaging and verification into a trustworthy GitHub release" width="100%">
+  <strong>Check the repository, support public claims with evidence, and review the release before it goes live.</strong>
 </p>
 
 <p align="center">
   <a href="README.zh-CN.md">简体中文</a> ·
   <a href="docs/INSTALL.md">Install options</a> ·
-  <a href="docs/FIRST-GITHUB-LAUNCH.zh-CN.md">First launch guide</a> ·
+  <a href="examples/self-audit-bundle-safety.md">Real failure and fix</a> ·
   <a href="https://github.com/weike-zhang/launch-github-project/releases/latest">Release</a>
 </p>
 
@@ -32,6 +18,16 @@ Then ask: `Use $launch-github-project to audit this project for GitHub. Start re
   <a href="https://github.com/weike-zhang/launch-github-project/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/weike-zhang/launch-github-project"></a>
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-52D6A3"></a>
 </p>
+
+A project can work locally while its GitHub page still looks unfinished or leaves visitors unsure how to try it. Launch GitHub Project audits the repository, chooses materials for the project type, ties public claims to evidence and builds a deterministic release bundle. Remote actions still require your approval.
+
+Use it when the work is finished locally but the repository is not ready for someone new to install, inspect or reuse. It supports software, Agent Skills, datasets, research, courses, design resources, portfolios and mixed projects without forcing them through one template.
+
+```bash
+npx skills add weike-zhang/launch-github-project --agent codex --skill launch-github-project -g -y
+```
+
+Then ask: `Use $launch-github-project to audit this project for GitHub. Start read-only.` [See the verified Codex first audit](evals/results/codex-first-audit-v0.2.0.md).
 
 ## A real failure it caught
 
@@ -66,23 +62,23 @@ Observed           SKILL.md, install path, scripts, release history
 Public gap         no direct input/output proof on the first screen
 Release blocker    version metadata and latest Release disagree
 Human decisions    asset rights, visibility, exact remote target
-Action taken       none — read-only audit
+Action taken       none; read-only audit
 ```
 
-The exact findings depend on the repository. The important behavior is stable: inspect first, separate facts from assumptions, justify each artifact, and stop before unapproved remote work. See [installation and update options](docs/INSTALL.md).
+The findings vary by repository. The Skill inspects first, labels assumptions, explains why each artifact is needed and waits for approval before remote work. See [installation and update options](docs/INSTALL.md).
 
 ## What it prepares
 
 | Need | Result |
 | --- | --- |
-| A README that lists features but does not explain the value | A reader path built around the situation, outcome, direct proof and first useful action |
-| Uncertainty about what can safely become public | Redacted secret findings, public-surface blockers and explicit rights decisions |
-| Tests being used as marketing proof | Release integrity, behavior evidence, adoption evidence and popularity reported separately |
+| A README that lists features but does not explain the value | A README that says who the project is for, shows direct proof and gives readers a first step |
+| Uncertainty about what can safely become public | A redacted secret scan, publishing blockers and the asset-rights questions that still need a decision |
+| Tests being used as marketing proof | A report that separates release checks and observed behavior from adoption or popularity |
 | A stale or hand-written Release page | A page generated from structured evidence, including optional version-pinned visual proof |
 | A source archive that may contain local debris | A deterministic ZIP that excludes local state, rejects symlinks and is actually listed and extracted |
-| Local, PR, tag and Release versions drifting apart | A publication-state gate that refuses to call uploaded work released |
+| Local, PR, tag and Release versions drifting apart | A version check that distinguishes an uploaded artifact from a public Release |
 
-The Skill creates only what the project justifies: README, install or reproduction steps, examples, data card, methodology, visual proof, privacy and license guidance, Release page, ZIP or distribution brief. It does not manufacture a website, community, benchmark or roadmap to imitate a mature project.
+Depending on the project, the Skill may prepare documentation, evidence, release assets or a distribution brief. It will not add a website, community, benchmark or roadmap unless the project actually supports one.
 
 ## Automatic checks and human decisions
 
@@ -98,13 +94,13 @@ A clean scan is a gate result, not proof of safety, usefulness or demand.
 
 ## How the release path works
 
-![Audit, classify, prove, package, then hand off remote actions explicitly](assets/launch-flow.svg)
+![Release workflow covering repository review, required materials, evidence, packaging, approval for remote actions and public verification](assets/launch-flow.svg)
 
 1. Audit files, Git state, risks and gaps without editing.
 2. Classify the primary project type before choosing artifacts.
 3. Build the reader path and the smallest evidence surface for the core promise.
 4. Validate links, secrets, public content, visuals, versions and the actual ZIP.
-5. Generate a decision-ready Release page and hand off only the authorized remote actions.
+5. Generate a Release page for review, then perform only the remote actions that were approved.
 6. Verify the public repository and Release from a visitor view.
 
 ## Evidence and compatibility
@@ -126,7 +122,7 @@ A clean scan is a gate result, not proof of safety, usefulness or demand.
 - Automated checks cannot prove asset ownership, privacy safety, product quality, user adoption or unsigned rendering.
 - Working notes belong in `.launch-github-project/`; the directory is ignored and excluded from release bundles.
 
-Read [PRIVACY.md](PRIVACY.md), [SECURITY.md](SECURITY.md) and the [visual asset notice](assets/ASSET-NOTICE.md) for the full boundaries.
+Read [PRIVACY.md](PRIVACY.md), [SECURITY.md](SECURITY.md), the [visual asset notice](assets/ASSET-NOTICE.md) and [third-party notices](THIRD-PARTY-NOTICES.md) for the full boundaries.
 
 ## Contributing
 

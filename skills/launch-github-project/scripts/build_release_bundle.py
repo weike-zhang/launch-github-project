@@ -11,7 +11,7 @@ import zipfile
 from pathlib import Path
 
 EXCLUDED_DIRS = {
-    ".git", ".venv", "venv", "node_modules", "__pycache__", ".cache", ".next",
+    ".git", ".agents", ".claude", ".codex", ".venv", "venv", "node_modules", "__pycache__", ".cache", ".next",
     ".grounded-ai-mentor", ".launch-github-project", "dist", "build",
 }
 EXCLUDED_SUFFIXES = {".pyc", ".pyo", ".private.md", ".local.md"}

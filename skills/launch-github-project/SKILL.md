@@ -56,6 +56,8 @@ Before drafting a README, identify the reader's recognizable situation, the outc
 
 For Chinese README, Release, repository description or distribution copy, read [references/chinese-public-copy.md](references/chinese-public-copy.md). Treat English and Chinese as sibling narratives that share facts, evidence and boundaries, not as a master document and its line-by-line translation. Give the Chinese page its own hook, familiar failure scene, concrete cost, proof and action; require a native-speaker read-aloud check and localized text inside public visuals.
 
+After the factual draft is complete, use `$humanizer` when it is installed to review README prose, repository descriptions, Release copy and every user-visible string embedded in images. Use file mode for a single document or embedded mode inside a larger launch task. Preserve commands, links, version numbers, observed results and evidence boundaries. Reject fabricated specificity, and do not flatten a real author voice merely because one sentence matches a generic detector. If Humanizer is unavailable, apply the AI-pattern check in [references/readme-patterns.md](references/readme-patterns.md) manually.
+
 Create or improve only the artifacts justified by the project:
 
 - README and repository metadata;
@@ -68,9 +70,9 @@ Create or improve only the artifacts justified by the project:
 
 Do not add badges, governance documents, CI, websites, videos, telemetry or community files merely to look mature.
 
-When the public promise is difficult to grasp from prose alone, create one to three purposeful visuals: a hero that communicates the user outcome, a real input/output or before/after proof image, and a workflow diagram only when sequence matters. Keep screenshots legible at README width, add descriptive alt text, record provenance, and never present decorative generated art as product evidence.
+When the public promise is difficult to grasp from prose alone, create one to three purposeful visuals: a hero that communicates the user outcome, a real input/output or before/after proof image, and a workflow diagram only when sequence matters. Keep screenshots legible at README width, add descriptive alt text, record provenance, and never present decorative generated art as product evidence. If a hero or direct proof visual exists, decide explicitly whether it belongs in the initial viewport; do not leave it below several paragraphs by accident.
 
-After drafting, perform the cold-reader check in `references/readme-patterns.md`. If a target reader cannot identify why the project matters, what changes in use and what to try without understanding the implementation first, revise the reading path before validating links or packaging.
+After drafting, perform the cold-reader and rendered-first-screen checks in `references/readme-patterns.md`. If a target reader cannot identify why the project matters, what changes in use and what to try without understanding the implementation first, or if the initial viewport is visually dominated by undifferentiated prose while the useful proof sits below the fold, revise the reading path before validating links or packaging.
 
 ## Design the first-success and adoption path
 
