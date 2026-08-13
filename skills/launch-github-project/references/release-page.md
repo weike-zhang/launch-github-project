@@ -5,13 +5,15 @@ Create a Release page as a decision surface, not a duplicated changelog. A reade
 ## Required content
 
 - Name the observable reason to update in the title and summary.
+- Include a version-stable screenshot, before/after or evidence image when it materially helps a reader understand the change; caption what it proves and do not use decoration as evidence.
+- For a non-trivial update, state who should update now and who can safely defer; separate user-facing behavior from maintainer-only changes.
 - List user-visible changes before internal maintenance details.
 - Include a copyable install or update command.
 - Report verification as exact checks and observed results; do not turn release-integrity checks into product-quality claims.
 - State verified compatibility and known limitations separately.
 - Name the intended release asset when one exists. Verify GitHub's SHA-256 digest after upload.
 
-Start from `assets/release/release-page.json`, then use the structured spec with `scripts/generate_release_page.py` so required sections and version alignment are deterministic. Keep the generated Markdown in `release/vX.Y.Z.md`; it can be passed to `gh release create --notes-file` only after the remote gate is authorized.
+Start from `assets/release/release-page.json`, then use the structured spec with `scripts/generate_release_page.py` so required sections, optional visual proof and version alignment are deterministic. Prefer a URL pinned to the release tag instead of `main`, so future README edits do not change historical Release evidence. Keep the generated Markdown in `release/vX.Y.Z.md`; it can be passed to `gh release create --notes-file` only after the remote gate is authorized.
 
 ## Remote-state gate
 

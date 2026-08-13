@@ -3,6 +3,15 @@
   "version": "0.1.0",
   "title": "User-visible reason to update",
   "summary": "One evidence-bounded paragraph explaining why this release matters.",
+  "visuals": [
+    {
+      "alt": "Meaningful description of the release evidence",
+      "url": "https://example.com/versioned-release-proof.png",
+      "caption": "What the reader should notice and how this image was produced."
+    }
+  ],
+  "upgrade_if": ["This release changes a workflow or risk boundary you use."],
+  "defer_if": ["The observable changes do not affect your current use."],
   "highlights": ["Observable change and consequence"],
   "install_or_update": ["copyable install or update command"],
   "verification": ["exact check — observed result"],

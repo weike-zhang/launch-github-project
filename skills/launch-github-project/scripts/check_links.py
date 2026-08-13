@@ -11,12 +11,19 @@ from pathlib import Path
 from urllib.parse import unquote, urlparse
 
 IGNORED_DIRS = {".git", ".venv", "venv", "node_modules", "dist", "build", "__pycache__"}
+INSTALLED_SKILL_DIRS = {Path(".agents/skills"), Path(".claude/skills"), Path(".codex/skills")}
 LINK_RE = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
 
 
 def markdown_files(root: Path):
     for current, dirs, files in os.walk(root):
-        dirs[:] = sorted(d for d in dirs if d not in IGNORED_DIRS)
+        base = Path(current)
+        dirs[:] = sorted(
+            d
+            for d in dirs
+            if d not in IGNORED_DIRS
+            and (base / d).relative_to(root) not in INSTALLED_SKILL_DIRS
+        )
         for name in sorted(files):
             path = Path(current) / name
             if not path.is_symlink() and name.lower().endswith((".md", ".mdx")):

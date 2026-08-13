@@ -16,8 +16,12 @@ class PublicCopyContractTests(unittest.TestCase):
         english = self.read("README.md")
         chinese = self.read("README.zh-CN.md")
 
-        self.assertEqual(re.findall(r"^## (.+)$", english, flags=re.MULTILINE)[0], "Install and invoke")
-        self.assertEqual(re.findall(r"^## (.+)$", chinese, flags=re.MULTILINE)[0], "安装并调用")
+        self.assertEqual(re.findall(r"^## (.+)$", english, flags=re.MULTILINE)[0], "A real failure it caught")
+        self.assertEqual(re.findall(r"^## (.+)$", chinese, flags=re.MULTILINE)[0], "不是讲概念：它真抓到过一个越界打包漏洞")
+        self.assertIn("assets/hero.png", english)
+        self.assertIn("assets/audit-proof.png", english)
+        self.assertIn("assets/hero.zh-CN.png", chinese)
+        self.assertIn("assets/audit-proof.zh-CN.png", chinese)
         for text in (english, chinese):
             self.assertIn("$launch-github-project", text)
             self.assertIn("examples/self-audit-bundle-safety.md", text)
@@ -53,7 +57,21 @@ class PublicCopyContractTests(unittest.TestCase):
         self.assertIn("## Exact prompt", comparison)
         self.assertIn("Do not use a day-by-day calendar", comparison)
         self.assertNotIn("Complete distribution pilot", readme)
-        self.assertIn("host-level behavior is not yet claimed as broadly verified", readme)
+        self.assertIn("Other Agent Skills hosts", readme)
+
+    def test_public_visuals_are_shipped_pngs(self):
+        for relative in (
+            "assets/hero.png",
+            "assets/hero.zh-CN.png",
+            "assets/social-preview.png",
+            "assets/audit-proof.png",
+            "assets/audit-proof.zh-CN.png",
+            "assets/activation-proof.png",
+            "assets/hero-art.png",
+        ):
+            data = (ROOT / relative).read_bytes()
+            self.assertGreater(len(data), 10_000, relative)
+            self.assertEqual(data[:8], b"\x89PNG\r\n\x1a\n", relative)
 
     def test_install_docs_keep_remote_actions_behind_authorization(self):
         english = self.read("docs/INSTALL.md")
@@ -63,6 +81,31 @@ class PublicCopyContractTests(unittest.TestCase):
         self.assertIn("明确授权", chinese)
         self.assertNotIn("only prepares local materials", english)
         self.assertNotIn("只准备本地发布材料", chinese)
+
+    def test_chinese_readme_rejects_known_translationese_and_has_a_hook(self):
+        chinese = self.read("README.zh-CN.md")
+        stale_phrases = [
+            (
+                "不代表陌生人来到 GitHub 后"
+                "能看懂、敢信、会用"
+            ),
+            (
+                "陌生访客"
+                "能看懂、能试用、能验证"
+            ),
+            "可理解、" + "可试用、可验证",
+        ]
+        for phrase in stale_phrases:
+            self.assertNotIn(phrase, chinese)
+        opening = chinese.split("```bash", 1)[0]
+        self.assertIn("别让一个能打的项目", opening)
+        self.assertIn("访客没看完开头，就关掉页面", opening)
+        prose = [
+            part
+            for part in chinese.split("\n\n")
+            if "\n" not in part and not part.startswith(("<", "```", "|", "#"))
+        ]
+        self.assertLessEqual(max(map(len, prose)), 240)
 
 
 if __name__ == "__main__":

@@ -12,6 +12,8 @@ A README is not an inventory of project features. Help a new visitor answer thes
 
 Do not make readers understand the implementation before they can understand the value. For problem-solving projects, name a recognizable stalled state. For datasets, research, design resources and other artifacts, name the intended use or decision instead of inventing emotional pain.
 
+When publishing in more than one language, share claims and evidence but rebuild the reader path in each language. Section-for-section translation often preserves foreign syntax, weakens the hook and makes one language feel secondary. For Chinese copy, use `chinese-public-copy.md` before the final cold-reader pass.
+
 ## First screen
 
 Within the first screen, communicate:
@@ -62,6 +64,7 @@ Read the first screen without relying on repository history or implementation kn
 - What changes when they use it?
 - What concrete proof is visible?
 - What should they try first?
+- Is there one sentence they would naturally repeat or forward?
 
 Rewrite when the answers require decoding internal terms, reading the architecture section or trusting unsupported praise. A structurally complete README can still fail this check.
 

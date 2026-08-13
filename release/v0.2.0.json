@@ -1,0 +1,57 @@
+{
+  "project_name": "Launch GitHub Project",
+  "version": "0.2.0",
+  "title": "Cleaner first audits and visual Release proof",
+  "summary": "Version 0.2.0 makes the first audit more trustworthy and the public release easier to judge. It stops treating project-level installed Skills as target-project content, shows users what a successful read-only audit returns, and adds evidence images plus update guidance to generated Release pages.",
+  "visuals": [
+    {
+      "alt": "A Codex activation audit before and after installed Skill dependency noise was removed",
+      "url": "https://raw.githubusercontent.com/weike-zhang/launch-github-project/v0.2.0/assets/activation-proof.png",
+      "caption": "Same fixture and host: v0.2.0 removes six false blockers and six false warnings from the installed Skill dependency while preserving the one real machine-path blocker."
+    }
+  ],
+  "upgrade_if": [
+    "You install Skills at project scope under `.agents/skills/`; v0.2.0 prevents those dependencies from distorting project classification and public-surface findings.",
+    "You want the README and generated Release page to show a real before/audit/after result instead of relying on feature copy.",
+    "You maintain multiple Release specs and want CI to validate their generated pages, semantic version order and the actual extracted ZIP."
+  ],
+  "defer_if": [
+    "You only need the v0.1.2 symlink rejection and do not use project-level Skill installation or the Release-page generator.",
+    "You are not preparing new public materials yet and the repository-only presentation changes do not affect your current workflow."
+  ],
+  "highlights": [
+    "Excludes nested project-level Skill installations from type inference, link checks, secret checks and public-surface scanning, removing the false project classification and self-scanner findings exposed by a real Codex activation test.",
+    "Rebuilds the English and Chinese README around the visitor's decision path, with localized outcome-led visuals, a real before/audit/after proof image and an example of the first read-only response.",
+    "Adds purposeful-visual guidance to the Skill so future projects use images for outcomes, observable proof or sequence instead of decoration.",
+    "Adds a native-Chinese public-copy workflow, localized text-image requirement and high-confidence translationese warning so bilingual pages share facts without reading like mirrored translations.",
+    "Extends the structured Release-page format with optional visual proof, alt text and captions; tag-pinned URLs keep historical Release evidence stable.",
+    "Detects public author-profile and username-change drafts that previously escaped the generic public-surface scan, while public-copy regression tests preserve the corrected repository story.",
+    "Validates every versioned Release page by semantic version and makes CI build, list and extract the real repository ZIP instead of trusting a nominal archive step."
+  ],
+  "install_or_update": [
+    "# New Codex installation",
+    "npx skills add weike-zhang/launch-github-project --agent codex --skill launch-github-project -g -y",
+    "# Update an existing global installation",
+    "npx skills update launch-github-project -g -y"
+  ],
+  "verification": [
+    "`python3 -m unittest discover -s tests -v` — all release, public-copy, visual-asset and bundle regressions passed.",
+    "`python3 evals/validate_fixtures.py` — all fixture-integrity checks passed; this is not a model-quality score.",
+    "Local links, redacted secret scanning and strict public-surface checks completed with no findings.",
+    "Every versioned Release page was regenerated and checked against its structured spec; the latest spec matches plugin version 0.2.0.",
+    "The deterministic ZIP was listed, tested and extracted before upload, with Git metadata excluded."
+  ],
+  "compatibility": [
+    "Project-level install, explicit invocation and the read-only first audit are verified with Codex CLI `0.147.0-alpha.6.5`; see the [fixture, command and sanitized output](https://github.com/weike-zhang/launch-github-project/blob/v0.2.0/evals/results/codex-first-audit-v0.2.0.md).",
+    "Bundled release scripts are verified with Python 3.12 in GitHub Actions.",
+    "The visual build script uses Pillow; generated PNG assets are already included in the Skill package.",
+    "The public repository install command will be rechecked after publication; other Agent Skills hosts remain unverified unless listed separately."
+  ],
+  "limitations": [
+    "The published behavior comparison remains one exploratory prompt pair, not a benchmark or adoption result.",
+    "Automated checks cannot prove asset ownership, product quality, user demand or visitor comprehension; the cold-reader and rights reviews remain manual gates.",
+    "The release bundler rejects symlinks and non-regular files but is not a general sandbox against malicious concurrent file replacement.",
+    "Creating repositories, pushing branches, changing visibility, publishing Releases and posting externally still require explicit target-specific authorization."
+  ],
+  "release_asset": "launch-github-project-v0.2.0.zip"
+}

@@ -11,6 +11,7 @@ from collections import Counter
 from pathlib import Path
 
 IGNORED_DIRS = {".git", ".venv", "venv", "node_modules", "dist", "build", "__pycache__", ".next", ".cache"}
+INSTALLED_SKILL_DIRS = {Path(".agents/skills"), Path(".claude/skills"), Path(".codex/skills")}
 TYPE_SIGNALS = {
     "agent-skill": {"SKILL.md", ".codex-plugin", ".claude-plugin"},
     "software": {"pyproject.toml", "package.json", "Cargo.toml", "go.mod", "requirements.txt", "Dockerfile"},
@@ -25,8 +26,14 @@ TYPE_SIGNALS = {
 
 def iter_paths(root: Path):
     for current, dirs, files in os.walk(root):
-        dirs[:] = sorted(d for d in dirs if d not in IGNORED_DIRS)
         base = Path(current)
+        kept_dirs: list[str] = []
+        for name in sorted(dirs):
+            relative = (base / name).relative_to(root)
+            if name in IGNORED_DIRS or relative in INSTALLED_SKILL_DIRS:
+                continue
+            kept_dirs.append(name)
+        dirs[:] = kept_dirs
         for name in sorted(dirs):
             yield (base / name).relative_to(root), True
         for name in sorted(files):

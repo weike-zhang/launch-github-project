@@ -42,6 +42,34 @@ def require_text_list(data: dict[str, object], key: str) -> list[str]:
     return items
 
 
+def optional_visuals(data: dict[str, object]) -> list[dict[str, str]]:
+    value = data.get("visuals")
+    if value is None:
+        return []
+    if not isinstance(value, list) or not value:
+        raise ValueError("visuals must be a non-empty list when provided")
+    visuals: list[dict[str, str]] = []
+    for index, item in enumerate(value):
+        if not isinstance(item, dict):
+            raise ValueError(f"visuals[{index}] must be an object")
+        visual: dict[str, str] = {}
+        for key in ("alt", "url", "caption"):
+            field = item.get(key)
+            if not isinstance(field, str) or not field.strip():
+                raise ValueError(f"visuals[{index}].{key} must be non-empty text")
+            if PLACEHOLDER.search(field):
+                raise ValueError(f"visuals[{index}].{key} contains an unresolved placeholder")
+            visual[key] = field.strip()
+        visuals.append(visual)
+    return visuals
+
+
+def optional_text_list(data: dict[str, object], key: str) -> list[str]:
+    if key not in data:
+        return []
+    return require_text_list(data, key)
+
+
 def validate_versions(root: Path, version: str) -> None:
     manifest_path = root / ".codex-plugin" / "plugin.json"
     if not manifest_path.exists():
@@ -64,6 +92,11 @@ def render(root: Path, spec: dict[str, object], *, validate_manifest: bool = Tru
     install = require_text_list(spec, "install_or_update")
     compatibility = require_text_list(spec, "compatibility")
     limitations = require_text_list(spec, "limitations")
+    visuals = optional_visuals(spec)
+    upgrade_if = optional_text_list(spec, "upgrade_if")
+    defer_if = optional_text_list(spec, "defer_if")
+    if bool(upgrade_if) != bool(defer_if):
+        raise ValueError("upgrade_if and defer_if must be provided together")
     if validate_manifest:
         validate_versions(root, version)
 
@@ -72,29 +105,59 @@ def render(root: Path, spec: dict[str, object], *, validate_manifest: bool = Tru
         "",
         summary,
         "",
-        "## What changed",
-        "",
-        *(f"- {item}" for item in highlights),
-        "",
-        "## Install or update",
-        "",
-        "```bash",
-        *install,
-        "```",
-        "",
-        "## Verification",
-        "",
-        *(f"- {item}" for item in verification),
-        "",
-        "## Compatibility",
-        "",
-        *(f"- {item}" for item in compatibility),
-        "",
-        "## Known limitations",
-        "",
-        *(f"- {item}" for item in limitations),
-        "",
     ]
+    if visuals:
+        lines.extend(["## Visual proof", ""])
+        for visual in visuals:
+            lines.extend(
+                [
+                    f"![{visual['alt']}]({visual['url']})",
+                    "",
+                    f"*{visual['caption']}*",
+                    "",
+                ]
+            )
+    if upgrade_if:
+        lines.extend(
+            [
+                "## Should I update?",
+                "",
+                "**Update now if:**",
+                "",
+                *(f"- {item}" for item in upgrade_if),
+                "",
+                "**You can defer if:**",
+                "",
+                *(f"- {item}" for item in defer_if),
+                "",
+            ]
+        )
+    lines.extend(
+        [
+            "## What changed",
+            "",
+            *(f"- {item}" for item in highlights),
+            "",
+            "## Install or update",
+            "",
+            "```bash",
+            *install,
+            "```",
+            "",
+            "## Verification",
+            "",
+            *(f"- {item}" for item in verification),
+            "",
+            "## Compatibility",
+            "",
+            *(f"- {item}" for item in compatibility),
+            "",
+            "## Known limitations",
+            "",
+            *(f"- {item}" for item in limitations),
+            "",
+        ]
+    )
     asset = spec.get("release_asset")
     if asset is not None:
         if not isinstance(asset, str) or not asset.strip() or PLACEHOLDER.search(asset):

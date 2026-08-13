@@ -12,7 +12,7 @@ Run this review after release materials are drafted and again immediately before
 Run:
 
 ```bash
-python scripts/review_public_surface.py <project-root> --json
+python3 scripts/review_public_surface.py <project-root> --json
 ```
 
 Resolve every blocker. Review warnings one by one; do not dismiss them in bulk.
@@ -48,6 +48,8 @@ Ask five cold-reader questions:
 5. What should they try first?
 
 Translate internal mechanisms into observable consequences. Inspect comparison images as carefully as prose: both sides should use the same user task and show a difference a reader can interpret without decoding feature labels.
+
+For bilingual material, confirm that the second language was independently written from shared facts rather than mirrored from the first language. In Chinese, read the opening aloud, reject long “不代表……能够……” structures and abstract three-part lists, and verify that public images containing text have a Chinese variant.
 
 Remove:
 

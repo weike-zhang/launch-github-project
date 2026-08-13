@@ -18,12 +18,18 @@ REQUIRED_FILES = [
     "CONTRIBUTING.md",
     "docs/FIRST-GITHUB-LAUNCH.zh-CN.md",
     "assets/hero.png",
+    "assets/hero.zh-CN.png",
+    "assets/hero-art.png",
+    "assets/audit-proof.png",
     "assets/social-preview.png",
+    "assets/audit-proof.zh-CN.png",
+    "assets/activation-proof.png",
     "assets/ASSET-NOTICE.md",
     "assets/launch-flow.svg",
     "skills/launch-github-project/SKILL.md",
     "skills/launch-github-project/references/public-surface-review.md",
     "skills/launch-github-project/references/adoption-and-trust.md",
+    "skills/launch-github-project/references/chinese-public-copy.md",
     "skills/launch-github-project/references/release-page.md",
     "skills/launch-github-project/scripts/audit_repository.py",
     "skills/launch-github-project/scripts/check_secrets.py",
@@ -34,9 +40,12 @@ REQUIRED_FILES = [
     "skills/launch-github-project/assets/release/release-page.json",
     "tests/test_release_tools.py",
     "tests/test_public_copy.py",
+    "evals/results/codex-first-audit-v0.2.0.md",
     "examples/self-audit-bundle-safety.md",
     "release/v0.1.2.json",
     "release/v0.1.2.md",
+    "release/v0.2.0.json",
+    "release/v0.2.0.md",
 ]
 
 
@@ -78,7 +87,7 @@ def main() -> int:
     passed = sum(checks.values())
     result = {
         "suite": "launch-github-project-fixture-integrity",
-        "version": "0.1.2",
+        "version": "0.2.0",
         "checks": checks,
         "passed_checks": passed,
         "total_checks": len(checks),
