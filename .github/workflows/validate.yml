@@ -17,4 +17,5 @@ jobs:
       - run: python skills/launch-github-project/scripts/check_links.py .
       - run: python skills/launch-github-project/scripts/check_secrets.py .
       - run: python skills/launch-github-project/scripts/review_public_surface.py . --strict
+      - run: python skills/launch-github-project/scripts/generate_release_page.py . --spec release/v0.1.2.json --output release/v0.1.2.md --check
       - run: python -m json.tool .codex-plugin/plugin.json >/dev/null

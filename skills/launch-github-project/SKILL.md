@@ -1,6 +1,6 @@
 ---
 name: launch-github-project
-description: Audit, position, document, validate, package, and prepare the GitHub launch of any project type, including software, CLI tools, Agent Skills, datasets, courses, documentation, research, design resources, content projects, and portfolios. Use when a user wants to publish or open-source a project, make a repository release-ready, improve launch materials, prepare README or Release assets, evaluate launch readiness, or plan evidence-based distribution. Ask only when a decision becomes necessary, adapt outputs to the project type, and require explicit authorization before remote or public actions.
+description: Audit, position, document, validate, package, and prepare the GitHub launch of any project type, including software, CLI tools, Agent Skills, datasets, courses, documentation, research, design resources, content projects, and portfolios. Use when a user wants to publish or open-source a project, make a repository release-ready, improve launch materials, generate a GitHub Release page or Release asset, evaluate launch readiness, or plan evidence-based distribution. Ask only when a decision becomes necessary, adapt outputs to the project type, and require explicit authorization before remote or public actions.
 ---
 
 # Launch GitHub Project
@@ -114,6 +114,19 @@ python scripts/build_release_bundle.py <project-root> --output <destination.zip>
 
 The bundle must exclude Git data, local state, credentials, caches, build debris and its own output. Inspect the archive list and extract it into a temporary directory before calling it ready.
 
+## Generate a GitHub Release page
+
+Read [references/release-page.md](references/release-page.md). Generate the page from structured release evidence with:
+
+```bash
+python scripts/generate_release_page.py <project-root> \
+  --spec <release-spec.json> --output <release-page.md>
+```
+
+Lead with the user-visible reason to update, then provide changes, install or update instructions, exact verification, compatibility and limitations. Check that local `HEAD`, the remote default branch, any open release PR and the latest Release tag describe the same publication state. Never call an open PR published, and never publish a tag whose version metadata disagrees with the tag.
+
+Generating local Markdown is reversible. Creating the GitHub Release, tag or asset remains a remote action that requires explicit authorization. After publication, verify the Release page and asset as an unsigned visitor.
+
 ## Plan distribution from the user's goal
 
 Read [references/distribution-playbook.md](references/distribution-playbook.md) only when the user asks for launch or promotion planning.
@@ -155,3 +168,5 @@ Use a dedicated GitHub publish workflow such as `yeet` for branch, commit, push 
 - `scripts/review_public_surface.py`: deterministic public-surface blocker and warning scan.
 - [references/adoption-and-trust.md](references/adoption-and-trust.md): first-success, proof, retention and contribution checks derived from real adoption failures.
 - `scripts/build_release_bundle.py`: deterministic ZIP builder with safety exclusions and symlink rejection.
+- [references/release-page.md](references/release-page.md): required Release-page content, version alignment and remote-state gates.
+- `scripts/generate_release_page.py`: deterministic GitHub Release-page generator and stale-page check.

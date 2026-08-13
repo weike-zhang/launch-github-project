@@ -23,6 +23,7 @@ It can prepare software, CLI tools, Agent Skills, datasets, courses, documentati
 - privacy, security, license and attribution guidance;
 - checks for secrets, links, placeholders, asset-rights status and public-risk patterns;
 - release notes, launch copy and a distribution plan selected from the user's outcome, audience, evidence, channels and effort;
+- a GitHub Release page with install instructions, verification, compatibility and known limits kept in sync with version metadata;
 - a handoff with exact local commands and explicit gates for any remote action.
 
 ## Quick start
@@ -47,7 +48,7 @@ That is the end-user path. Maintainers and people running individual gates can u
 
 During this repository's own release audit, a file symlink pointing outside the project was copied into the generated ZIP. Version 0.1.2 rejects file and directory symlinks before reading them, treats them as public-surface blockers, and covers the behavior with regression tests.
 
-Read the complete [self-audit case](examples/self-audit-bundle-safety.md), including the reproduction, root cause, fix and verification commands.
+Read the complete [self-audit case](examples/self-audit-bundle-safety.md), including the reproduction, root cause, fix and verification commands. The same audit also found that the public default branch and latest Release can lag behind an open release PR; the Skill now reports those as separate publication states.
 
 ## Design principles
 

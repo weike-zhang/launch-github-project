@@ -3,7 +3,7 @@
 
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -42,4 +42,7 @@ draw.line((1345, 275, 1345, 390), fill="#F24B22", width=28)
 draw.line((1345, 275, 1230, 275), fill="#F24B22", width=28)
 
 image.save(ROOT / "assets" / "hero.png", optimize=True)
+preview = ImageOps.fit(image, (1280, 640), method=Image.Resampling.LANCZOS)
+preview.save(ROOT / "assets" / "social-preview.png", optimize=True)
 print(ROOT / "assets" / "hero.png")
+print(ROOT / "assets" / "social-preview.png")

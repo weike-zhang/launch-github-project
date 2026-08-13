@@ -18,17 +18,23 @@ REQUIRED_FILES = [
     "CONTRIBUTING.md",
     "docs/FIRST-GITHUB-LAUNCH.zh-CN.md",
     "assets/hero.png",
+    "assets/social-preview.png",
+    "assets/ASSET-NOTICE.md",
     "assets/launch-flow.svg",
     "skills/launch-github-project/SKILL.md",
     "skills/launch-github-project/references/public-surface-review.md",
     "skills/launch-github-project/references/adoption-and-trust.md",
+    "skills/launch-github-project/references/release-page.md",
     "skills/launch-github-project/scripts/audit_repository.py",
     "skills/launch-github-project/scripts/check_secrets.py",
     "skills/launch-github-project/scripts/check_links.py",
     "skills/launch-github-project/scripts/review_public_surface.py",
     "skills/launch-github-project/scripts/build_release_bundle.py",
+    "skills/launch-github-project/scripts/generate_release_page.py",
     "tests/test_release_tools.py",
     "examples/self-audit-bundle-safety.md",
+    "release/v0.1.2.json",
+    "release/v0.1.2.md",
 ]
 
 
@@ -47,7 +53,7 @@ def main() -> int:
     checks = {
         "trigger_prompt_count": len(rows) == 24,
         "trigger_balance": true_count == 12 and false_count == 12,
-        "scenario_count": len(scenarios) == 8,
+        "scenario_count": len(scenarios) == 9,
         "scenario_schema": all(
             {"id", "type", "goal", "prompt", "required", "forbidden"} <= set(item)
             for item in scenarios

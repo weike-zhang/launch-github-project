@@ -23,6 +23,7 @@ def load_script(name: str):
 
 bundle = load_script("build_release_bundle")
 public_surface = load_script("review_public_surface")
+release_page = load_script("generate_release_page")
 
 
 class ReleaseBundleTests(unittest.TestCase):
@@ -84,6 +85,55 @@ class PublicSurfaceTests(unittest.TestCase):
 
             self.assertEqual(result["blocker_count"], 1)
             self.assertEqual(result["blockers"][0]["category"], "symbolic_link")
+
+
+class ReleasePageTests(unittest.TestCase):
+    def spec(self) -> dict[str, object]:
+        return {
+            "project_name": "Example Skill",
+            "version": "1.2.3",
+            "title": "A safer update",
+            "summary": "This release closes a verified packaging defect.",
+            "highlights": ["Rejects unsafe entries before reading them."],
+            "install_or_update": ["npx skills add owner/example -g"],
+            "verification": ["`python -m unittest` — 2 tests passed."],
+            "compatibility": ["Python 3.12 verified."],
+            "limitations": ["This is not a general sandbox."],
+            "release_asset": "example-v1.2.3.zip",
+        }
+
+    def test_renders_decision_sections_from_structured_evidence(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            manifest = root / ".codex-plugin" / "plugin.json"
+            manifest.parent.mkdir()
+            manifest.write_text('{"version": "1.2.3"}\n', encoding="utf-8")
+
+            result = release_page.render(root, self.spec())
+
+            self.assertIn("# Example Skill v1.2.3 — A safer update", result)
+            self.assertIn("## Install or update", result)
+            self.assertIn("## Verification", result)
+            self.assertIn("## Known limitations", result)
+            self.assertIn("example-v1.2.3.zip", result)
+
+    def test_rejects_manifest_version_mismatch(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            manifest = root / ".codex-plugin" / "plugin.json"
+            manifest.parent.mkdir()
+            manifest.write_text('{"version": "1.2.2"}\n', encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "does not match plugin manifest"):
+                release_page.render(root, self.spec())
+
+    def test_rejects_unresolved_placeholder(self):
+        with tempfile.TemporaryDirectory() as directory:
+            spec = self.spec()
+            spec["summary"] = "TO" + "DO: explain this release"
+
+            with self.assertRaisesRegex(ValueError, "unresolved placeholder"):
+                release_page.render(Path(directory), spec)
 
 
 if __name__ == "__main__":

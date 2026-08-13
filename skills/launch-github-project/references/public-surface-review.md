@@ -68,6 +68,8 @@ Remove:
 
 Check repository description, Topics, license detection, social preview, default branch, Release, downloadable assets, Issues and security policy. After pushing, open the public URL without relying on an authenticated maintainer view and verify images, links, install commands and the Release asset.
 
+Compare the version on the remote default branch, any open release PR and the latest Release tag. Report drift explicitly: an open PR is uploaded but not published, and a tag does not repair stale version metadata inside the tagged files.
+
 ## Gate result
 
 Report four separate outcomes:
