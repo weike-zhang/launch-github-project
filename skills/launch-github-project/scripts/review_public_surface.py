@@ -37,8 +37,7 @@ TEXT_RULES = [
         "blocker",
         re.compile(
             r"(?i)(before (?:the first )?public (?:push|release)|must be confirmed before public|"
-            r"local release candidates?|not licensed public assets?|公开\s*(?:Push|发布)前.*确认|"
-            r"本地发布候选)"
+            r"not licensed public assets?|公开\s*(?:Push|发布)前.*确认)"
         ),
     ),
     (

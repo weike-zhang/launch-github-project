@@ -12,7 +12,7 @@ npx skills add weike-zhang/launch-github-project \
   --agent codex --skill launch-github-project -g -y
 ```
 
-上面的公网全局安装命令是正式发布路径，要等 v0.2.0 发布后再做最终复核。发布前已验证的范围更窄：把本地 0.2.0 候选版复制到项目级 Skill 目录，在 Codex CLI `0.147.0-alpha.6.5` 中显式调用，并在只读沙箱完成第一次审计。安装后，在目标项目中启动一个新的 Codex 任务，再输入：
+v0.2.0 发布后，上面的公网全局安装命令已经实测：Codex CLI `0.147.0-alpha.6.5` 在一个没有项目级 Skill 的干净目录中加载 GitHub 公开版本，并在只读沙箱完成第一次审计。发布前，本地候选版也通过了项目级安装路径。安装后，在目标项目中启动一个新的 Codex 任务，再输入：
 
 ```text
 使用 $launch-github-project 审计这个项目的 GitHub 发布面。

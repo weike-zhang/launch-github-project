@@ -102,7 +102,8 @@ npx skills add weike-zhang/launch-github-project --agent codex --skill launch-gi
 
 | 使用面 | 当前状态 | 证据 |
 | --- | --- | --- |
-| 本地 0.2.0 候选版：项目级安装 → 调用 → 首次审计 | Codex CLI 0.147.0-alpha.6.5 已验证 | [夹具、命令和脱敏输出](evals/results/codex-first-audit-v0.2.0.md) |
+| 公开 v0.2.0：全局安装 → 调用 → 首次审计 | Codex CLI 0.147.0-alpha.6.5 已验证 | [安装、干净夹具和实测输出](evals/results/codex-first-audit-v0.2.0.md#post-publication-check) |
+| 本地 0.2.0 候选版：项目级安装 → 调用 → 首次审计 | 发布前在同一客户端已验证 | [候选版夹具、命令和脱敏输出](evals/results/codex-first-audit-v0.2.0.md#release-candidate-check) |
 | 发布脚本 | Python 3.12 已验证 | [回归测试](tests/test_release_tools.py)与 [GitHub Actions](https://github.com/weike-zhang/launch-github-project/actions/workflows/validate.yml) |
 | 项目类型路径与评估文件 | 只验证结构完整 | [夹具校验器](evals/validate_fixtures.py)，不是模型质量分数 |
 | 传播行为 | 只有一组探索性对照 | [完整输入、基线、Skill 响应与限制](evals/results/model-comparison.md) |
