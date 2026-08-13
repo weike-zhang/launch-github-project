@@ -8,10 +8,14 @@ jobs:
   release-integrity:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
+      - run: python -m unittest discover -s tests -v
       - run: python evals/validate_fixtures.py
+      - run: python skills/launch-github-project/scripts/check_links.py .
+      - run: python skills/launch-github-project/scripts/check_secrets.py .
       - run: python skills/launch-github-project/scripts/review_public_surface.py . --strict
+      - run: python skills/launch-github-project/scripts/generate_release_page.py . --spec release/v0.1.2.json --output release/v0.1.2.md --check
       - run: python -m json.tool .codex-plugin/plugin.json >/dev/null

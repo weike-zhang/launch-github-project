@@ -36,11 +36,25 @@ Do not publish an asset while its own notice says permission is pending. A publi
 
 ## 4. Review public copy as an unsigned visitor
 
-The first screen should provide the outcome, intended user, shortest valid start action and one concrete proof. Remove:
+The first screen should let a target reader recognize their situation or goal, understand the user-visible outcome, inspect one concrete proof and find the shortest valid start action. A checklist-complete page still fails when these answers require understanding the project's protocol, architecture or maintainer vocabulary first.
+
+Ask five cold-reader questions:
+
+1. Who is this for?
+2. What familiar problem, unmet need or intended use should they recognize?
+3. What changes for them when they use the project?
+4. Which example or evidence supports that change?
+5. What should they try first?
+
+Translate internal mechanisms into observable consequences. Inspect comparison images as carefully as prose: both sides should use the same user task and show a difference a reader can interpret without decoding feature labels.
+
+Remove:
 
 - `TODO`, `TBD`, placeholder and “replace before launch” instructions;
 - internal distribution plans or author-profile drafts;
 - AI generation prompts and rejected attempt notes that do not help users verify the shipped artifact;
+- openings made only of abstract method claims, badges or install commands;
+- feature labels that describe the implementation but not what the reader can do;
 - unsupported compatibility, adoption, learning or performance claims.
 
 ## 5. Review Git history and identity
@@ -53,6 +67,8 @@ The first screen should provide the outcome, intended user, shortest valid start
 ## 6. Complete the remote surface
 
 Check repository description, Topics, license detection, social preview, default branch, Release, downloadable assets, Issues and security policy. After pushing, open the public URL without relying on an authenticated maintainer view and verify images, links, install commands and the Release asset.
+
+Compare the version on the remote default branch, any open release PR and the latest Release tag. Report drift explicitly: an open PR is uploaded but not published, and a tag does not repair stale version metadata inside the tagged files.
 
 ## Gate result
 

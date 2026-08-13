@@ -17,6 +17,7 @@
 - Fixture or schema checks are not presented as product-performance percentages.
 - Public behavior scores link to complete sanitized raw outputs and limitations.
 - Git authors, contributors, recent commit messages and nested repositories were reviewed.
+- The generated Release page matches its structured spec and current version metadata.
 
 ## Remote decision gate
 
@@ -30,7 +31,10 @@ Before remote publication, confirm together:
 - initial version and Release status;
 - whether external announcements are in scope.
 - whether maintainer plans, launch drafts and raw evaluation runs belong in the public tree.
+- whether local `HEAD`, the remote default branch, an open release PR and the intended tag are aligned.
 
 ## After publication
 
 Open the repository as an unsigned visitor when possible. Verify the first screen, images, links, clone or download path, Topics, social preview and Release asset. Confirm the visible contributors and recent history are intended. Do not call the launch complete based only on a successful push.
+
+Open the Release page separately. Verify its title, install command, limitations, asset filename and GitHub-reported digest. An open PR or locally generated page is not a published Release.

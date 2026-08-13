@@ -2,6 +2,8 @@
 
 Do not start with a fixed calendar. Start with the result the author needs.
 
+Read [adoption-and-trust.md](adoption-and-trust.md) first when the project has no verified first-success path or no proof of its core promise. Distribution cannot repair an activation or trust failure.
+
 ## Inputs required only at this stage
 
 - desired outcome;

@@ -1,6 +1,6 @@
 ---
 name: launch-github-project
-description: Audit, position, document, validate, package, and prepare the GitHub launch of any project type, including software, CLI tools, Agent Skills, datasets, courses, documentation, research, design resources, content projects, and portfolios. Use when a user wants to publish or open-source a project, make a repository release-ready, improve launch materials, prepare README or Release assets, evaluate launch readiness, or plan evidence-based distribution. Ask only when a decision becomes necessary, adapt outputs to the project type, and require explicit authorization before remote or public actions.
+description: Audit, position, document, validate, package, and prepare the GitHub launch of any project type, including software, CLI tools, Agent Skills, datasets, courses, documentation, research, design resources, content projects, and portfolios. Use when a user wants to publish or open-source a project, make a repository release-ready, improve launch materials, generate a GitHub Release page or Release asset, evaluate launch readiness, or plan evidence-based distribution. Ask only when a decision becomes necessary, adapt outputs to the project type, and require explicit authorization before remote or public actions.
 ---
 
 # Launch GitHub Project
@@ -52,6 +52,8 @@ Explain why the decision is needed, recommend a safe default, and continue with 
 
 Read [references/repository-standard.md](references/repository-standard.md) for common requirements and [references/readme-patterns.md](references/readme-patterns.md) for type-specific README sections.
 
+Before drafting a README, identify the reader's recognizable situation, the outcome they want and the proof the project can honestly show. Order the page around the reader's decision path. Translate internal mechanisms, protocol names and maintainer terminology into observable user consequences before presenting implementation detail. Do not treat synonym replacement or a more casual tone as a substitute for clear positioning.
+
 Create or improve only the artifacts justified by the project:
 
 - README and repository metadata;
@@ -64,12 +66,26 @@ Create or improve only the artifacts justified by the project:
 
 Do not add badges, governance documents, CI, websites, videos, telemetry or community files merely to look mature.
 
+After drafting, perform the cold-reader check in `references/readme-patterns.md`. If a target reader cannot identify why the project matters, what changes in use and what to try without understanding the implementation first, revise the reading path before validating links or packaging.
+
+## Design the first-success and adoption path
+
+Read [references/adoption-and-trust.md](references/adoption-and-trust.md) when improving a public launch, README, evidence plan or distribution surface.
+
+- State the user outcome before the internal method.
+- Keep the end-user quick start to the fewest actions that produce a visible result; move maintainer gates out of that path.
+- Make proof test the core promise directly. A release Skill needs real release artifacts and caught failures, not only fixture integrity or launch copy.
+- Separate discovery, first success, repeat use, contribution and popularity. Stars do not prove activation or value.
+- Match repeat use to project frequency; do not invent an empty community, website or recurring workflow to imitate a mature project.
+- Prefer artifact-led distribution: show a useful result, caught failure, reproducible comparison or user outcome before announcing that a repository exists.
+
 ## Validate claims and artifacts
 
 - Use the project's native checks when available.
 - Use `python scripts/check_links.py <project-root>` for local Markdown links.
 - Search for unresolved placeholders and private material.
 - Verify commands from a clean path when practical.
+- Reject or resolve symlinks explicitly before scanning or packaging; never follow a repository link into unreviewed local files.
 - Mark compatibility as verified, partial or unverified.
 - Keep raw evaluation inputs and limitations with reported scores.
 - Never invent users, metrics, benchmarks, endorsements or download counts.
@@ -97,6 +113,19 @@ python scripts/build_release_bundle.py <project-root> --output <destination.zip>
 ```
 
 The bundle must exclude Git data, local state, credentials, caches, build debris and its own output. Inspect the archive list and extract it into a temporary directory before calling it ready.
+
+## Generate a GitHub Release page
+
+Read [references/release-page.md](references/release-page.md). Generate the page from structured release evidence with:
+
+```bash
+python scripts/generate_release_page.py <project-root> \
+  --spec <release-spec.json> --output <release-page.md>
+```
+
+Lead with the user-visible reason to update, then provide changes, install or update instructions, exact verification, compatibility and limitations. Check that local `HEAD`, the remote default branch, any open release PR and the latest Release tag describe the same publication state. Never call an open PR published, and never publish a tag whose version metadata disagrees with the tag.
+
+Generating local Markdown is reversible. Creating the GitHub Release, tag or asset remains a remote action that requires explicit authorization. After publication, verify the Release page and asset as an unsigned visitor.
 
 ## Plan distribution from the user's goal
 
@@ -137,4 +166,7 @@ Use a dedicated GitHub publish workflow such as `yeet` for branch, commit, push 
 - `scripts/check_secrets.py`: redacted secret-pattern scan.
 - `scripts/check_links.py`: local Markdown link verification.
 - `scripts/review_public_surface.py`: deterministic public-surface blocker and warning scan.
-- `scripts/build_release_bundle.py`: deterministic ZIP builder with safety exclusions.
+- [references/adoption-and-trust.md](references/adoption-and-trust.md): first-success, proof, retention and contribution checks derived from real adoption failures.
+- `scripts/build_release_bundle.py`: deterministic ZIP builder with safety exclusions and symlink rejection.
+- [references/release-page.md](references/release-page.md): required Release-page content, version alignment and remote-state gates.
+- `scripts/generate_release_page.py`: deterministic GitHub Release-page generator and stale-page check.

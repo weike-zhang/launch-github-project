@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import stat
 import zipfile
 from pathlib import Path
 
@@ -41,12 +42,43 @@ def is_within(path: Path, root: Path) -> bool:
 
 def collect(root: Path, output: Path) -> list[Path]:
     files: list[Path] = []
+    unsafe_entries: list[str] = []
     for current, dirs, names in os.walk(root):
-        dirs[:] = sorted(d for d in dirs if d not in EXCLUDED_DIRS)
+        base = Path(current)
+        kept_dirs: list[str] = []
+        for name in sorted(dirs):
+            path = base / name
+            if name in EXCLUDED_DIRS:
+                continue
+            if path.is_symlink():
+                unsafe_entries.append(f"symbolic link: {path.relative_to(root)}")
+                continue
+            kept_dirs.append(name)
+        dirs[:] = kept_dirs
         for name in sorted(names):
-            path = Path(current) / name
-            if include(path, root, output):
-                files.append(path)
+            path = base / name
+            if not include(path, root, output):
+                continue
+            if path.is_symlink():
+                unsafe_entries.append(f"symbolic link: {path.relative_to(root)}")
+                continue
+            try:
+                mode = path.lstat().st_mode
+            except OSError as error:
+                unsafe_entries.append(f"unreadable entry: {path.relative_to(root)} ({error})")
+                continue
+            if not stat.S_ISREG(mode):
+                unsafe_entries.append(f"non-regular file: {path.relative_to(root)}")
+                continue
+            if not is_within(path, root):
+                unsafe_entries.append(f"path outside root: {path.relative_to(root)}")
+                continue
+            files.append(path)
+    if unsafe_entries:
+        preview = "; ".join(unsafe_entries[:10])
+        if len(unsafe_entries) > 10:
+            preview += f"; and {len(unsafe_entries) - 10} more"
+        raise ValueError(f"refusing to bundle unsafe filesystem entries: {preview}")
     return files
 
 

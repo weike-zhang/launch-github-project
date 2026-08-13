@@ -30,6 +30,8 @@ def text_files(root: Path):
         dirs[:] = sorted(d for d in dirs if d not in IGNORED_DIRS)
         for name in sorted(files):
             path = Path(current) / name
+            if path.is_symlink():
+                continue
             try:
                 if path.stat().st_size > MAX_FILE_BYTES:
                     continue

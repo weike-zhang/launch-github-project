@@ -1,59 +1,113 @@
 # README patterns
 
+## Build the reader's decision path
+
+A README is not an inventory of project features. Help a new visitor answer these questions in order:
+
+1. Is this meant for my situation, unmet need or goal?
+2. What will become easier, safer or possible for me?
+3. What concrete example or evidence supports that claim?
+4. What is the smallest useful thing I can try?
+5. Where can I inspect the method, limits and maintenance details?
+
+Do not make readers understand the implementation before they can understand the value. For problem-solving projects, name a recognizable stalled state. For datasets, research, design resources and other artifacts, name the intended use or decision instead of inventing emotional pain.
+
 ## First screen
 
 Within the first screen, communicate:
 
-- project name and one-sentence outcome;
-- intended user;
-- one concrete differentiator;
-- a visual or compact example when it adds proof;
-- the shortest valid start action.
+- project name and one user-visible outcome;
+- the intended user through a recognizable situation or goal;
+- one concrete differentiator expressed as a consequence, not an internal mechanism;
+- a compact example, output or visual when it adds proof;
+- the shortest valid start action after the reader has a reason to care.
 
-Badges are metadata, not a value proposition. Use only accurate, maintained badges.
+Badges are metadata, not a value proposition. Move them below the positioning copy when they compete with the message. For installable projects, keep one tested, copyable install command near the first useful example, but do not lead with installation before explaining why the project matters.
 
-For installable projects, place one tested copyable install command before architecture or maintainer detail. Prefer a real output, screenshot or behavior comparison over a generic feature table.
+## Translate from the inside out
+
+Project authors naturally describe protocols, architecture and safeguards. A new user describes what they are trying to do and where they are stuck. Preserve the technical truth while translating the point of view.
+
+| Internal or maintainer language | User-visible language |
+| --- | --- |
+| routes explanation, diagnosis and implementation | does not turn “help me understand” into an unrequested code change |
+| grounds claims in authorized evidence | points to the file, log or page behind a project-specific statement |
+| verifies prerequisite understanding | asks the learner to predict or safely observe once instead of assuming they understood |
+| exports multiple artifact formats | gives the user the specific file they need to download or reuse |
+
+Do not solve “AI-sounding” copy by swapping synonyms, adding casual filler or deleting every technical term. Rewrite the vantage point: lead with the reader's situation and observable result, then introduce the exact technical term when it helps verification or use.
+
+Prefer concrete nouns and verbs over clusters such as “comprehensive,” “end-to-end,” “evidence-driven,” “empower” or “unlock.” These words are acceptable only when the next sentence shows what they mean. Keep paragraphs short enough to scan; one to three sentences is usually enough.
+
+## Show proof a reader can interpret
+
+Prefer proof in this order when available:
+
+1. a real input and output;
+2. a short, reproducible task;
+3. a screenshot or visual with legible evidence;
+4. an observed behavior comparison;
+5. a feature or architecture description.
+
+A before/after visual must name the same user task on both sides and show the observable difference. Do not fill comparison cards with labels such as “adaptive routing,” “complete system path” or “evidence state” unless the intended reader already uses those terms.
+
+Keep limitations beside the claim they qualify, but do not make release-integrity caveats replace the value explanation. When evidence is weak, narrow the promise to the observed process or pilot behavior instead of implying adoption, reliability or long-term outcomes.
+
+## Run a cold-reader check
+
+Read the first screen without relying on repository history or implementation knowledge. Confirm that a target reader can answer:
+
+- Who is this for?
+- What situation or goal should they recognize?
+- What changes when they use it?
+- What concrete proof is visible?
+- What should they try first?
+
+Rewrite when the answers require decoding internal terms, reading the architecture section or trusting unsupported praise. A structurally complete README can still fail this check.
 
 ## Common core
 
-Select from:
+Select and order only the sections the reader needs:
 
-1. Why this exists.
-2. Quick start or first useful example.
-3. How it works or how content is organized.
-4. Evidence and limitations.
-5. Privacy, security, provenance and license.
-6. Contribution and roadmap.
+1. Recognizable situation, need or goal.
+2. User-visible outcome and concrete example.
+3. Quick start or first useful task.
+4. How it works or how content is organized.
+5. Evidence and limitations.
+6. Privacy, security, provenance and license.
+7. Contribution and roadmap.
+
+The order may vary when prerequisites require it, but maintainer detail should not displace user value from the opening.
 
 ## Type-specific sections
 
 ### Software or CLI
 
-Requirements, install, command examples, configuration, test, architecture only if useful, known limits, security.
+Requirements, install, command examples, real output, configuration, test, architecture only if useful, known limits, security.
 
 ### Agent Skill
 
-What behavior changes, when it triggers, installation by host, example prompts and outputs, permissions, evaluation, compatibility.
+The user's recognizable starting problem, what behavior changes, a real prompt and response excerpt, installation by host, when it triggers, permissions, evaluation, compatibility and limits. Describe Skill rules through their effect on the user's task before listing protocol steps.
 
 ### Dataset
 
-Data card, schema, sample, collection or creation method, source and consent, splits, bias, license, citation.
+Intended decisions or analyses, data card, schema, sample, collection or creation method, source and consent, splits, bias, license, citation.
 
 ### Course or documentation
 
-Audience, prerequisites, learning outcomes, navigation, exercises or evidence, how to study, maintenance and corrections.
+Audience, current knowledge or goal, prerequisites, learning outcomes, navigation, exercises or evidence, how to study, maintenance and corrections.
 
 ### Research
 
-Question, method, environment, reproduction, results, uncertainty, limitations, citation.
+Question, who can use the result and for what decision, method, environment, reproduction, results, uncertainty, limitations, citation.
 
 ### Design resource
 
-Preview, included source formats, compatible tools and versions, usage examples, editing rules, attribution and license.
+Intended design task, preview, included source formats, compatible tools and versions, usage examples, editing rules, attribution and license.
 
 ### Content project
 
-Scope, index, selection criteria, source and citation policy, update method, contribution.
+Audience need, scope, index, selection criteria, source and citation policy, update method, contribution.
 
 ### Portfolio
 
@@ -61,6 +115,6 @@ Problem context, users, personal responsibility, constraints, decisions, artifac
 
 ## Claims
 
-Prefer observed statements: "tested on macOS 15 with Codex" over "works everywhere." Link each score or benchmark to method and raw results. Remove decorative claims that cannot be checked.
+Prefer observed statements: “tested on macOS 15 with Codex” over “works everywhere.” Link each score or benchmark to its method and raw results. Remove decorative claims that cannot be checked.
 
-Do not expose internal launch-copy drafts, replacement instructions, generation prompts or unresolved rights decisions in user-facing README sections.
+Do not invent user pain, adoption, results or urgency. Do not expose internal launch-copy drafts, replacement instructions, generation prompts or unresolved rights decisions in user-facing README sections.
