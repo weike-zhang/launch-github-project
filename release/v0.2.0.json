@@ -45,7 +45,7 @@
     "Project-level install, explicit invocation and the read-only first audit are verified with Codex CLI `0.147.0-alpha.6.5`; see the [fixture, command and sanitized output](https://github.com/weike-zhang/launch-github-project/blob/v0.2.0/evals/results/codex-first-audit-v0.2.0.md).",
     "Bundled release scripts are verified with Python 3.12 in GitHub Actions.",
     "The visual build script uses Pillow; generated PNG assets are already included in the Skill package.",
-    "The public repository install command will be rechecked after publication; other Agent Skills hosts remain unverified unless listed separately."
+    "The public global install command was verified after publication with Codex CLI `0.147.0-alpha.6.5` in a clean project; see the [post-publication check](https://github.com/weike-zhang/launch-github-project/blob/5dc951e15a184da4690c7f4fbe093322c0de5047/evals/results/codex-first-audit-v0.2.0.md#post-publication-check). Other Agent Skills hosts remain unverified unless listed separately."
   ],
   "limitations": [
     "The published behavior comparison remains one exploratory prompt pair, not a benchmark or adoption result.",
