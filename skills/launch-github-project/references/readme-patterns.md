@@ -74,7 +74,29 @@ Prefer proof in this order when available:
 4. an observed behavior comparison;
 5. a feature or architecture description.
 
+### Prove that an image is necessary
+
+Default to one hero or product preview. Add another image only when a reader would lose important information in plain text, a Markdown table or a code block. A single filename, command, path escape, error or short input/output pair usually belongs in text, not a generated graphic.
+
+Choose the format from the evidence:
+
+| Evidence | Preferred format |
+| --- | --- |
+| exact command, path, error or short output | fenced code block |
+| repeated fields or a small comparison | Markdown table |
+| quantitative comparison, trend or distribution | reproducible chart from checked-in data |
+| hierarchy, ownership or a sequence with several dependent steps | Mermaid or a simple SVG |
+| observable product or UI state | real screenshot |
+
+For charts, prefer a chart-generation tool such as Vega-Lite, Matplotlib or Plotly over a model-generated dashboard image. Check in the source data and the smallest generation script, label axes and units, and provide the underlying values in accessible text or a table. Do not turn one number or one file path into a chart.
+
+Keep chart and diagram labels short. Long Chinese sentences inside raster images are a rendering risk and cannot be searched, copied or translated. Put the explanation in Markdown and render every localized visual at its final README width before publication. If glyphs, spacing or line breaks are wrong, remove the image until the source pipeline is fixed.
+
 A before/after visual must name the same user task on both sides and show the observable difference. Do not fill comparison cards with labels such as “adaptive routing,” “complete system path” or “evidence state” unless the intended reader already uses those terms.
+
+When a proof image passes the necessity gate, make the section and image do different jobs. The section heading should name the user-visible risk or result. The image should add the observed input, relationship, output or error that makes the claim believable. Do not repeat the same headline inside the image.
+
+For one caught failure, show the one decisive fact. Prefer an actual filename, command, response or before/after output over a generic three-card sequence labeled before, audit and after. Remove decorative checklists when the evidence is already a single stopped action. A reader should understand what the project prevented without learning the maintainer's test vocabulary first.
 
 Keep limitations beside the claim they qualify, but do not make release-integrity caveats replace the value explanation. When evidence is weak, narrow the promise to the observed process or pilot behavior instead of implying adoption, reliability or long-term outcomes.
 

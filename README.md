@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <strong>Your project works. Launch GitHub Project finds what will stop a new user, then prepares the public release around it.</strong>
+  <strong>The project is finished, but the README, visuals, Release, and source bundle are not. Give the repository to this Skill, review the gaps it finds, then decide what it may change.</strong>
 </p>
 
 <p align="center">
@@ -22,11 +22,20 @@ npx skills add weike-zhang/launch-github-project --agent codex --skill launch-gi
 
 Then ask: `Use $launch-github-project to audit this project for GitHub. Start read-only.` Nothing changes in the first pass; you get a concrete gap report first. [See the verified Codex first audit](evals/results/codex-first-audit-v0.2.0.md).
 
-## A real failure it caught
+## Keep files from outside the project out of the release ZIP
 
-<img src="assets/audit-proof.png" alt="A real self-audit showing a tracked symlink leaving the project, the release blocker, and the corrected release state" width="100%">
+While auditing its own repository, the Skill found that a symlink inside the project could read a file outside the project directory. The old bundler copied those bytes into the ZIP.
 
-Running this Skill against its own repository found that a tracked file symlink could copy bytes from outside the reviewed project into a release ZIP. The bundler now rejects file and directory symlinks before reading them, regression tests preserve the fix, and the remaining concurrent-replacement boundary is documented.
+```text
+project/
+├── README.md
+└── outside.txt -> /etc/hosts
+
+Release stopped: outside.txt is a symbolic link
+ZIP not created; target file not read
+```
+
+The bundler now stops before reading the target. Release ZIP contents are part of the same audit as the README, and regression tests preserve the fix.
 
 [Read the reproduction, root cause and limits](examples/self-audit-bundle-safety.md) · [Inspect the v0.1.2 fix Release](https://github.com/weike-zhang/launch-github-project/releases/tag/v0.1.2)
 
@@ -66,6 +75,7 @@ The findings vary by repository. The Skill inspects first, labels assumptions, e
 | --- | --- |
 | A README that lists features but does not explain the value | A README that says who the project is for, shows direct proof and gives readers a first step |
 | The project changed but its README still teaches old behavior or commands | A full reread after implementation, followed by an in-place update when any public contract moved |
+| Every section has an image, including raster text that renders badly | One hero by default; code blocks for paths and short output, and charts only when real data needs plotting |
 | Uncertainty about what can safely become public | A redacted secret scan, publishing blockers and the asset-rights questions that still need a decision |
 | Tests being used as marketing proof | A report that separates release checks and observed behavior from adoption or popularity |
 | A stale or hand-written Release page | A page generated from structured evidence, including optional version-pinned visual proof |
@@ -87,8 +97,6 @@ Depending on the project, the Skill may prepare documentation, evidence, release
 A clean scan is a gate result, not proof of safety, usefulness or demand.
 
 ## How the release path works
-
-![Release workflow covering repository review, required materials, evidence, packaging, approval for remote actions and public verification](assets/launch-flow.svg)
 
 1. Audit files, Git state, risks and gaps without editing.
 2. Classify the primary project type before choosing artifacts.

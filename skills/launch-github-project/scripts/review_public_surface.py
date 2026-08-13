@@ -84,6 +84,11 @@ TEXT_RULES = [
             r"哪些绝不吹|想贡献[?？].{0,12}别夸|代码能跑.{0,12}只是及格)"
         ),
     ),
+    (
+        "maintainer_first_proof_heading",
+        "warning",
+        re.compile(r"^(?:#{2,4})\s*(?:一次|本次).{0,12}(?:自审|审计|测试).{0,12}(?:发现|结果)", re.MULTILINE),
+    ),
 ]
 HERO_IMAGE_PATTERN = re.compile(
     r"(?:<img\b[^>]*\bsrc=[\"'](?P<html>[^\"']+)[\"'][^>]*>|"
@@ -246,6 +251,7 @@ def scan(root: Path) -> dict[str, object]:
             "claims linked to methods and sanitized raw evidence",
             "public Git authors, contributors and history",
             "repository metadata, social preview and Release assets",
+            "visual necessity plus rendered fonts, glyphs, labels and units",
             "unsigned visitor verification after publication",
         ],
         "note": "Passing the automated gate does not complete the required manual checks.",

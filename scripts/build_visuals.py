@@ -102,100 +102,6 @@ def build_hero_zh() -> Image.Image:
     return image.convert("RGB")
 
 
-def build_proof() -> Image.Image:
-    image = Image.new("RGB", (1400, 760), NAVY)
-    draw = ImageDraw.Draw(image)
-    draw.text((70, 56), "A real failure caught before release", font=font(48, True), fill=WHITE)
-    draw.text(
-        (72, 120),
-        "The first self-audit found a path that could copy bytes from outside the project.",
-        font=font(25),
-        fill=SLATE,
-    )
-
-    cards = [(70, 205, 430, 650), (520, 205, 880, 650), (970, 205, 1330, 650)]
-    for card in cards:
-        draw.rounded_rectangle(card, radius=28, fill=PANEL, outline="#2C3B53", width=2)
-
-    rounded_label(draw, (104, 240), "1 · BEFORE", "#39231F", CORAL)
-    draw.text((105, 312), "release bundle", font=font(29, True), fill=WHITE)
-    draw.text((105, 365), "project/", font=font(24), fill="#C9D4E4")
-    draw.text((130, 407), "docs/", font=font(24), fill="#C9D4E4")
-    draw.text((130, 449), "guide  →  /private/draft", font=font(22), fill=CORAL)
-    draw.polygon([(105, 535), (130, 490), (155, 535)], fill=CORAL)
-    draw.text((170, 498), "tracked symlink", font=font(22, True), fill="#FFD5CA")
-
-    rounded_label(draw, (554, 240), "2 · AUDIT", "#3A2D17", AMBER)
-    draw.text((555, 312), "BLOCKER", font=font(34, True), fill=AMBER)
-    draw.text((555, 370), "Path leaves the", font=font(25), fill=WHITE)
-    draw.text((555, 406), "reviewed project tree", font=font(25), fill=WHITE)
-    draw.rounded_rectangle((555, 480, 845, 552), radius=16, fill="#0D1728")
-    draw.text((580, 500), "package: stopped", font=font(22, True), fill=CORAL)
-
-    rounded_label(draw, (1004, 240), "3 · AFTER", "#16372F", MINT)
-    draw.text((1005, 312), "Bundle checks passed", font=font(25, True), fill=WHITE)
-    checks = [
-        "symlinks rejected",
-        "regression covered",
-        "ZIP extracted",
-        "boundary documented",
-    ]
-    for index, check in enumerate(checks):
-        y = 375 + index * 52
-        draw.ellipse((1007, y, 1035, y + 28), fill=MINT)
-        draw.line((1015, y + 14, 1022, y + 21), fill=NAVY, width=4)
-        draw.line((1022, y + 21, 1030, y + 8), fill=NAVY, width=4)
-        draw.text((1050, y - 1), check, font=font(22), fill="#DDE8F4")
-
-    draw.line((442, 427, 507, 427), fill=AMBER, width=8)
-    draw.polygon([(507, 427), (485, 412), (485, 442)], fill=AMBER)
-    draw.line((892, 427, 957, 427), fill=MINT, width=8)
-    draw.polygon([(957, 427), (935, 412), (935, 442)], fill=MINT)
-    draw.text((72, 695), "Observed in this repository. Reproduction and remaining limits are public.", font=font(22), fill=SLATE)
-    return image
-
-
-def build_proof_zh() -> Image.Image:
-    image = Image.new("RGB", (1400, 760), NAVY)
-    draw = ImageDraw.Draw(image)
-    draw.text((70, 56), "一次自审发现的越界打包漏洞", font=zh_font(43, True), fill=WHITE)
-    draw.text((72, 122), "一个受 Git 跟踪的符号链接可能把项目外的文件装进 ZIP。", font=zh_font(25), fill=SLATE)
-    cards = [(70, 205, 430, 650), (520, 205, 880, 650), (970, 205, 1330, 650)]
-    for card in cards:
-        draw.rounded_rectangle(card, radius=28, fill=PANEL, outline="#2C3B53", width=2)
-    draw.rounded_rectangle((88, 230, 255, 280), radius=22, fill="#39231F")
-    draw.text((105, 241), "1 · 修复前", font=zh_font(22, True), fill=CORAL)
-    draw.text((105, 312), "发布包", font=zh_font(31, True), fill=WHITE)
-    draw.text((105, 373), "项目/", font=zh_font(24), fill="#C9D4E4")
-    draw.text((130, 415), "文档/", font=zh_font(24), fill="#C9D4E4")
-    draw.text((130, 457), "指南 → 私有草稿", font=zh_font(22), fill=CORAL)
-    draw.polygon([(105, 535), (130, 490), (155, 535)], fill=CORAL)
-    draw.text((170, 498), "被跟踪的符号链接", font=zh_font(20, True), fill="#FFD5CA")
-    draw.rounded_rectangle((538, 230, 690, 280), radius=22, fill="#3A2D17")
-    draw.text((555, 241), "2 · 审计", font=zh_font(22, True), fill=AMBER)
-    draw.text((555, 312), "阻断发布", font=zh_font(34, True), fill=AMBER)
-    draw.text((555, 377), "路径离开了", font=zh_font(25), fill=WHITE)
-    draw.text((555, 415), "已审核的项目目录", font=zh_font(25), fill=WHITE)
-    draw.rounded_rectangle((555, 480, 845, 552), radius=16, fill="#0D1728")
-    draw.text((580, 500), "打包：已停止", font=zh_font(22, True), fill=CORAL)
-    draw.rounded_rectangle((988, 230, 1140, 280), radius=22, fill="#16372F")
-    draw.text((1005, 241), "3 · 修复后", font=zh_font(22, True), fill=MINT)
-    draw.text((1005, 312), "发布包检查通过", font=zh_font(30, True), fill=WHITE)
-    checks = ["拒绝符号链接", "加入回归测试", "实际解压 ZIP", "公开剩余边界"]
-    for index, check in enumerate(checks):
-        y = 375 + index * 52
-        draw.ellipse((1007, y, 1035, y + 28), fill=MINT)
-        draw.line((1015, y + 14, 1022, y + 21), fill=NAVY, width=4)
-        draw.line((1022, y + 21, 1030, y + 8), fill=NAVY, width=4)
-        draw.text((1050, y - 1), check, font=zh_font(22), fill="#DDE8F4")
-    draw.line((442, 427, 507, 427), fill=AMBER, width=8)
-    draw.polygon([(507, 427), (485, 412), (485, 442)], fill=AMBER)
-    draw.line((892, 427, 957, 427), fill=MINT, width=8)
-    draw.polygon([(957, 427), (935, 412), (935, 442)], fill=MINT)
-    draw.text((72, 695), "证据来自本仓库，复现过程和剩余限制已公开。", font=zh_font(22), fill=SLATE)
-    return image
-
-
 def build_activation_proof() -> Image.Image:
     image = Image.new("RGB", (1400, 760), NAVY)
     draw = ImageDraw.Draw(image)
@@ -239,18 +145,12 @@ def main() -> None:
     hero_zh.save(ASSETS / "hero.zh-CN.png", optimize=True)
     social = ImageOps.fit(hero, (1280, 640), method=Image.Resampling.LANCZOS, centering=(0.5, 0.5))
     social.save(ASSETS / "social-preview.png", optimize=True)
-    proof = build_proof()
-    proof.save(ASSETS / "audit-proof.png", optimize=True)
-    proof_zh = build_proof_zh()
-    proof_zh.save(ASSETS / "audit-proof.zh-CN.png", optimize=True)
     activation = build_activation_proof()
     activation.save(ASSETS / "activation-proof.png", optimize=True)
     for name in (
         "hero.png",
         "hero.zh-CN.png",
         "social-preview.png",
-        "audit-proof.png",
-        "audit-proof.zh-CN.png",
         "activation-proof.png",
     ):
         print(ASSETS / name)

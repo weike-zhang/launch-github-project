@@ -169,6 +169,21 @@ class PublicSurfaceTests(unittest.TestCase):
                 {item["category"] for item in result["warnings"]},
             )
 
+    def test_maintainer_first_proof_heading_is_a_warning(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "README.zh-CN.md").write_text(
+                "## 一次自审发现的越界打包漏洞\n",
+                encoding="utf-8",
+            )
+
+            result = public_surface.scan(root)
+
+            self.assertIn(
+                "maintainer_first_proof_heading",
+                {item["category"] for item in result["warnings"]},
+            )
+
     def test_warns_when_an_existing_hero_is_buried_below_long_prose(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

@@ -17,13 +17,19 @@ class PublicCopyContractTests(unittest.TestCase):
         english = self.read("README.md")
         chinese = self.read("README.zh-CN.md")
 
-        self.assertEqual(re.findall(r"^## (.+)$", english, flags=re.MULTILINE)[0], "A real failure it caught")
-        self.assertEqual(re.findall(r"^## (.+)$", chinese, flags=re.MULTILINE)[0], "一次自审发现的越界打包漏洞")
+        self.assertEqual(
+            re.findall(r"^## (.+)$", english, flags=re.MULTILINE)[0],
+            "Keep files from outside the project out of the release ZIP",
+        )
+        self.assertEqual(
+            re.findall(r"^## (.+)$", chinese, flags=re.MULTILINE)[0],
+            "别把项目外的文件一起发出去",
+        )
         self.assertIn("assets/hero.png", english)
-        self.assertIn("assets/audit-proof.png", english)
         self.assertIn("assets/hero.zh-CN.png", chinese)
-        self.assertIn("assets/audit-proof.zh-CN.png", chinese)
         for text in (english, chinese):
+            self.assertNotIn("audit-proof", text)
+            self.assertIn("outside.txt -> /etc/hosts", text)
             self.assertIn("$launch-github-project", text)
             self.assertIn("examples/self-audit-bundle-safety.md", text)
             self.assertIn("evals/results/model-comparison.md", text)
@@ -43,6 +49,16 @@ class PublicCopyContractTests(unittest.TestCase):
             opening = text.split("```bash", 1)[0]
             self.assertEqual(opening.count("<img "), 1)
             self.assertLess(opening.index("<strong>"), opening.index("<a href="))
+
+    def test_current_readmes_keep_only_the_hero_visual(self):
+        english = self.read("README.md")
+        chinese = self.read("README.zh-CN.md")
+
+        for text in (english, chinese):
+            self.assertEqual(text.count("<img "), 1)
+            self.assertNotRegex(text, r"!\[[^\]]*\]\([^)]+\)")
+        self.assertIn("项目已经做完", chinese)
+        self.assertIn("先看它找出的缺口", chinese)
 
     def test_public_guide_contains_no_author_profile_setup_draft(self):
         guide = self.read("docs/FIRST-GITHUB-LAUNCH.zh-CN.md")
@@ -78,8 +94,6 @@ class PublicCopyContractTests(unittest.TestCase):
             "assets/hero.png",
             "assets/hero.zh-CN.png",
             "assets/social-preview.png",
-            "assets/audit-proof.png",
-            "assets/audit-proof.zh-CN.png",
             "assets/activation-proof.png",
             "assets/hero-art.png",
         ):
@@ -118,8 +132,9 @@ class PublicCopyContractTests(unittest.TestCase):
         for phrase in stale_phrases:
             self.assertNotIn(phrase, chinese)
         opening = chinese.split("```bash", 1)[0]
-        self.assertIn("项目能跑，发布不会收尾", opening)
-        self.assertIn("这个 Skill 先找出最劝退新用户的问题", opening)
+        self.assertIn("项目已经做完", opening)
+        self.assertIn("把仓库交给这个 Skill", opening)
+        self.assertIn("先看它找出的缺口", opening)
         self.assertIn("README、配图、安装说明、Release 页面和发布包", opening)
         self.assertNotIn("检查仓库，核对公开主张，发布前再验一遍", opening)
         prose = [
@@ -180,6 +195,10 @@ class PublicCopyContractTests(unittest.TestCase):
             "不是演示：它真抓到过",
             "BEFORE · NOISY",
             "AFTER · SIGNAL",
+            "一次自审发现的越界打包漏洞",
+            'draw.text((105, 241), "1 · 修复前"',
+            'draw.text((555, 241), "2 · 审计"',
+            'draw.text((1005, 241), "3 · 修复后"',
         ]
         for phrase in stale:
             self.assertNotIn(phrase, source)
