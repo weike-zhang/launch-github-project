@@ -41,7 +41,7 @@ class PublicCopyContractTests(unittest.TestCase):
         ):
             self.assertLess(text.index(hero), text.index("```bash"))
             opening = text.split("```bash", 1)[0]
-            self.assertEqual(opening.count("<img "), 4)
+            self.assertEqual(opening.count("<img "), 1)
             self.assertLess(opening.index("<strong>"), opening.index("<a href="))
 
     def test_public_guide_contains_no_author_profile_setup_draft(self):
@@ -118,8 +118,10 @@ class PublicCopyContractTests(unittest.TestCase):
         for phrase in stale_phrases:
             self.assertNotIn(phrase, chinese)
         opening = chinese.split("```bash", 1)[0]
-        self.assertIn("代码写完了，发布页却还没收尾", opening)
-        self.assertIn("找不到入口就走了", opening)
+        self.assertIn("项目能跑，发布不会收尾", opening)
+        self.assertIn("这个 Skill 先找出最劝退新用户的问题", opening)
+        self.assertIn("README、配图、安装说明、Release 页面和发布包", opening)
+        self.assertNotIn("检查仓库，核对公开主张，发布前再验一遍", opening)
         prose = [
             part
             for part in chinese.split("\n\n")
@@ -136,6 +138,33 @@ class PublicCopyContractTests(unittest.TestCase):
         self.assertIn("$humanizer", skill)
         self.assertIn("Preserve commands, links, version numbers", skill)
         self.assertIn("never authorizes invented facts", patterns)
+        self.assertIn("name-swap test", patterns)
+        self.assertIn("desire to try", patterns)
+        self.assertIn("natural copy can still be generic", skill)
+
+    def test_agent_skill_template_requires_a_product_specific_first_result(self):
+        template = self.read("skills/launch-github-project/assets/readme/agent-skill.md")
+        public_review = self.read(
+            "skills/launch-github-project/references/public-surface-review.md"
+        )
+
+        self.assertIn("project_specific_outcome", template)
+        self.assertIn("concrete_first_response_or_behavior_change", template)
+        self.assertIn("low_commitment_reason_to_try_now", template)
+        self.assertIn("product-blind taglines", public_review)
+
+    def test_skill_resynchronizes_the_authoritative_readme_after_changes(self):
+        skill = self.read("skills/launch-github-project/SKILL.md")
+        patterns = self.read("skills/launch-github-project/references/readme-patterns.md")
+        english = self.read("README.md")
+        chinese = self.read("README.zh-CN.md")
+
+        self.assertIn("reopen every public README", skill)
+        self.assertIn("edit the authoritative README in place", skill)
+        self.assertIn("Do not create `README.new.md`", skill)
+        self.assertIn("Re-read the existing README after implementation", patterns)
+        self.assertIn("README still teaches old behavior or commands", english)
+        self.assertIn("需要更新就直接覆盖旧内容", chinese)
 
     def test_visible_image_copy_rejects_framework_slogans(self):
         source = self.read("scripts/build_visuals.py")

@@ -1,4 +1,4 @@
 interface:
   display_name: "Launch GitHub Project"
-  short_description: "把本地项目整理成可理解、可试用、可验证的 GitHub 发布"
-  default_prompt: "Use $launch-github-project to audit this project read-only, prepare its smallest verifiable public surface, and list every decision required before any remote action."
+  short_description: "找出最劝退新用户的问题，并补齐 GitHub 发布材料"
+  default_prompt: "Use $launch-github-project to audit this project read-only, resynchronize its current README, prepare the required release materials, and list every decision required before any remote action."

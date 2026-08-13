@@ -1,33 +1,26 @@
 <p align="center">
-  <img src="assets/hero.png" alt="Launch GitHub Project hero showing repository checks, claim review, release packaging and final verification" width="100%">
+  <img src="assets/hero.png" alt="Launch GitHub Project finds what stops new users from trying a project, then prepares its README, visuals, install path, Release page and source bundle" width="100%">
 </p>
 
 <p align="center">
-  <strong>Check the repository, support public claims with evidence, and review the release before it goes live.</strong>
+  <strong>Your project works. Launch GitHub Project finds what will stop a new user, then prepares the public release around it.</strong>
 </p>
 
 <p align="center">
-  <a href="README.zh-CN.md">简体中文</a> ·
-  <a href="docs/INSTALL.md">Install options</a> ·
-  <a href="examples/self-audit-bundle-safety.md">Real failure and fix</a> ·
-  <a href="https://github.com/weike-zhang/launch-github-project/releases/latest">Release</a>
+  <a href="#run-a-read-only-launch-check">Run a read-only launch check</a> ·
+  <a href="examples/self-audit-bundle-safety.md">See a real failure it caught</a> ·
+  <a href="README.zh-CN.md">简体中文</a>
 </p>
 
-<p align="center">
-  <a href="https://github.com/weike-zhang/launch-github-project/actions/workflows/validate.yml"><img alt="Validate" src="https://github.com/weike-zhang/launch-github-project/actions/workflows/validate.yml/badge.svg"></a>
-  <a href="https://github.com/weike-zhang/launch-github-project/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/weike-zhang/launch-github-project"></a>
-  <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-52D6A3"></a>
-</p>
+A project can work locally and still lose a new user on GitHub: the README starts with maintainer detail, the install path is hard to find, the Release explains changes instead of value, or the source bundle contains local debris.
 
-A project can work locally while its GitHub page still looks unfinished or leaves visitors unsure how to try it. Launch GitHub Project audits the repository, chooses materials for the project type, ties public claims to evidence and builds a deterministic release bundle. Remote actions still require your approval.
-
-Use it when the work is finished locally but the repository is not ready for someone new to install, inspect or reuse. It supports software, Agent Skills, datasets, research, courses, design resources, portfolios and mixed projects without forcing them through one template.
+Launch GitHub Project is an Agent Skill for finishing the public release. Its first pass is read-only: it identifies the biggest obstacle to first use, release blockers and decisions only you can make. After approval, it prepares the README, visuals, install guidance, Release page and source bundle for the actual project type instead of forcing everything through one template.
 
 ```bash
 npx skills add weike-zhang/launch-github-project --agent codex --skill launch-github-project -g -y
 ```
 
-Then ask: `Use $launch-github-project to audit this project for GitHub. Start read-only.` [See the verified Codex first audit](evals/results/codex-first-audit-v0.2.0.md).
+Then ask: `Use $launch-github-project to audit this project for GitHub. Start read-only.` Nothing changes in the first pass; you get a concrete gap report first. [See the verified Codex first audit](evals/results/codex-first-audit-v0.2.0.md).
 
 ## A real failure it caught
 
@@ -39,7 +32,7 @@ Running this Skill against its own repository found that a tracked file symlink 
 
 This is release-safety evidence, not a claim that automation can prove ownership, product quality or adoption.
 
-## Install and run your first audit
+## Run a read-only launch check
 
 ```bash
 npx skills add weike-zhang/launch-github-project --agent codex --skill launch-github-project -g -y
@@ -72,6 +65,7 @@ The findings vary by repository. The Skill inspects first, labels assumptions, e
 | Need | Result |
 | --- | --- |
 | A README that lists features but does not explain the value | A README that says who the project is for, shows direct proof and gives readers a first step |
+| The project changed but its README still teaches old behavior or commands | A full reread after implementation, followed by an in-place update when any public contract moved |
 | Uncertainty about what can safely become public | A redacted secret scan, publishing blockers and the asset-rights questions that still need a decision |
 | Tests being used as marketing proof | A report that separates release checks and observed behavior from adoption or popularity |
 | A stale or hand-written Release page | A page generated from structured evidence, including optional version-pinned visual proof |

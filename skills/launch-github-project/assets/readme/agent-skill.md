@@ -2,11 +2,13 @@
 
 # {{skill_name}}
 
-{{one_plain_user_visible_outcome_sentence}}
+{{one_project_specific_outcome_sentence_that_fails_if_the_project_name_is_swapped}}
 
 {{recognizable_user_situation}}
 
-{{plain_language_explanation_of_what_the_skill_changes}}
+{{concrete_first_response_or_behavior_change}}
+
+{{low_commitment_reason_to_try_now}}
 
 {{one_compact_proof_navigation_or_status_row}}
 

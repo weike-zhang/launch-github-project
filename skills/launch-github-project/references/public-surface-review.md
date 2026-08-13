@@ -41,6 +41,8 @@ The first screen should let a target reader recognize their situation or goal, u
 
 The automated review warns when a root README references a hero, banner, cover or masthead only after a long introduction or code block. Review that warning in the rendered page: move the visual into the initial viewport when it carries the identity or promise, or rename and keep it later when it is genuinely section evidence rather than a hero.
 
+It also warns when a centered tagline contains several method words such as audit, check, validate, 检查 or 核对 but no visible user result. This is a narrow signal, not a positioning score. A tagline that passes still needs the name-swap and desire-to-try cold reads below.
+
 Ask five cold-reader questions:
 
 1. Who is this for?
@@ -48,6 +50,11 @@ Ask five cold-reader questions:
 3. What changes for them when they use the project?
 4. Which example or evidence supports that change?
 5. What should they try first?
+
+Then ask two positioning questions separately from prose quality:
+
+1. What project-specific result appears in the first use rather than only a list of internal steps?
+2. Would the main outcome line still fit an unrelated tool after swapping the name? If so, it is too generic.
 
 Translate internal mechanisms into observable consequences. Inspect comparison images as carefully as prose: both sides should use the same user task and show a difference a reader can interpret without decoding feature labels.
 
@@ -59,6 +66,7 @@ Remove:
 - internal distribution plans or author-profile drafts;
 - AI generation prompts and rejected attempt notes that do not help users verify the shipped artifact;
 - openings made only of abstract method claims, badges or install commands;
+- natural-sounding but product-blind taglines that name no pain, first result or reason to try;
 - feature labels that describe the implementation but not what the reader can do;
 - unsupported compatibility, adoption, learning or performance claims.
 

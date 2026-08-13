@@ -92,6 +92,17 @@ HERO_IMAGE_PATTERN = re.compile(
 )
 HERO_NAME_PATTERN = re.compile(r"(?i)(?:^|[-_/])(hero|banner|cover|masthead)(?:[-_.?/]|$)")
 MAX_CONTENT_BEFORE_HERO = 320
+STRONG_TAGLINE_PATTERN = re.compile(r"<strong>(?P<text>.*?)</strong>", re.IGNORECASE | re.DOTALL)
+METHOD_WORD_PATTERN = re.compile(
+    r"(?i)(?:\b(?:audit|check|inspect|review|validate|verify|optimize)\w*\b|"
+    r"检查|核对|复核|审计|验证|验一遍|优化)"
+)
+VISIBLE_RESULT_PATTERN = re.compile(
+    r"(?i)(?:\b(?:user|reader|visitor|result|report|finding|problem|blocker|"
+    r"readme|visual|install|release page|bundle|source zip|preview)\w*\b|"
+    r"用户|读者|访客|帮你|拿到|得到|问题|缺口|阻断|报告|清单|"
+    r"README|配图|安装|Release|发布包|文件|预览|修复)"
+)
 
 
 def finding(severity: str, category: str, path: Path, root: Path, line: int | None = None) -> dict[str, object]:
@@ -133,6 +144,19 @@ def find_buried_hero(text: str) -> int | None:
             return text.count("\n", 0, match.start()) + 1
         return None
     return None
+
+
+def find_method_only_tagline(text: str) -> int | None:
+    """Return the line of a centered tagline that names methods but no visible result."""
+    match = STRONG_TAGLINE_PATTERN.search(text[:4000])
+    if match is None:
+        return None
+    tagline = re.sub(r"<[^>]+>", " ", match.group("text"))
+    if len(METHOD_WORD_PATTERN.findall(tagline)) < 2:
+        return None
+    if VISIBLE_RESULT_PATTERN.search(tagline):
+        return None
+    return text.count("\n", 0, match.start()) + 1
 
 
 def scan(root: Path) -> dict[str, object]:
@@ -192,6 +216,9 @@ def scan(root: Path) -> dict[str, object]:
                 hero_line = find_buried_hero(text)
                 if hero_line is not None:
                     findings.append(finding("warning", "hero_below_long_intro", path, root, hero_line))
+                tagline_line = find_method_only_tagline(text)
+                if tagline_line is not None:
+                    findings.append(finding("warning", "method_only_tagline", path, root, tagline_line))
             if relative_path not in TEXT_RULE_EXEMPT_PATHS:
                 for line_no, line in enumerate(text.splitlines(), start=1):
                     for category, severity, pattern in TEXT_RULES:
@@ -233,6 +260,7 @@ def self_test() -> None:
         (root / "demo.code-workspace").write_text("{}", encoding="utf-8")
         (root / "outside.txt").symlink_to(Path(directory).parent / "outside.txt")
         (root / "README.md").write_text(
+            "<p><strong>Check the repository, validate the claims, review before launch.</strong></p>\n"
             "Before public release these are local release candidates.\n"
             "I planned to change the GitHub username before launch.\n"
             "本地能跑不代表陌生用户能看懂、敢信、会用。\n"
@@ -252,6 +280,7 @@ def self_test() -> None:
             "translationese_public_copy",
             "manufactured_public_copy",
             "hero_below_long_intro",
+            "method_only_tagline",
         }
         if not expected <= categories:
             raise AssertionError(f"self-test failed: {sorted(categories)}")

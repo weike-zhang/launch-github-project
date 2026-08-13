@@ -1,6 +1,6 @@
 ---
 name: launch-github-project
-description: Audit, position, document, validate, package, and prepare the GitHub launch of any project type, including software, CLI tools, Agent Skills, datasets, courses, documentation, research, design resources, content projects, and portfolios. Use when a user wants to publish or open-source a project, make a repository release-ready, improve launch materials, generate a GitHub Release page or Release asset, evaluate launch readiness, or plan evidence-based distribution. Ask only when a decision becomes necessary, adapt outputs to the project type, and require explicit authorization before remote or public actions.
+description: Audit, position, document, validate, package, and prepare the GitHub launch of any project type, including software, CLI tools, Agent Skills, datasets, courses, documentation, research, design resources, content projects, and portfolios. Use when a user wants to publish or open-source a project, make a repository release-ready, improve or resynchronize its README after project changes, generate a GitHub Release page or Release asset, evaluate launch readiness, or plan evidence-based distribution. Ask only when a decision becomes necessary, adapt outputs to the project type, and require explicit authorization before remote or public actions.
 ---
 
 # Launch GitHub Project
@@ -56,7 +56,7 @@ Before drafting a README, identify the reader's recognizable situation, the outc
 
 For Chinese README, Release, repository description or distribution copy, read [references/chinese-public-copy.md](references/chinese-public-copy.md). Treat English and Chinese as sibling narratives that share facts, evidence and boundaries, not as a master document and its line-by-line translation. Give the Chinese page its own hook, familiar failure scene, concrete cost, proof and action; require a native-speaker read-aloud check and localized text inside public visuals.
 
-After the factual draft is complete, use `$humanizer` when it is installed to review README prose, repository descriptions, Release copy and every user-visible string embedded in images. Use file mode for a single document or embedded mode inside a larger launch task. Preserve commands, links, version numbers, observed results and evidence boundaries. Reject fabricated specificity, and do not flatten a real author voice merely because one sentence matches a generic detector. If Humanizer is unavailable, apply the AI-pattern check in [references/readme-patterns.md](references/readme-patterns.md) manually.
+After the factual draft is complete, use `$humanizer` when it is installed to review README prose, repository descriptions, Release copy and every user-visible string embedded in images. Use file mode for a single document or embedded mode inside a larger launch task. Preserve commands, links, version numbers, observed results and evidence boundaries. Reject fabricated specificity, and do not flatten a real author voice merely because one sentence matches a generic detector. Treat this as a voice pass only: natural copy can still be generic, product-blind or unpersuasive. If Humanizer is unavailable, apply the AI-pattern check in [references/readme-patterns.md](references/readme-patterns.md) manually.
 
 Create or improve only the artifacts justified by the project:
 
@@ -72,7 +72,15 @@ Do not add badges, governance documents, CI, websites, videos, telemetry or comm
 
 When the public promise is difficult to grasp from prose alone, create one to three purposeful visuals: a hero that communicates the user outcome, a real input/output or before/after proof image, and a workflow diagram only when sequence matters. Keep screenshots legible at README width, add descriptive alt text, record provenance, and never present decorative generated art as product evidence. If a hero or direct proof visual exists, decide explicitly whether it belongs in the initial viewport; do not leave it below several paragraphs by accident.
 
-After drafting, perform the cold-reader and rendered-first-screen checks in `references/readme-patterns.md`. If a target reader cannot identify why the project matters, what changes in use and what to try without understanding the implementation first, or if the initial viewport is visually dominated by undifferentiated prose while the useful proof sits below the fold, revise the reading path before validating links or packaging.
+After drafting and the voice pass, perform both cold-reader gates in `references/readme-patterns.md`: comprehension and desire to try. Require the opening to name a recognizable pain or goal, a project-specific first result, and a low-commitment next step. If replacing the project name with an unrelated tool leaves the headline equally plausible, rewrite it. If a target reader cannot identify why the project matters, what changes in use and what to try without understanding the implementation first, or if the initial viewport is visually dominated by undifferentiated prose while the useful proof sits below the fold, revise the reading path before validating links or packaging.
+
+## Resynchronize the current README after project changes
+
+After changing project behavior, commands, interfaces, versions, compatibility, permissions, limits, visuals or evidence, reopen every public README and read each one from start to finish. Compare the current project with every affected claim, example, command, image and link. Decide explicitly whether the README needs an update; do not assume documentation remains correct because the change was small.
+
+When an update is needed, edit the authoritative README in place. Replace or remove stale content instead of appending a second explanation that contradicts the first. Preserve unrelated user-authored content and voice. If the README is generated, update its source and regenerate it. Keep localized README siblings factually aligned while allowing native wording and reading order. Do not create `README.new.md`, a suggestion file or a parallel draft unless the user asks for one.
+
+When no update is needed, record which change was reviewed and why it does not affect public use. In either case, reread the complete final README after the decision and rerun relevant command, link, claim and rendered-opening checks. A diff of the edited paragraph is not a full README review.
 
 ## Design the first-success and adoption path
 
