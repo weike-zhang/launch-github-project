@@ -26,6 +26,15 @@ Within the first screen, communicate:
 
 Badges are metadata, not a value proposition. Move them below the positioning copy when they compete with the message. For installable projects, keep one tested, copyable install command near the first useful example, but do not lead with installation before explaining why the project matters.
 
+Treat the first screen as a composition, not a checklist. Choose one of two openings:
+
+- **Visual opening:** place a project-owned hero, real output, before/after or compact product preview before long prose. Follow it with at most one outcome line and one compact row of navigation, proof or status links.
+- **Text opening:** use the project name, one short outcome line, one recognizable situation and one proof or start link. Do not stack several explanatory paragraphs before the first example or visual.
+
+Do not bury an existing hero below the introduction it was meant to replace. Do not add a decorative hero when real output or a compact text opening explains the project better. A hero with embedded text must remain legible at the rendered README width, use localized text for each public language, and have alt text that states the same outcome without relying on the image.
+
+Before calling the README ready, render the exact opening at a normal desktop GitHub width and a narrow width. Capture or inspect the initial viewport without scrolling. Confirm that the visual hierarchy—not only the source order—makes the name or identity, outcome, differentiator and next action discoverable. Treat a Markdown source check as partial validation; after publication, repeat the check on the unsigned GitHub page.
+
 ## Translate from the inside out
 
 Project authors naturally describe protocols, architecture and safeguards. A new user describes what they are trying to do and where they are stuck. Preserve the technical truth while translating the point of view.
@@ -67,6 +76,24 @@ Read the first screen without relying on repository history or implementation kn
 - Is there one sentence they would naturally repeat or forward?
 
 Rewrite when the answers require decoding internal terms, reading the architecture section or trusting unsupported praise. A structurally complete README can still fail this check.
+
+Also fail the cold-reader check when the right facts exist but the initial viewport is dominated by undifferentiated prose, repeated titles or badge clutter while the useful visual, proof or first action sits below the fold.
+
+## Remove AI-shaped copy without removing the author's voice
+
+Run this pass after claims and evidence are settled. Use `$humanizer` when it is installed; otherwise inspect the prose and every visible image string manually.
+
+Rewrite clusters of these patterns:
+
+- repeated `not X, but Y` or `不是……而是……` contrasts;
+- forced groups of three used to make an ordinary claim sound complete;
+- stacked short sentences that all try to land as a slogan;
+- fake-candid hooks such as “别先听我吹” or “here's the real question”;
+- compressed framework labels such as `AUDIT / PROVE / PACKAGE / VERIFY` when plain task names are clearer;
+- abstract product nouns where a concrete action works better;
+- bold slogans, centered taglines and headings that repeat the same promise.
+
+Do not rewrite a single em dash, list or casual phrase in isolation. Preserve specific details, uneven but natural rhythm, real opinions, commands, links, numbers and explicit evidence limits. Humanizing copy never authorizes invented facts, urgency, testimonials or adoption claims.
 
 ## Common core
 

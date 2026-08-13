@@ -39,6 +39,8 @@ Do not publish an asset while its own notice says permission is pending. A publi
 
 The first screen should let a target reader recognize their situation or goal, understand the user-visible outcome, inspect one concrete proof and find the shortest valid start action. A checklist-complete page still fails when these answers require understanding the project's protocol, architecture or maintainer vocabulary first.
 
+The automated review warns when a root README references a hero, banner, cover or masthead only after a long introduction or code block. Review that warning in the rendered page: move the visual into the initial viewport when it carries the identity or promise, or rename and keep it later when it is genuinely section evidence rather than a hero.
+
 Ask five cold-reader questions:
 
 1. Who is this for?

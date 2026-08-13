@@ -68,17 +68,17 @@ def build_hero() -> Image.Image:
     image = ImageOps.fit(source, (1600, 800), method=Image.Resampling.LANCZOS, centering=(0.55, 0.5))
     image = darken_left(image)
     draw = ImageDraw.Draw(image)
-    rounded_label(draw, (86, 76), "RELEASE WITH EVIDENCE", "#263650", AMBER)
+    rounded_label(draw, (86, 76), "GITHUB RELEASE CHECK", "#263650", AMBER)
     draw.text((84, 158), "Launch", font=font(86, True), fill=WHITE)
     draw.text((84, 252), "GitHub Project", font=font(78, True), fill=WHITE)
-    draw.text((90, 374), "From a working local project", font=font(33), fill="#D9E3F0")
-    draw.text((90, 420), "to a release people can trust.", font=font(33), fill="#D9E3F0")
+    draw.text((90, 374), "Your project works locally.", font=font(33), fill="#D9E3F0")
+    draw.text((90, 420), "Now prepare the public release.", font=font(33), fill="#D9E3F0")
     draw.line((90, 505, 590, 505), fill="#52637A", width=2)
-    draw.text((90, 540), "AUDIT", font=font(22, True), fill=AMBER)
-    draw.text((224, 540), "PROVE", font=font(22, True), fill=AMBER)
-    draw.text((362, 540), "PACKAGE", font=font(22, True), fill=AMBER)
-    draw.text((528, 540), "VERIFY", font=font(22, True), fill=MINT)
-    draw.text((90, 615), "Agent Skill · read-only first · remote actions by approval", font=font(23), fill=SLATE)
+    draw.text((90, 540), "CHECK REPO", font=font(20, True), fill=AMBER)
+    draw.text((250, 540), "CHECK CLAIMS", font=font(20, True), fill=AMBER)
+    draw.text((440, 540), "BUILD ZIP", font=font(20, True), fill=AMBER)
+    draw.text((590, 540), "CHECK RELEASE", font=font(20, True), fill=MINT)
+    draw.text((90, 615), "Starts read-only. GitHub actions require your approval.", font=font(23), fill=SLATE)
     return image.convert("RGB")
 
 
@@ -88,16 +88,16 @@ def build_hero_zh() -> Image.Image:
     image = darken_left(image)
     draw = ImageDraw.Draw(image)
     draw.rounded_rectangle((70, 65, 374, 116), radius=24, fill="#263650")
-    draw.text((91, 77), "别让好项目死在发布页", font=zh_font(22, True), fill=AMBER)
+    draw.text((91, 77), "GitHub 发布检查", font=zh_font(22, True), fill=AMBER)
     draw.text((84, 170), "Launch", font=font(76, True), fill=WHITE)
     draw.text((84, 256), "GitHub Project", font=font(68, True), fill=WHITE)
-    draw.text((90, 374), "代码能跑，只是及格", font=zh_font(34, True), fill="#D9E3F0")
-    draw.text((90, 423), "让人看懂、试得动、查得到证据，才算发布", font=zh_font(30, True), fill="#D9E3F0")
+    draw.text((90, 374), "项目已经能在本地运行", font=zh_font(34, True), fill="#D9E3F0")
+    draw.text((90, 423), "接下来把发布材料整理好", font=zh_font(30, True), fill="#D9E3F0")
     draw.line((90, 505, 590, 505), fill="#52637A", width=2)
-    labels = [(90, "审计", AMBER), (224, "证明", AMBER), (362, "打包", AMBER), (528, "核验", MINT)]
+    labels = [(90, "检查仓库", AMBER), (250, "核对主张", AMBER), (440, "生成 ZIP", AMBER), (620, "检查发布", MINT)]
     for x, label, color in labels:
         draw.text((x, 540), label, font=zh_font(24, True), fill=color)
-    draw.text((90, 615), "先审项目 · 再拿证据 · 没授权不碰远程仓库", font=zh_font(24), fill=SLATE)
+    draw.text((90, 615), "先做只读审计。GitHub 操作需要你确认。", font=zh_font(24), fill=SLATE)
     return image.convert("RGB")
 
 
@@ -132,7 +132,7 @@ def build_proof() -> Image.Image:
     draw.text((580, 500), "package: stopped", font=font(22, True), fill=CORAL)
 
     rounded_label(draw, (1004, 240), "3 · AFTER", "#16372F", MINT)
-    draw.text((1005, 312), "Release-ready", font=font(32, True), fill=WHITE)
+    draw.text((1005, 312), "Bundle checks passed", font=font(25, True), fill=WHITE)
     checks = [
         "symlinks rejected",
         "regression covered",
@@ -150,15 +150,15 @@ def build_proof() -> Image.Image:
     draw.polygon([(507, 427), (485, 412), (485, 442)], fill=AMBER)
     draw.line((892, 427, 957, 427), fill=MINT, width=8)
     draw.polygon([(957, 427), (935, 412), (935, 442)], fill=MINT)
-    draw.text((72, 695), "Observed in this repository · reproduction and remaining limits are public", font=font(22), fill=SLATE)
+    draw.text((72, 695), "Observed in this repository. Reproduction and remaining limits are public.", font=font(22), fill=SLATE)
     return image
 
 
 def build_proof_zh() -> Image.Image:
     image = Image.new("RGB", (1400, 760), NAVY)
     draw = ImageDraw.Draw(image)
-    draw.text((70, 56), "不是演示：它真抓到过一个越界打包漏洞", font=zh_font(43, True), fill=WHITE)
-    draw.text((72, 122), "一个藏在项目里的符号链接，差点把项目外的文件装进 ZIP。", font=zh_font(25), fill=SLATE)
+    draw.text((70, 56), "一次自审发现的越界打包漏洞", font=zh_font(43, True), fill=WHITE)
+    draw.text((72, 122), "一个受 Git 跟踪的符号链接可能把项目外的文件装进 ZIP。", font=zh_font(25), fill=SLATE)
     cards = [(70, 205, 430, 650), (520, 205, 880, 650), (970, 205, 1330, 650)]
     for card in cards:
         draw.rounded_rectangle(card, radius=28, fill=PANEL, outline="#2C3B53", width=2)
@@ -179,7 +179,7 @@ def build_proof_zh() -> Image.Image:
     draw.text((580, 500), "打包：已停止", font=zh_font(22, True), fill=CORAL)
     draw.rounded_rectangle((988, 230, 1140, 280), radius=22, fill="#16372F")
     draw.text((1005, 241), "3 · 修复后", font=zh_font(22, True), fill=MINT)
-    draw.text((1005, 312), "可以发布", font=zh_font(32, True), fill=WHITE)
+    draw.text((1005, 312), "发布包检查通过", font=zh_font(30, True), fill=WHITE)
     checks = ["拒绝符号链接", "加入回归测试", "实际解压 ZIP", "公开剩余边界"]
     for index, check in enumerate(checks):
         y = 375 + index * 52
@@ -191,14 +191,14 @@ def build_proof_zh() -> Image.Image:
     draw.polygon([(507, 427), (485, 412), (485, 442)], fill=AMBER)
     draw.line((892, 427, 957, 427), fill=MINT, width=8)
     draw.polygon([(957, 427), (935, 412), (935, 442)], fill=MINT)
-    draw.text((72, 695), "证据来自本仓库 · 复现过程和剩余限制均已公开", font=zh_font(22), fill=SLATE)
+    draw.text((72, 695), "证据来自本仓库，复现过程和剩余限制已公开。", font=zh_font(22), fill=SLATE)
     return image
 
 
 def build_activation_proof() -> Image.Image:
     image = Image.new("RGB", (1400, 760), NAVY)
     draw = ImageDraw.Draw(image)
-    draw.text((70, 56), "One real Codex activation exposed a noisy audit", font=font(46, True), fill=WHITE)
+    draw.text((70, 56), "A Codex test run showed that the audit was too noisy", font=font(42, True), fill=WHITE)
     draw.text(
         (72, 122),
         "The target was a tiny notes CLI. The installed Skill dependency was not the product.",
@@ -209,7 +209,7 @@ def build_activation_proof() -> Image.Image:
     for card in cards:
         draw.rounded_rectangle(card, radius=28, fill=PANEL, outline="#2C3B53", width=2)
 
-    rounded_label(draw, (104, 240), "BEFORE · NOISY", "#39231F", CORAL)
+    rounded_label(draw, (104, 240), "BEFORE THE FIX", "#39231F", CORAL)
     draw.text((105, 315), "Primary type", font=font(23), fill=SLATE)
     draw.text((105, 354), "Agent Skill", font=font(36, True), fill=CORAL)
     draw.text((105, 435), "6 blockers", font=font(31, True), fill=WHITE)
@@ -217,7 +217,7 @@ def build_activation_proof() -> Image.Image:
     draw.text((105, 500), "Installed dependency scanned as product", font=font(23), fill="#FFD5CA")
     draw.text((105, 545), "Scanner matched its own rule source", font=font(23), fill="#FFD5CA")
 
-    rounded_label(draw, (794, 240), "AFTER · SIGNAL", "#16372F", MINT)
+    rounded_label(draw, (794, 240), "AFTER THE FIX", "#16372F", MINT)
     draw.text((795, 315), "Installed Skill", font=font(23), fill=SLATE)
     draw.text((795, 354), "excluded from target", font=font(34, True), fill=MINT)
     draw.text((795, 435), "1 real blocker", font=font(31, True), fill=WHITE)
@@ -227,7 +227,7 @@ def build_activation_proof() -> Image.Image:
 
     draw.line((656, 427, 744, 427), fill=AMBER, width=8)
     draw.polygon([(744, 427), (720, 411), (720, 443)], fill=AMBER)
-    draw.text((72, 695), "Same fixture · same host · dependency noise removed, real blocker preserved", font=font(22), fill=SLATE)
+    draw.text((72, 695), "Same fixture and host: dependency noise removed, real blocker preserved.", font=font(22), fill=SLATE)
     return image
 
 

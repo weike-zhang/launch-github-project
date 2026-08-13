@@ -1,16 +1,20 @@
+{{optional_project_owned_hero_or_direct_proof_visual}}
+
 # {{skill_name}}
 
-**{{user_visible_outcome}}**
+{{one_plain_user_visible_outcome_sentence}}
 
 {{recognizable_user_situation}}
 
 {{plain_language_explanation_of_what_the_skill_changes}}
 
+{{one_compact_proof_navigation_or_status_row}}
+
 ## This is for you if
 
 - {{recognizable_problem_or_goal_1}}
 - {{recognizable_problem_or_goal_2}}
-- {{recognizable_problem_or_goal_3}}
+- {{optional_problem_or_goal_3}}
 
 ## What changes when you use it
 
@@ -18,7 +22,7 @@
 | --- | --- |
 | {{current_user_state_1}} | {{observable_change_1}} |
 | {{current_user_state_2}} | {{observable_change_2}} |
-| {{current_user_state_3}} | {{observable_change_3}} |
+| {{optional_current_user_state_3}} | {{optional_observable_change_3}} |
 
 ## Try one real task
 

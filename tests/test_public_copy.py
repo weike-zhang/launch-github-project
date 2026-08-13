@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import re
 import unittest
 from pathlib import Path
@@ -17,7 +18,7 @@ class PublicCopyContractTests(unittest.TestCase):
         chinese = self.read("README.zh-CN.md")
 
         self.assertEqual(re.findall(r"^## (.+)$", english, flags=re.MULTILINE)[0], "A real failure it caught")
-        self.assertEqual(re.findall(r"^## (.+)$", chinese, flags=re.MULTILINE)[0], "不是讲概念：它真抓到过一个越界打包漏洞")
+        self.assertEqual(re.findall(r"^## (.+)$", chinese, flags=re.MULTILINE)[0], "一次自审发现的越界打包漏洞")
         self.assertIn("assets/hero.png", english)
         self.assertIn("assets/audit-proof.png", english)
         self.assertIn("assets/hero.zh-CN.png", chinese)
@@ -29,6 +30,19 @@ class PublicCopyContractTests(unittest.TestCase):
             self.assertIn("SECURITY.md", text)
             self.assertRegex(text, r"(?i)(compatibility|兼容性)")
             self.assertRegex(text, r"(?i)(permissions and limits|权限与限制)")
+
+    def test_readmes_put_the_existing_hero_before_long_prose(self):
+        english = self.read("README.md")
+        chinese = self.read("README.zh-CN.md")
+
+        for text, hero in (
+            (english, 'src="assets/hero.png"'),
+            (chinese, 'src="assets/hero.zh-CN.png"'),
+        ):
+            self.assertLess(text.index(hero), text.index("```bash"))
+            opening = text.split("```bash", 1)[0]
+            self.assertEqual(opening.count("<img "), 4)
+            self.assertLess(opening.index("<strong>"), opening.index("<a href="))
 
     def test_public_guide_contains_no_author_profile_setup_draft(self):
         guide = self.read("docs/FIRST-GITHUB-LAUNCH.zh-CN.md")
@@ -82,7 +96,7 @@ class PublicCopyContractTests(unittest.TestCase):
         self.assertNotIn("only prepares local materials", english)
         self.assertNotIn("只准备本地发布材料", chinese)
 
-    def test_chinese_readme_rejects_known_translationese_and_has_a_hook(self):
+    def test_chinese_readme_rejects_translationese_and_manufactured_punchlines(self):
         chinese = self.read("README.zh-CN.md")
         stale_phrases = [
             (
@@ -94,18 +108,52 @@ class PublicCopyContractTests(unittest.TestCase):
                 "能看懂、能试用、能验证"
             ),
             "可理解、" + "可试用、可验证",
+            "别让一个能打的项目",
+            "别先听我吹",
+            "不是讲概念",
+            "回归测试把修复钉死",
+            "哪些绝不吹",
+            "想贡献？别夸",
         ]
         for phrase in stale_phrases:
             self.assertNotIn(phrase, chinese)
         opening = chinese.split("```bash", 1)[0]
-        self.assertIn("别让一个能打的项目", opening)
-        self.assertIn("访客没看完开头，就关掉页面", opening)
+        self.assertIn("代码写完了，发布页却还没收尾", opening)
+        self.assertIn("找不到入口就走了", opening)
         prose = [
             part
             for part in chinese.split("\n\n")
             if "\n" not in part and not part.startswith(("<", "```", "|", "#"))
         ]
         self.assertLessEqual(max(map(len, prose)), 240)
+
+    def test_humanizer_is_locked_and_used_as_a_bounded_copy_pass(self):
+        lock = json.loads(self.read("skills-lock.json"))
+        skill = self.read("skills/launch-github-project/SKILL.md")
+        patterns = self.read("skills/launch-github-project/references/readme-patterns.md")
+
+        self.assertEqual(lock["skills"]["humanizer"]["source"], "blader/humanizer")
+        self.assertIn("$humanizer", skill)
+        self.assertIn("Preserve commands, links, version numbers", skill)
+        self.assertIn("never authorizes invented facts", patterns)
+
+    def test_visible_image_copy_rejects_framework_slogans(self):
+        source = self.read("scripts/build_visuals.py")
+        stale = [
+            "RELEASE WITH EVIDENCE",
+            'draw.text((90, 540), "AUDIT"',
+            'draw.text((224, 540), "PROVE"',
+            'draw.text((362, 540), "PACKAGE"',
+            'draw.text((528, 540), "VERIFY"',
+            "别让好项目死在发布页",
+            "让人看懂、试得动、查得到证据",
+            "先审项目 · 再拿证据",
+            "不是演示：它真抓到过",
+            "BEFORE · NOISY",
+            "AFTER · SIGNAL",
+        ]
+        for phrase in stale:
+            self.assertNotIn(phrase, source)
 
 
 if __name__ == "__main__":

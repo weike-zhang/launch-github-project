@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- Added a rendered-first-screen gate and an automated `hero_below_long_intro` warning so an existing hero or direct proof visual is placed intentionally instead of being buried below long prose, and require desktop, narrow-width and unsigned-page review.
+- Reordered both public READMEs around the existing localized hero, one outcome line, compact navigation and status before the longer explanation and install path.
+- Added Humanizer 2.9.1 as a locked project Skill and a bounded second-pass review for README, Release and image copy. The pass preserves commands and evidence while removing manufactured punchlines, forced parallels and framework slogans.
+- Rewrote the English and Chinese README openings and regenerated every text-bearing PNG with plainer task language.
+- Excluded project-level agent directories from release ZIPs while retaining `skills-lock.json` for reproducible development setup.
+
 ## 0.2.0 - 2026-08-13
 
 - Rebuilt both READMEs around a recognizable release problem, a real caught failure, first-audit output, direct evidence, compatibility and permissions instead of an artifact inventory.
