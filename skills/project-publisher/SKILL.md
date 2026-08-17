@@ -47,6 +47,14 @@ Read [references/project-type-routing.md](references/project-type-routing.md). S
 
 Base the classification on files and actual use, not the desired marketing label. If evidence is insufficient, use the general standard and mark the classification tentative.
 
+## Build or update a GitHub profile README
+
+When the user wants to improve their GitHub profile page, read [references/profile-readme.md](references/profile-readme.md) before acting. A profile README renders at the top of the account page from a public `<username>/<username>` repository; it is an account-level artifact, not a project repository, so apply the portfolio rules rather than a software template.
+
+Build it only from the user's real account: name, actual original repositories, real PR states, real contact. Never invent a job title, location, metrics, or claims. Keep a fork that backs an open PR; suggest deleting only stale or try-out forks, and only with per-repo authorization. Deleting a fork or changing repository visibility is a remote action that needs explicit user approval.
+
+Pinned repositories are not settable through the GitHub API; hand the user the web steps from the reference instead of claiming an automated pin.
+
 ## Ask at decision points
 
 Ask only when the missing choice changes the current artifact or action. Combine related questions at the same point, normally two to four.
@@ -222,3 +230,4 @@ Use a dedicated GitHub publish workflow such as `yeet` for branch, commit, push 
 - `scripts/build_release_bundle.py`: deterministic ZIP builder with safety exclusions and symlink rejection.
 - [references/release-page.md](references/release-page.md): required Release-page content, version alignment and remote-state gates.
 - `scripts/generate_release_page.py`: deterministic GitHub Release-page generator and stale-page check.
+- [references/profile-readme.md](references/profile-readme.md): GitHub profile README build and refresh, fork handling and pinned-repository guidance.
