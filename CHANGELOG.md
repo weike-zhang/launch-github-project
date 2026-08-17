@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Fixed the profile README bilingual rule: a single-file profile must use two independent language sections without "中文:"-style label prefixes, and added the same single-file bilingual guidance to the Chinese-copy reference so any one-file README follows it, not just the profile.
 - Added a GitHub profile README workflow: build or refresh the `<username>/<username>` account-level README from real account facts, keep contribution-bearing forks while suggesting only stale try-out forks for deletion, separate merged from in-progress PR claims, and hand the user the pinned-repository web steps since pins are not API-settable.
 - Renamed the project and Skill to Project Publisher, with a 0.3.0 candidate that treats audit, positioning, release, evidence-led distribution and later public updates as one continuing role rather than a one-time GitHub launch.
 - Added a naming and positioning workflow that separates durable identity, promise, capabilities and evidence; tests natural speech, guessability, scope, growth and collision; checks bilingual word order; and keeps historical releases honest during a rename.

@@ -50,13 +50,37 @@ job title, employer, location, contact method, follower count, star count, or
 - A real contact channel the user controls. GitHub issues/PRs is the safest
   default; never fabricate an email or social handle.
 
-## Decide language
+## Decide language and structure
 
-The profile page is public and global. English is the safe default for the main
-narrative. When the user's community is predominantly Chinese-speaking, keep the
-English narrative and add a short Chinese self-introduction paragraph below it
-rather than translating line by line. The two should share facts but read as
-native copy in each language, following the same rule as any bilingual README.
+The profile page is public and global, and GitHub renders only the single
+`README.md` from the `<username>/<username>` repository. That constraint shapes
+how bilingual copy works here: you cannot ship a second rendered file like a
+project README can (`README.zh-CN.md`). Apply the bilingual rules from
+[chinese-public-copy.md](chinese-public-copy.md) inside one file.
+
+Rules:
+
+- English is the safe default for the main narrative when the audience is mixed
+  or unknown.
+- When the user's community is predominantly Chinese-speaking, write a
+  self-contained Chinese section, not a translated echo. Do not start it with a
+  label such as "中文:" or "简体中文". A label header reads like a machine
+  translation note, not like a person introducing themselves.
+- Each language block must read as an independent narrative with its own hook,
+  its own facts and its own reading order, exactly as a bilingual project README
+  does across its two files. The Chinese block is not a footnote to the English
+  one; it stands alone for a Chinese-speaking visitor.
+- Keep the facts identical across languages: same projects, same PR states,
+  same contact. Only the wording, order and emphasis differ per language.
+- Run the native-speaker checks from `chinese-public-copy.md` on the Chinese
+  block: would a Chinese developer say this to a colleague? Is the verb early
+  enough? Is there a sentence a reader can repeat back?
+
+A workable single-file bilingual structure is two clearly separated sections
+with plain headings in each language's own words (for example an English
+introductory section followed by a Chinese section that restates who this is and
+what they build for a Chinese reader, with no cross-language label prefix on
+either).
 
 ## Order the page around a visitor's decision
 
